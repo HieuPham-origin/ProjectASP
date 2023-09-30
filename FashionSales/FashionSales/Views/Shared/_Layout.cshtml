@@ -5,19 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - FashionSales</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/Content/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/FashionSales.styles.css" asp-append-version="true" />
     <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;600;700;800;900&amp;display=swap"
           rel="stylesheet">
 
-    <link rel="stylesheet" href="~/css/bootstrap.min.css" type="text/css">
-    <link rel="stylesheet" href="~/css/font-awesome.min.css" type="text/css">
-    <link rel="stylesheet" href="~/css/elegant-icons.css" type="text/css">
-    <link rel="stylesheet" href="~/css/magnific-popup.css" type="text/css">
-    <link rel="stylesheet" href="~/css/nice-select.css" type="text/css">
-    <link rel="stylesheet" href="~/css/owl.carousel.min.css" type="text/css">
-    <link rel="stylesheet" href="~/css/slicknav.min.css" type="text/css">
-    <link rel="stylesheet" href="~/css/style.css" type="text/css">
+    <link rel="stylesheet" href="~/Content/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="~/Content/font-awesome.min.css" type="text/css">
+    <link rel="stylesheet" href="~/Content/elegant-icons.css" type="text/css">
+    <link rel="stylesheet" href="~/Content/magnific-popup.css" type="text/css">
+    <link rel="stylesheet" href="~/Content/nice-select.css" type="text/css">
+    <link rel="stylesheet" href="~/Content/owl.carousel.min.css" type="text/css">
+    <link rel="stylesheet" href="~/Content/slicknav.min.css" type="text/css">
+    <link rel="stylesheet" href="~/Content/style.css" type="text/css">
 </head>
 <body>
     <div id="preloder">
@@ -55,17 +55,18 @@
             <div class="row">
                 <div class="col-lg-3 col-md-3">
                     <div class="header__logo">
-                        <a href="index-2.html"><img src="img/logo.png" alt=""></a>
+                        <a href="index-2.html"><img src="~/img/logo.png" alt=""></a>
                     </div>
                 </div>
                 <div class="col-lg-6 col-md-6">
                     <nav class="header__menu mobile-menu">
                         <ul>
                             <li class="active">
-                                <a asp-controller="Home" asp-action="Index">Home</a>
+                                @Html.ActionLink("Home", "Index", "Home")
                             </li>
                             <li>
-                                <a asp-controller="Home" asp-action="Shop">Shop</a>
+                                @Html.ActionLink("Shop", "Shop", "Home")
+
                             </li>
                             <li>
                                 <a href="#">Pages</a>
@@ -77,8 +78,12 @@
                                     <li><a href="blog-details.cshtml">Blog Details</a></li>
                                 </ul>
                             </li>
-                            <li><a href="blog.html">Blog</a></li>
-                            <li><a href="contact.html">Contacts</a></li>
+                            <li>
+                                @Html.ActionLink("Blog", "Blog", "Home")
+                            </li>
+                            <li>
+                                @Html.ActionLink("Contact", "Contact", "Home")
+                            </li>
                         </ul>
                     </nav>
                 </div>
@@ -94,7 +99,7 @@
             <div class="canvas__open"><i class="fa fa-bars"></i></div>
         </div>
     </header>
-        
+
     @RenderBody()
 
     <footer class="border-top footer text-muted" style="position: relative;">
@@ -103,9 +108,9 @@
                 <div class="col-lg-3 col-md-6 col-sm-6">
                     <div class="footer__about">
                         <div class="footer__logo">
-                            <a href="#"><img src="img/footer-logo.png" alt=""></a>
+                            <a href="#"><img src="~/img/footer-logo.png" alt=""></a>
                         </div>
-                        <a href="#"><img src="img/payment.png" alt=""></a>
+                        <a href="#"><img src="~/img/payment.png" alt=""></a>
                     </div>
                 </div>
                 <div class="col-lg-2 offset-lg-1 col-md-3 col-sm-6">
@@ -159,19 +164,18 @@
             </div>
         </div>
     </footer>
-    <script src="~/js/jquery-3.3.1.min.js"></script>
-    <script src="~/js/bootstrap.min.js"></script>
-    <script src="~/js/jquery.nice-select.min.js"></script>
-    <script src="~/js/jquery.nicescroll.min.js"></script>
-    <script src="~/js/jquery.magnific-popup.min.js"></script>
-    <script src="~/js/jquery.countdown.min.js"></script>
-    <script src="~/js/jquery.slicknav.js"></script>
-    <script src="~/js/mixitup.min.js"></script>
-    <script src="~/js/owl.carousel.min.js"></script>
-    <script src="~/js/main.js"></script>
+    <script src="~/Scripts/jquery-3.3.1.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Scripts/jquery.nice-select.min.js"></script>
+    <script src="~/Scripts/jquery.nicescroll.min.js"></script>
+    <script src="~/Scripts/jquery.magnific-popup.min.js"></script>
+    <script src="~/Scripts/jquery.countdown.min.js"></script>
+    <script src="~/Scripts/jquery.slicknav.js"></script>
+    <script src="~/Scripts/mixitup.min.js"></script>
+    <script src="~/Scripts/owl.carousel.min.js"></script>
+    <script src="~/Scripts/main.js"></script>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    @await RenderSectionAsync("Scripts", required: false)
+    <script src="~/Scripts/site.js" asp-append-version="true"></script>
 </body>
 </html>
