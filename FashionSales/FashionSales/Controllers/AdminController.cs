@@ -13,5 +13,14 @@ namespace FashionSales.Controllers
         {
             return View();
         }
+
+        public ActionResult Invoice()
+        {
+            return View();
+        }
+        public ActionResult Invoice_Details()
+        {
+            return View();
+        }
     }
 }

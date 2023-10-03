@@ -120,7 +120,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="Content\admin\AdminController.cs" />
+    <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -698,6 +698,8 @@
     <Content Include="Content\admin\iconfonts\tabler-icons\webfont\fonts\tabler-iconsd41d.eot" />
     <Content Include="Content\admin\iconfonts\tabler-icons\webfont\fonts\tabler-iconsd41d.woff" />
     <Content Include="Views\Admin\Sales.cshtml" />
+    <Content Include="Views\Admin\Invoice.cshtml" />
+    <Content Include="Views\Admin\Invoice_Details.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

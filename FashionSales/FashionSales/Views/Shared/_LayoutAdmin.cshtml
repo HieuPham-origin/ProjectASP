@@ -764,10 +764,10 @@
                                     </a>
                                     <ul class="slide-menu child2">
                                         <li class="slide">
-                                            <a href="invoice-list.html" class="side-menu__item">Invoice List</a>
+                                            @Html.ActionLink("Invoice", "Invoice", "Admin", null, new { @class = "side-menu__item" })
                                         </li>
                                         <li class="slide">
-                                            <a href="invoice.html" class="side-menu__item">Invoice Details</a>
+                                            @Html.ActionLink("Invoice Details", "Invoice_Details", "Admin", null, new { @class = "side-menu__item" })
                                         </li>
                                     </ul>
                                 </li>
