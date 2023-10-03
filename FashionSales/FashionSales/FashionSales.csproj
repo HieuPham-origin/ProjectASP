@@ -700,6 +700,9 @@
     <Content Include="Views\Admin\Sales.cshtml" />
     <Content Include="Views\Admin\Invoice.cshtml" />
     <Content Include="Views\Admin\Invoice_Details.cshtml" />
+    <Content Include="Views\Admin\Products.cshtml" />
+    <Content Include="Views\Admin\Products_Details.cshtml" />
+    <Content Include="Views\Admin\Product_List.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

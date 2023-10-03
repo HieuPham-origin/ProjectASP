@@ -800,9 +800,11 @@
                                         Ecommerce<i class="ri ri-arrow-right-s-line side-menu__angle"></i>
                                     </a>
                                     <ul class="slide-menu child2">
-                                        <li class="slide"><a href="products.html" class="side-menu__item">Products</a></li>
                                         <li class="slide">
-                                            <a href="product-list.html" class="side-menu__item">Product List</a>
+                                            @Html.ActionLink("Products", "Products", "Admin", null, new { @class = "side-menu__item" })
+                                        </li>
+                                        <li class="slide">
+                                            @Html.ActionLink("Product List", "Product_List", "Admin", null, new { @class = "side-menu__item" })
                                         </li>
                                         <li class="slide">
                                             <a href="add-product.html" class="side-menu__item">Add Product</a>
@@ -811,8 +813,7 @@
                                             <a href="edit-product.html" class="side-menu__item">Edit Product</a>
                                         </li>
                                         <li class="slide">
-                                            <a href="products-details.html"
-                                               class="side-menu__item">Products Details</a>
+                                            @Html.ActionLink("Products Details", "Products_Details", "Admin", null, new { @class = "side-menu__item" })
                                         </li>
                                         <li class="slide"><a href="cart.html" class="side-menu__item">Cart</a></li>
                                         <li class="slide"><a href="checkout.html" class="side-menu__item">Checkout</a></li>

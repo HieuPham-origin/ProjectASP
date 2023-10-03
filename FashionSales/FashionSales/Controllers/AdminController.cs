@@ -22,5 +22,17 @@ namespace FashionSales.Controllers
         {
             return View();
         }
+        public ActionResult Products()
+        {
+            return View();
+        }
+        public ActionResult Products_Details()
+        {
+            return View();
+        }
+        public ActionResult Product_List()
+        {
+            return View();
+        }
     }
 }
