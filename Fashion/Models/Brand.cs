@@ -1,10 +1,14 @@
-﻿namespace Fashion.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Fashion.Models
 {
     public class Brand
     {
-        public int BrandID { get; set; }
-        public string BrandName { get; set; }
+        [Key]
+        public int brandID { get; set; }
+        public string brandName { get; set; }
 
+        // Navigation properties
         public virtual ICollection<Product> Products { get; set; }
     }
 }

@@ -1,10 +1,17 @@
-﻿namespace Fashion.Models
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
+
+namespace Fashion.Models
 {
-    public class FavoriteProduct
+    public class Favorite_Product
     {
-        public int CustomerID { get; set; }
-        public int ProductID { get; set; }
-        public virtual Customer Customer { get; set; }
+        [Key, Column(Order = 0)]
+        public int productID { get; set; }
+        [Key, Column(Order = 1)]
+        public int customerID { get; set; }
+
+        // Navigation properties
         public virtual Product Product { get; set; }
+        public virtual Customer Customer { get; set; }
     }
 }

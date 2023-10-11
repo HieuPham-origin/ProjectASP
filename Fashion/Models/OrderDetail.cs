@@ -1,13 +1,19 @@
-﻿namespace Fashion.Models
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
+
+namespace Fashion.Models
 {
     public class OrderDetail
     {
-        public int OrderID { get; set; }
-        public int ProductID { get; set; }
-        public DateTime OrderDay { get; set; }
-        public int Quantity { get; set; }
+        [Key, Column(Order = 0)]
+        public int productID { get; set; }
+        [Key, Column(Order = 1)]
+        public int orderID { get; set; }
+        public int quantity { get; set; }
+        public int price { get; set; }
 
-        public virtual Orders Order { get; set; }
+        // Navigation properties
         public virtual Product Product { get; set; }
+        public virtual Order Order { get; set; }
     }
 }

@@ -1,18 +1,23 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+
 namespace Fashion.Models
 {
     public class Customer
     {
+        [Key]
         public int CustomerID { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public string PhoneNumber { get; set; }
-        public string Email { get; set; }
-        public string Password { get; set; }
-        public string Address { get; set; }
-        public string Role { get; set; }
+        public string firstName { get; set; }
+        public string lastName { get; set; }
+        public string phoneNumber { get; set; }
+        [Required]
+        public string email { get; set; }
+        [Required]
+        public int password { get; set; }
+        public string address { get; set; }
 
-        public virtual ICollection<Orders> Orders { get; set; }
-        public virtual ICollection<FavoriteProduct> FavoriteProducts { get; set; }
+        // Navigation properties
+        public virtual ICollection<Favorite_Product> Favorite_Products { get; set; }
+        public virtual ICollection<Order> Orders { get; set; }
     }
 }

@@ -1,13 +1,18 @@
-﻿namespace Fashion.Models
-{
-    public class Orders
-    {
-        public int OrderID { get; set; }
-        public bool OrderStatus { get; set; }
-        public int CustomerID { get; set; }
+﻿using System.ComponentModel.DataAnnotations;
 
-        public virtual Customer Customers { get; set; }
-        public virtual ICollection<Product> Products { get; set; }
+namespace Fashion.Models
+{
+    public class Order
+    {
+        [Key]
+        public int orderID { get; set; }
+        public bool orderStatus { get; set; }
+        public int orderDay { get; set; }
+        public int receiveDay { get; set; }
+        public int customerID { get; set; }
+
+        // Navigation properties
+        public virtual Customer Customer { get; set; }
         public virtual ICollection<OrderDetail> OrderDetails { get; set; }
     }
 }
