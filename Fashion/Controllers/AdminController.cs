@@ -4,7 +4,15 @@ namespace Fashion.Controllers
 {
     public class AdminController : Controller
     {
+        public IActionResult Index()
+        {
+            return View();
+        }
         public IActionResult Sales()
+        {
+            return View();
+        }
+        public IActionResult Statistic()
         {
             return View();
         }

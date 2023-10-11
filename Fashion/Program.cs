@@ -1,3 +1,6 @@
+using Fashion.DAL;
+using Microsoft.EntityFrameworkCore;
+
 namespace Fashion
 {
     public class Program
@@ -8,7 +11,7 @@ namespace Fashion
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
-
+            builder.Services.AddDbContext<FashionShopContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("ContentCreatorConnection")));
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

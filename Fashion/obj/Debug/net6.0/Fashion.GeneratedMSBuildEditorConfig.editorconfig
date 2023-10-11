@@ -9,65 +9,65 @@ build_property.EnforceExtendedAnalyzerRules =
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = Fashion
 build_property.RootNamespace = Fashion
-build_property.ProjectDir = C:\Programming\Web\ASP.NET\project\final\ProjectASP\Fashion\
+build_property.ProjectDir = E:\Student\HK5\ASP\ProjectASP\Fashion\
 build_property.RazorLangVersion = 6.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = C:\Programming\Web\ASP.NET\project\final\ProjectASP\Fashion
+build_property.MSBuildProjectDirectory = E:\Student\HK5\ASP\ProjectASP\Fashion
 build_property._RazorSourceGeneratorDebug = 
 
-[C:/Programming/Web/ASP.NET/project/final/ProjectASP/Fashion/Views/Admin/Invoice.cshtml]
+[E:/Student/HK5/ASP/ProjectASP/Fashion/Views/Admin/Invoice.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cSW52b2ljZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Programming/Web/ASP.NET/project/final/ProjectASP/Fashion/Views/Admin/Invoice_Details.cshtml]
+[E:/Student/HK5/ASP/ProjectASP/Fashion/Views/Admin/Invoice_Details.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cSW52b2ljZV9EZXRhaWxzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Programming/Web/ASP.NET/project/final/ProjectASP/Fashion/Views/Admin/Sales.cshtml]
+[E:/Student/HK5/ASP/ProjectASP/Fashion/Views/Admin/Sales.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cU2FsZXMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Programming/Web/ASP.NET/project/final/ProjectASP/Fashion/Views/Home/About.cshtml]
+[E:/Student/HK5/ASP/ProjectASP/Fashion/Views/Home/About.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxBYm91dC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Programming/Web/ASP.NET/project/final/ProjectASP/Fashion/Views/Home/Blog.cshtml]
+[E:/Student/HK5/ASP/ProjectASP/Fashion/Views/Home/Blog.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxCbG9nLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Programming/Web/ASP.NET/project/final/ProjectASP/Fashion/Views/Home/Contact.cshtml]
+[E:/Student/HK5/ASP/ProjectASP/Fashion/Views/Home/Contact.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxDb250YWN0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Programming/Web/ASP.NET/project/final/ProjectASP/Fashion/Views/Home/Index.cshtml]
+[E:/Student/HK5/ASP/ProjectASP/Fashion/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Programming/Web/ASP.NET/project/final/ProjectASP/Fashion/Views/Home/Shop.cshtml]
+[E:/Student/HK5/ASP/ProjectASP/Fashion/Views/Home/Shop.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxTaG9wLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Programming/Web/ASP.NET/project/final/ProjectASP/Fashion/Views/Shared/Error.cshtml]
+[E:/Student/HK5/ASP/ProjectASP/Fashion/Views/Shared/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Programming/Web/ASP.NET/project/final/ProjectASP/Fashion/Views/Shared/_LayoutAdmin.cshtml]
+[E:/Student/HK5/ASP/ProjectASP/Fashion/Views/Shared/_LayoutAdmin.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXRBZG1pbi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Programming/Web/ASP.NET/project/final/ProjectASP/Fashion/Views/Shared/_ValidationScriptsPartial.cshtml]
+[E:/Student/HK5/ASP/ProjectASP/Fashion/Views/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Programming/Web/ASP.NET/project/final/ProjectASP/Fashion/Views/_ViewImports.cshtml]
+[E:/Student/HK5/ASP/ProjectASP/Fashion/Views/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Programming/Web/ASP.NET/project/final/ProjectASP/Fashion/Views/_ViewStart.cshtml]
+[E:/Student/HK5/ASP/ProjectASP/Fashion/Views/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Programming/Web/ASP.NET/project/final/ProjectASP/Fashion/Views/Shared/_Layout.cshtml]
+[E:/Student/HK5/ASP/ProjectASP/Fashion/Views/Shared/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = b-jf91ecqhyn
