@@ -4,22 +4,25 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css//site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/FashionSales.styles.css" asp-append-version="true" />
     <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;600;700;800;900&amp;display=swap"
           rel="stylesheet">
-    
-    <link rel="stylesheet" href="~/css//bootstrap.min.css" type="text/css">
-    <link rel="stylesheet" href="~/css//font-awesome.min.css" type="text/css">
-    <link rel="stylesheet" href="~/css//elegant-icons.css" type="text/css">
-    <link rel="stylesheet" href="~/css//magnific-popup.css" type="text/css">
-    <link rel="stylesheet" href="~/css//nice-select.css" type="text/css">
-    <link rel="stylesheet" href="~/css//owl.carousel.min.css" type="text/css">
-    <link rel="stylesheet" href="~/css//slicknav.min.css" type="text/css">
-    <link rel="stylesheet" href="~/css//style.css" type="text/css">
+  
+    <link rel="stylesheet" href="~/css/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="~/css/font-awesome.min.css" type="text/css">
+    <link rel="stylesheet" href="~/css/elegant-icons.css" type="text/css">
+    <link rel="stylesheet" href="~/css/magnific-popup.css" type="text/css">
+    <link rel="stylesheet" href="~/css/nice-select.css" type="text/css">
+    <link rel="stylesheet" href="~/css/owl.carousel.min.css" type="text/css">
+    <link rel="stylesheet" href="~/css/slicknav.min.css" type="text/css">
+    <link rel="stylesheet" href="~/css/style.css" type="text/css">
 </head>
-<body>
 
+<body>
+    <div id="preloder">
+        <div class="loader"></div>
+    </div>
     <header class="header">
         <div class="header__top">
             <div class="container">
@@ -32,8 +35,17 @@
                     <div class="col-lg-6 col-md-5">
                         <div class="header__top__right">
                             <div class="header__top__links">
-                                <a href="#">Sign in</a>
-                                <a href="#">FAQs</a>
+                                @using Microsoft.AspNetCore.Http
+                                @if (!string.IsNullOrEmpty(Context.Session.GetString("CustomerLastName")))
+                                {
+                                    <a href="#">Hello @Context.Session.GetString("CustomerLastName")</a>
+                                    
+                                }
+                                else
+                                {
+                                    <a href="@Url.Action("Login", "User")">Sign in</a>
+                                }
+
                             </div>
                             <div class="header__top__hover">
                                 <span>Usd <i class="arrow_carrot-down"></i></span>
@@ -58,7 +70,7 @@
                 <div class="col-lg-6 col-md-6">
                     <nav class="header__menu mobile-menu">
                         <ul>
-                            <li class="active">
+                            <li>
                                 @Html.ActionLink("Home", "Index", "Home")
                             </li>
                             <li>
@@ -161,15 +173,26 @@
             </div>
         </div>
     </footer>
-    <script src="~/js/s/jquery-3.3.1.min.js"></script>
-    <script src="~/js/s/bootstrap.min.js"></script>
-    <script src="~/js/s/jquery.nice-select.min.js"></script>
-    <script src="~/js/s/jquery.nicescroll.min.js"></script>
-    <script src="~/js/s/jquery.magnific-popup.min.js"></script>
-    <script src="~/js/s/jquery.countdown.min.js"></script>
-    <script src="~/js/s/jquery.slicknav.js"></script>
-    <script src="~/js/s/mixitup.min.js"></script>
-    <script src="~/js/s/owl.carousel.min.js"></script>
-    <script src="~/js/s/main.js"></script>
-    <script src="~/js/s/site.js" asp-append-version="true"></script>
+
+    <div class="search-model">
+        <div class="h-100 d-flex align-items-center justify-content-center">
+            <div class="search-close-switch">+</div>
+            <form class="search-model-form">
+                <input type="text" id="search-input" placeholder="Search here....." />
+            </form>
+        </div>
+    </div>
+
+
+    <script src="~/js/jquery-3.3.1.min.js"></script>
+    <script src="~/js/bootstrap.min.js"></script>
+    <script src="~/js/jquery.nice-select.min.js"></script>
+    <script src="~/js/jquery.nicescroll.min.js"></script>
+    <script src="~/js/jquery.magnific-popup.min.js"></script>
+    <script src="~/js/jquery.countdown.min.js"></script>
+    <script src="~/js/jquery.slicknav.js"></script>
+    <script src="~/js/mixitup.min.js"></script>
+    <script src="~/js/owl.carousel.min.js"></script>
+    <script src="~/js/main.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
 </body>

@@ -13,10 +13,11 @@ namespace Fashion.Models
         [Required]
         public string email { get; set; }
         [Required]
-        public int password { get; set; }
+        public string role { get; set; }
+        [Required]
+        public string password { get; set; }
         public string address { get; set; }
 
-        // Navigation properties
         public virtual ICollection<Favorite_Product> Favorite_Products { get; set; }
         public virtual ICollection<Order> Orders { get; set; }
     }
