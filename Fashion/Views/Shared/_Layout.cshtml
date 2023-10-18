@@ -39,21 +39,12 @@
                                 @if (!string.IsNullOrEmpty(Context.Session.GetString("CustomerLastName")))
                                 {
                                     <a href="#">Hello @Context.Session.GetString("CustomerLastName")</a>
-                                    
+                                    <a href="@Url.Action("Logout", "User")">Sign Out</a>
                                 }
                                 else
                                 {
                                     <a href="@Url.Action("Login", "User")">Sign in</a>
                                 }
-
-                            </div>
-                            <div class="header__top__hover">
-                                <span>Usd <i class="arrow_carrot-down"></i></span>
-                                <ul>
-                                    <li>USD</li>
-                                    <li>EUR</li>
-                                    <li>USD</li>
-                                </ul>
                             </div>
                         </div>
                     </div>
@@ -78,16 +69,6 @@
 
                             </li>
                             <li>
-                                <a href="#">Pages</a>
-                                <ul class="dropdown">
-                                    <li><a asp-controller="Home" asp-action="About">About</a></li>
-                                    <li><a href="shop-detaifls.cshtml">Shop Details</a></li>
-                                    <li><a href="shopping-cart.cshtml">Shopping Cart</a></li>
-                                    <li><a href="checkout.cshtml">Check Out</a></li>
-                                    <li><a href="blog-details.cshtml">Blog Details</a></li>
-                                </ul>
-                            </li>
-                            <li>
                                 @Html.ActionLink("Blog", "Blog", "Home")
                             </li>
                             <li>
@@ -100,7 +81,7 @@
                     <div class="header__nav__option">
                         <a href="#" class="search-switch"><img src="~/img/icon/search.png" alt=""></a>
                         <a href="#"><img src="~/img/icon/heart.png" alt=""></a>
-                        <a href="#"><img src="~/img/icon/cart.png" alt=""> <span>0</span></a>
+                        <a href="@Url.Action("ShoppingCart", "Cart")"><img src="~/img/icon/cart.png" alt=""> <span>0</span></a>
                         <div class="price">$0.00</div>
                     </div>
                 </div>
@@ -195,4 +176,5 @@
     <script src="~/js/owl.carousel.min.js"></script>
     <script src="~/js/main.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+
 </body>

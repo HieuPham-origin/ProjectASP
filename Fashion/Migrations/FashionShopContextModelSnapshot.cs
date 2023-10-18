@@ -124,6 +124,9 @@ namespace Fashion.Migrations
                     b.Property<int>("customerID")
                         .HasColumnType("int");
 
+                    b.Property<bool>("isChecked")
+                        .HasColumnType("bit");
+
                     b.Property<int>("orderDay")
                         .HasColumnType("int");
 

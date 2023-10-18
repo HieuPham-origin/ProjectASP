@@ -11,6 +11,8 @@ namespace Fashion.Models
         public int receiveDay { get; set; }
         public int customerID { get; set; }
 
+        public bool isChecked { get; set; }
+
         // Navigation properties
         public virtual Customer Customer { get; set; }
         public virtual ICollection<OrderDetail> OrderDetails { get; set; }

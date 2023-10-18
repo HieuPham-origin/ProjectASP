@@ -1537,6 +1537,14 @@
       "PackagePath": "staticwebassets\\img\\footer-logo.png"
     },
     {
+      "Id": "C:\\Programming\\Web\\ASP.NET\\project\\git2\\ProjectASP\\Fashion\\wwwroot\\img\\hero\\hero-1.jpg",
+      "PackagePath": "staticwebassets\\img\\hero\\hero-1.jpg"
+    },
+    {
+      "Id": "C:\\Programming\\Web\\ASP.NET\\project\\git2\\ProjectASP\\Fashion\\wwwroot\\img\\hero\\hero-2.jpg",
+      "PackagePath": "staticwebassets\\img\\hero\\hero-2.jpg"
+    },
+    {
       "Id": "C:\\Programming\\Web\\ASP.NET\\project\\git2\\ProjectASP\\Fashion\\wwwroot\\img\\icon\\calendar.png",
       "PackagePath": "staticwebassets\\img\\icon\\calendar.png"
     },

@@ -21,10 +21,10 @@ namespace Fashion.Controllers
 		[HttpPost]
 		public IActionResult Login(string email, string password)
 		{
-			if (!String.IsNullOrEmpty(email) && !String.IsNullOrEmpty(password))
+			if (!String.IsNullOrEmpty(email) && !String.IsNullOrEmpty(password) && _db.Customers.FirstOrDefault(c => c.email == email) != null)
 			{
 				Customer customer = _db.Customers.FirstOrDefault(c => c.email == email);
-				if (customer != null && BCrypt.Net.BCrypt.Verify(password, customer.password))
+				if (BCrypt.Net.BCrypt.Verify(password, customer.password))
 				{
 					HttpContext.Session.SetString("CustomerId", customer.CustomerID.ToString());
 					HttpContext.Session.SetString("CustomerEmail", customer.email);
@@ -77,7 +77,13 @@ namespace Fashion.Controllers
 
 			return View(model);
 		}
+        public IActionResult Logout()
+        {
+            HttpContext.Session.Clear();
+
+            return RedirectToAction("Login", "User");
+        }
 
 
-	}
+    }
 }

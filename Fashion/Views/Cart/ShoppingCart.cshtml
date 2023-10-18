@@ -1,0 +1,109 @@
+﻿@model ShoppingCartViewModel
+@{
+
+}
+
+<section class="breadcrumb-option">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="breadcrumb__text">
+                    <h4>Shopping Cart</h4>
+                    <div class="breadcrumb__links">
+                        <a href="index-2.html">Home</a>
+                        <a href="shop.html">Shop</a>
+                        <span>Shopping Cart</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<section class="shopping-cart spad">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8">
+                <form id = "updateCart" action="@Url.Action("UpdateCart", "Cart")" method="POST">
+                    <div class="shopping__cart__table">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Product</th>
+                                    <th>Quantity</th>
+                                    <th>Total</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var orderDetail in Model.OrderDetails)
+                                {
+                                    <tr>
+                                        <td class="product__cart__item">
+                                            <div class="product__cart__item__pic">
+                                                @if (orderDetail.Product.ProductImages != null && orderDetail.Product.ProductImages.Any())
+                                                {
+                                                    <img src="@orderDetail.Product.ProductImages.First().imageUrl" alt style="width: 80px; height: 80px;">
+                                                }
+                                                else
+                                                {
+                                                    <img src="https://placehold.co/80x80" alt>
+                                                }
+                                            </div>
+                                            <div class="product__cart__item__text">
+                                                <h6>@orderDetail.Product.productName</h6>
+                                                <h5>@orderDetail.Product.price.ToString("C")</h5>
+                                            </div>
+                                        </td>
+                                        <td class="quantity__item">
+                                            <div class="quantity">
+                                                <div class="pro-qty-2">
+                                                    <input type="text" class="quantity-input" name="quantities[]" value="@orderDetail.quantity" min="1">
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="cart__price">@((orderDetail.Product.price * orderDetail.quantity).ToString("C"))</td>
+                                        <td class="cart__close"><i class="fa fa-close"></i></td>
+                                        <input type="hidden" name="productIds[]" value="@orderDetail.productID" />
+                                        <input type="hidden" name="orderIds[]" value="@orderDetail.orderID" />
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                            <div class="continue__btn">
+                                <a href="@Url.Action("Shop", "Home")">Continue Shopping</a>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                            <div class="continue__btn update__btn">
+                                <a href="#" onclick="document.getElementById('updateCart').submit()"><i class="fa fa-spinner"></i> Update cart</a>
+
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="col-lg-4">
+                <div class="cart__discount">
+                    <h6>Discount codes</h6>
+                    <form action="#">
+                        <input type="text" placeholder="Coupon code">
+                        <button type="submit">Apply</button>
+                    </form>
+                </div>
+                <div class="cart__total">
+                    <h6>Cart total</h6>
+                    <ul>
+                        <li>Subtotal <span>$ @Model.OrderDetails.Sum(od => od.Product.price * od.quantity)</span></li>
+                        <li>Total <span>$ @Math.Round(Model.OrderDetails.Sum(od => od.Product.price * od.quantity) * 1.08, 2)</span></li>
+                    </ul>
+                    <a href="@Url.Action("Checkout", "Cart")" class="primary-btn">Proceed to checkout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
