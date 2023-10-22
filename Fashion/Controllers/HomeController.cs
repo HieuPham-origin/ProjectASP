@@ -2,6 +2,7 @@
 using Fashion.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Diagnostics;
 
 namespace Fashion.Controllers
@@ -23,7 +24,7 @@ namespace Fashion.Controllers
         }
 
 
-        public IActionResult Shop(int page = 1, int? categoryId = null, int? brandId = null)
+        public IActionResult Shop(int page = 1, int? categoryId = null, int? brandId = null, int? minPrice = null, int? maxPrice = null, string search = null)
         {
             int pageSize = 12;
             int skip = (page - 1) * pageSize;
@@ -35,9 +36,24 @@ namespace Fashion.Controllers
                 query = query.Where(p => p.categoryID == categoryId.Value);
             }
 
-            if(brandId.HasValue)
+            if (brandId.HasValue)
             {
                 query = query.Where(p => p.brandID == brandId.Value);
+            }
+
+            if (minPrice.HasValue)
+            {
+                query = query.Where(p => p.price >= minPrice.Value);
+            }
+
+            if (maxPrice.HasValue)
+            {
+                query = query.Where(p => p.price <= maxPrice.Value);
+            }
+
+            if (!string.IsNullOrEmpty(search))
+            {
+                query = query.Where(p => p.productName.Contains(search));
             }
 
             var products = query
@@ -70,10 +86,41 @@ namespace Fashion.Controllers
             {
                 Products = products,
                 Categories = categories,
-                Brands = brands
+                Brands = brands,
+                MinPrice = minPrice ?? 0,
+                MaxPrice = maxPrice ?? 0,
+                Search = search
             };
 
             return View(viewModel);
+        }
+
+        [HttpPost]
+        public IActionResult Search(string searchTerm)
+        {
+            var products = _db.Products
+                .Where(p => p.productName.Contains(searchTerm))
+                .ToList();
+
+            return View("ProductSearch", products);
+        }
+        [HttpPost]
+        public IActionResult AddToWishlist(int productId)
+        {
+            var customerId = HttpContext.Session.GetString("CustomerId");
+            if (customerId == null)
+            {
+                return RedirectToAction("Login", "User");
+            }
+            var favoriteProduct = new Favorite_Product
+            {
+                productID = productId,
+                customerID = int.Parse(customerId)
+            };
+
+            _db.Favorite_Products.Add(favoriteProduct);
+            _db.SaveChanges();
+            return RedirectToAction("Shop");
         }
 
 
@@ -128,8 +175,6 @@ namespace Fashion.Controllers
 
             return RedirectToAction("Shop");
         }
-
-
 
 
 

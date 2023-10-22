@@ -1,5 +1,9 @@
 using Fashion.DAL;
+//using Fashion.Services;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Hosting;
+using Fashion.Services;
 
 namespace Fashion
 {
@@ -8,10 +12,15 @@ namespace Fashion
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-
             // Add services to the container.
             builder.Services.AddControllersWithViews();
             builder.Services.AddDbContext<FashionShopContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+
+            //var mailsettings = builder.Configuration.GetSection("MailSettings") ?? throw new InvalidOperationException("mailsettings not found");
+            //builder.Services.AddOptions();
+            //builder.Services.Configure<MailSettings>(mailsettings);
+            //builder.Services.AddTransient<IEmailSender, SendMailService>();
             builder.Services.AddSession(options =>
 			{
 				options.IdleTimeout = TimeSpan.FromMinutes(5); 

@@ -114,7 +114,26 @@
 	<script src="~/js/popper.js"></script>
 	<script src="~/js/bootstrap.min.js"></script>
 	<script src="~/js/main.js"></script>
+	<script>
+		function validatePassword() {
+			var password = document.getElementById("Password").value;
+			var passwordError = document.getElementById("password-error");
 
+			if (
+				password.length < 8 ||
+				!/[A-Z]/.test(password) ||
+				!/[a-z]/.test(password) ||
+				!/[0-9]/.test(password) ||
+				!/[^A-Za-z0-9]/.test(password)
+			) {
+				passwordError.style.display = "block";
+				return false;
+			}
+
+			passwordError.style.display = "none";
+			return true;
+		}
+	</script>
 </body>
 
 </html>

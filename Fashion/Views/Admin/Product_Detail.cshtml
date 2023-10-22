@@ -1,0 +1,153 @@
+﻿@model Fashion.Models.ProductViewModel
+
+@{
+    ViewBag.Title = "Product_Detail";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+<div class="main-content">
+
+    <!-- Page Header -->
+    <div class="block justify-between page-header sm:flex">
+        <div>
+            <h3 class="text-gray-700 hover:text-gray-900 dark:text-white dark:hover:text-white text-2xl font-medium"> Edit Product</h3>
+        </div>
+        <ol class="flex items-center whitespace-nowrap min-w-0">
+            <li class="text-sm">
+                <a class="flex items-center font-semibold text-primary hover:text-primary dark:text-primary truncate" href="javascript:void(0);">
+                    Pages
+                    <i class="ti ti-chevrons-right flex-shrink-0 mx-3 overflow-visible text-gray-300 dark:text-gray-300 rtl:rotate-180"></i>
+                </a>
+            </li>
+            <li class="text-sm text-gray-500 hover:text-primary dark:text-white/70 " aria-current="page">
+                Edit Product
+            </li>
+        </ol>
+    </div>
+    <!-- Page Header Close -->
+    <!-- Start::row-1 -->
+    <div class="grid grid-cols-12 gap-6">
+        <div class="col-span-12">
+            <div class="box bg-transparent border-0 shadow-none">
+                <div class="box-body p-0">
+                    <div class="grid grid-cols-12 gap-6">
+                        <div class="col-span-12 xl:col-span-6">
+                            <div class="box">
+                                <div class="box-body">
+                                    <div class="space-y-3">
+                                        <div class="space-y-2">
+                                            <label class="ti-form-label mb-0">Product Title</label>
+                                            <input type="text" class="my-auto ti-form-input" placeholder="Type Product Name" value="@Model.Product.productName" id="product-name" />
+                                        </div>
+                                        <div class="space-y-2">
+                                            <label class="ti-form-label mb-0">Product Id</label>
+                                            <input type="text" class="my-auto ti-form-input" value="@Model.Product.ProductID" />
+                                        </div>
+                                        <div class="space-y-2">
+                                            <label class="ti-form-label">Product Description</label>
+                                            <div id="product-editor">
+                                                <p>@Model.Product.productDescription</p>
+                                            </div>
+                                        </div>
+                                        <div class="grid grid-cols-12 gap-4">
+                                            <div class="col-span-12 lg:col-span-6">
+                                                <div class="space-y-2 product-1">
+                                                    <label class="ti-form-label mb-0">Product Visibility</label>
+                                                    <select class="ti-form-select product-search">
+                                                        <option value="">Visibility</option>
+                                                        <option value="1">Private</option>
+                                                        <option value="2" selected>Public</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-span-12 xl:col-span-6">
+                            <div class="box">
+                                <div class="box-body space-y-3">
+                                    <div class="grid grid-cols-12 gap-4">
+                                        <div class="col-span-12 lg:col-span-6">
+                                            <div class="space-y-2 product-1">
+                                                <label class="ti-form-label mb-0">Product Category</label>
+                                                <select class="ti-form-select product-search" id="product-category">
+                                                    <option value="">Select Category</option>
+                                                    @foreach (var category in Model.Categories)
+                                                    {
+                                                        <option value="@category.categoryID">@category.categoryName</option>
+                                                    }
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-span-12 lg:col-span-6">
+                                            <div class="space-y-2 product-1">
+                                                <label class="ti-form-label mb-0">Brand</label>
+                                                <select class="ti-form-select product-search" id="product-brand">
+                                                    <option value="">Select Brand</option>
+                                                    @foreach (var brand in Model.Brands)
+                                                    {
+                                                        <option value="@brand.brandID">@brand.brandName</option>
+                                                    }
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-span-12 lg:col-span-6">
+                                            <div class="space-y-2 product-1">
+                                                <label class="ti-form-label mb-0">Product Size</label>
+                                                <select class="ti-form-select product-search">
+                                                    <option value="Extra Small">Extra Small</option>
+                                                    <option value="Small">Small</option>
+                                                    <option value="Medium" selected>Medium</option>
+                                                    <option value="Large">Large</option>
+                                                    <option value="XL">XL</option>
+                                                    <option value="xxl">xxl</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-span-12 lg:col-span-4">
+                                            <div class="space-y-2">
+                                                <label class="ti-form-label mb-0">Actual Price</label>
+                                                <input type="text" class="my-auto ti-form-input" placeholder="$550" value="$@Model.Product.price" />
+                                            </div>
+                                        </div>
+                                        <div class="col-span-12 lg:col-span-4">
+                                            <div class="space-y-2">
+                                                <label class="ti-form-label mb-0">Dealer Price</label>
+                                                <input type="text" class="my-auto ti-form-input" placeholder="$400" value="$400" />
+                                            </div>
+                                        </div>
+                                        <div class="col-span-12 lg:col-span-4">
+                                            <div class="space-y-Here's the modified view code with the remaining portion:
+                                                 ```html
+                                    <div class="col-span-12 lg:col-span-4">
+                                        <div class="space-y-2">
+                                            <label class="ti-form-label mb-0">Dealer Price</label>
+                                            <input type="text" class="my-auto ti-form-input" placeholder="$400" value="$400" />
+                                        </div>
+                                    </div>
+                                    <div class="col-span-12 lg:col-span-4">
+                                        <div class="space-y-2">
+                                            <label class="ti-form-label mb-0">Product Quantity</label>
+                                            <input type="text" class="my-auto ti-form-input" placeholder="100" value="@Model.Product.quantity" />
+                                        </div>
+                                    </div>
+                                    <!-- Add the remaining fields here -->
+                                </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex justify-end">
+                                <button type="submit" class="btn btn-primary">Save</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    <!-- End::row-1 -->
+
+</div>
+
+
+<!-- END MAIN-CONTENT -->

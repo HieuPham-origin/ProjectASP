@@ -1,0 +1,213 @@
+﻿@using Fashion.Models
+
+@{
+    ViewBag.Title = "Add Product";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+<div class="main-content">
+
+    <!-- Page Header -->
+    <div class="block justify-between page-header sm:flex">
+        <div>
+            <h3 class="text-gray-700 hover:text-gray-900 dark:text-white dark:hover:text-white text-2xl font-medium"> Add Product</h3>
+        </div>
+        <ol class="flex items-center whitespace-nowrap min-w-0">
+            <li class="text-sm">
+                <a class="flex items-center font-semibold text-primary hover:text-primary dark:text-primary truncate" href="javascript:void(0);">
+                    Pages
+                    <i class="ti ti-chevrons-right flex-shrink-0 mx-3 overflow-visible text-gray-300 dark:text-gray-300 rtl:rotate-180"></i>
+                </a>
+            </li>
+            <li class="text-sm text-gray-500 hover:text-primary dark:text-white/70 " aria-current="page">
+                Product Description
+            </li>
+        </ol>
+    </div>
+    <!-- Page Header Close -->
+    <!-- Start::row-1 -->
+    <div class="grid grid-cols-12 gap-x-6">
+        <div class="col-span-12">
+            <div class="box !bg-transparent border-0 shadow-none">
+                <div class="box-body p-0">
+                    <div class="grid grid-cols-12 gap-x-6">
+                        <div class="col-span-12 xl:col-span-6">
+                            <div class="box ">
+                                <div class="box-body">
+                                    <div class="space-y-3">
+                                        <div class="space-y-2">
+                                            <label class="ti-form-label mb-0">Product Name</label>
+                                            <input type="text" class="my-auto ti-form-input"
+                                                   placeholder="">
+                                        </div>
+                                        <div class="space-y-2">
+                                            <label class="ti-form-label mb-0">Product Id</label>
+                                            <input type="text" class="my-auto ti-form-input" placeholder="#2515445145">
+                                        </div>
+                                        <div class="">
+                                            <label class="ti-form-label">Product Description</label>
+                                            <div id="product-editor"></div>
+                                        </div>
+                                        <div class="space-y-2">
+                                            <label class="ti-form-label">Product Features</label>
+                                            <textarea class="ti-form-input" rows="2"></textarea>
+                                            <label class="ti-form-label mt-1 text-sm font-normal opacity-70 text-gray-500 dark:text-white/70 mb-0">
+                                                *Description
+                                                should not exceed 500 letters
+                                            </label>
+                                        </div>
+                                        <div class="grid grid-cols-12 gap-4">
+                                            <div class="col-span-12 lg:col-span-6">
+                                                <div class="space-y-2 product-1">
+                                                    <label class="ti-form-label mb-0">Product Status</label>
+                                                    <select class="ti-form-select product-search">
+                                                        <option value="">Status</option>
+                                                        <option value="Clothing">Publish</option>
+                                                        <option value="Footwear">Unpublish</option>
+                                                        <option value="Accesories">Schedule</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-span-12 lg:col-span-6">
+                                                <div class="space-y-2  product-1">
+                                                    <label class="ti-form-label mb-0">Product Visibility</label>
+                                                    <select class="ti-form-select product-search">
+                                                        <option value="">Visibility</option>
+                                                        <option value="1">Private</option>
+                                                        <option value="2">Public</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-span-12 xl:col-span-6">
+                            <div class="box">
+                                <div class="box-body space-y-3">
+                                    <div class="grid grid-cols-12 gap-4">
+                                        <div class="col-span-12 lg:col-span-4">
+                                            <div class="space-y-2 product-1">
+                                                <label class="ti-form-label mb-0">Product Category</label>
+                                                <select class="ti-form-select product-search">
+                                                    @foreach (var category in Model.Category)
+                                                    {
+                                                        <option value="@category.categoryID">@category.categoryName</option>
+                                                    }
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-span-12 lg:col-span-4">
+                                            <div class="space-y-2  product-1">
+                                                <label class="ti-form-label mb-0">Brand</label>
+                                                <select class="ti-form-select product-search">
+                                                    @foreach (var brand in Model.Brand)
+                                                    {
+                                                        <option value="@brand.brandID">@brand.brandName</option>
+                                                    }
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-span-12 lg:col-span-6">
+                                            <div class="space-y-2  product-1">
+                                                <label class="ti-form-label mb-0">Product Size</label>
+                                                <select class="ti-form-select product-search">
+                                                    <option value="Extra Small">Extra Small</option>
+                                                    <option value="Small">Small</option>
+                                                    <option value="Medium">Medium</option>
+                                                    <option value="Large">Large</option>
+                                                    <option value="XL">XL</option>
+                                                    <option value="xxl">xxl</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-span-12 lg:col-span-4">
+                                            <div class="space-y-2">
+                                                <label class="ti-form-label mb-0">Actual Price </label>
+                                                <input type="text" class="my-auto ti-form-input" placeholder="$550">
+                                            </div>
+                                        </div>
+                                        <div class="col-span-12 lg:col-span-4">
+                                            <div class="space-y-2">
+                                                <label class="ti-form-label mb-0">Dealer Price </label>
+                                                <input type="text" class="my-auto ti-form-input" placeholder="$400">
+                                            </div>
+                                        </div>
+                                        <div class="col-span-12 lg:col-span-4">
+                                            <div class="space-y-2">
+                                                <label class="ti-form-label mb-0">Discount</label>
+                                                <input type="text" class="my-auto ti-form-input" placeholder="10%">
+                                            </div>
+                                        </div>
+                                        <div class="col-span-12 lg:col-span-6">
+                                            <div class="space-y-2">
+                                                <label class="ti-form-label">Available Colors</label>
+                                                <select class="ti-form-select product-search">
+                                                    <option value="">Colors</option>
+                                                    <option value="1">blue</option>
+                                                    <option value="2">pink</option>
+                                                    <option value="3">yellow</option>
+                                                    <option value="4">orange</option>
+                                                    <option value="5">lemon-green</option>
+                                                    <option value="6">green</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-span-12 lg:col-span-6">
+                                            <div class="space-y-2  product-1">
+                                                <label class="ti-form-label mb-0">Availabilty</label>
+                                                <select class="ti-form-select product-search">
+                                                    <option value="">Availabilty</option>
+                                                    <option value="1">Instock</option>
+                                                    <option value="2">Out Of Stock</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-span-12 lg:col-span-6">
+                                            <div class="space-y-2  product-1">
+                                                <label class="ti-form-label mb-0">Type</label>
+                                                <input type="text" class="my-auto ti-form-input" placeholder="Hand Bag">
+                                            </div>
+                                        </div>
+                                        <div class="col-span-12 lg:col-span-6">
+                                            <div class="space-y-2  product-1">
+                                                <label class="ti-form-label mb-0">Item Weight</label>
+                                                <input type="text" class="my-auto ti-form-input" placeholder="250grams">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="space-y-2">
+                                        <label class="flex justify-between ti-form-label">
+                                            <span class="my-auto">Product Images</span>
+                                        </label>
+                                        <input type="file" class="filepond multiple-filepond" name="filepond" multiple
+                                               data-allow-reorder="true" data-max-file-size="3MB" data-max-files="5">
+                                    </div>
+                                    <div class="space-y-2">
+                                        <label class="ti-form-label">Product Tags</label>
+                                        <input class="ti-form-input product-tags custom class" id="product-tags" type="text"
+                                               value="water-resistant, spacious ,5 pockets ,office bag"
+                                               placeholder="This is a placeholder">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="box-footer text-end border-t-0 px-0">
+                    <a class="ti-btn ti-btn-primary"><i class="ri-add-line"></i>Add Product</a>
+                    <a class="ti-btn ti-btn-secondary"><i class="ri-file-download-line"></i>Save Product</a>
+                    <a class="ti-btn ti-btn-danger"><i class="ri-delete-bin-line"></i>Discard Product</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End::row-1 -->
+
+</div>
+<!-- Start::main-content -->
+
+
+<!-- END MAIN-CONTENT -->
+<!-- SEARCH-MODAL -->
+
