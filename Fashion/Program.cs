@@ -1,9 +1,10 @@
 using Fashion.DAL;
-//using Fashion.Services;
+using Fashion.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Hosting;
-using Fashion.Services;
+using Fashion.Models;
+using System.Configuration;
 
 namespace Fashion
 {
@@ -16,11 +17,15 @@ namespace Fashion
             builder.Services.AddControllersWithViews();
             builder.Services.AddDbContext<FashionShopContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+            builder.Services.AddIdentity<Customer, IdentityRole>()
+                .AddDefaultTokenProviders()
+                .AddDefaultUI()
+                .AddEntityFrameworkStores<FashionShopContext>();
 
-            //var mailsettings = builder.Configuration.GetSection("MailSettings") ?? throw new InvalidOperationException("mailsettings not found");
-            //builder.Services.AddOptions();
-            //builder.Services.Configure<MailSettings>(mailsettings);
-            //builder.Services.AddTransient<IEmailSender, SendMailService>();
+            var mailsettings = builder.Configuration.GetSection("MailSettings") ?? throw new InvalidOperationException("mailsettings not found");
+            builder.Services.AddOptions();
+            builder.Services.Configure<MailSettings>(mailsettings);
+            builder.Services.AddTransient<IEmailSender, SendMailService>(); 
             builder.Services.AddSession(options =>
 			{
 				options.IdleTimeout = TimeSpan.FromMinutes(5); 
@@ -46,6 +51,11 @@ namespace Fashion
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
+
+            app.MapControllerRoute(
+                name: "resetPassword",
+                pattern: "User/ResetPassword",
+                defaults: new { controller = "User", action = "ResetPassword" });
 
             app.Run();
         }

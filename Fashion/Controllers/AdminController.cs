@@ -128,9 +128,9 @@ namespace Fashion.Controllers
 
                 // Cập nhật thông tin khách hàng
                 customer.firstName = model.firstName;
-                customer.lastName = model.lastName;
-                customer.phoneNumber = model.phoneNumber;
-                customer.email = model.email;
+                customer.lastName = model.lastName; 
+                customer.phone = model.phone;
+                customer.Email = model.Email;
                 customer.address = model.address;
 
                 // Lưu thay đổi vào cơ sở dữ liệu

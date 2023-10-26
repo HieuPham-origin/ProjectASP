@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "E:\\Student\\HK5\\ASP\\why\\ProjectASP\\Fashion\\Fashion.csproj": {}
+    "C:\\Programming\\Web\\ASP.NET\\project\\git2\\ProjectASP\\Fashion\\Fashion.csproj": {}
   },
   "projects": {
-    "E:\\Student\\HK5\\ASP\\why\\ProjectASP\\Fashion\\Fashion.csproj": {
+    "C:\\Programming\\Web\\ASP.NET\\project\\git2\\ProjectASP\\Fashion\\Fashion.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\Student\\HK5\\ASP\\why\\ProjectASP\\Fashion\\Fashion.csproj",
+        "projectUniqueName": "C:\\Programming\\Web\\ASP.NET\\project\\git2\\ProjectASP\\Fashion\\Fashion.csproj",
         "projectName": "Fashion",
-        "projectPath": "E:\\Student\\HK5\\ASP\\why\\ProjectASP\\Fashion\\Fashion.csproj",
-        "packagesPath": "C:\\Users\\Hieu Pham\\.nuget\\packages\\",
-        "outputPath": "E:\\Student\\HK5\\ASP\\why\\ProjectASP\\Fashion\\obj\\",
+        "projectPath": "C:\\Programming\\Web\\ASP.NET\\project\\git2\\ProjectASP\\Fashion\\Fashion.csproj",
+        "packagesPath": "C:\\Users\\phuho\\.nuget\\packages\\",
+        "outputPath": "C:\\Programming\\Web\\ASP.NET\\project\\git2\\ProjectASP\\Fashion\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Hieu Pham\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\phuho\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -48,6 +48,10 @@
               "target": "Package",
               "version": "[4.2.0, )"
             },
+            "Mailjet.Api": {
+              "target": "Package",
+              "version": "[3.0.0, )"
+            },
             "Microsoft.AspNet.Mvc": {
               "target": "Package",
               "version": "[5.2.9, )"
@@ -58,7 +62,7 @@
             },
             "Microsoft.AspNetCore.Identity.UI": {
               "target": "Package",
-              "version": "[6.0.23, )"
+              "version": "[3.1.10, )"
             },
             "Microsoft.EntityFrameworkCore.SqlServer": {
               "target": "Package",
@@ -102,7 +106,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.401\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.400\\RuntimeIdentifierGraph.json"
         }
       }
     }

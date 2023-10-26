@@ -1,17 +1,17 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.Identity;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Fashion.Models
 {
-    public class Customer
+    public class Customer : IdentityUser
     {
         [Key]
         public int CustomerID { get; set; }
         public string firstName { get; set; }
         public string lastName { get; set; }
-        public string phoneNumber { get; set; }
-        [Required]
-        public string email { get; set; }
+        public string phone { get; set; }
+
         [Required]
         public string role { get; set; }
         [Required]
