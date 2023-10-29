@@ -21,39 +21,39 @@ namespace Fashion.DAL
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Favorite_Product>()
-                .HasKey(fp => new { fp.productID, fp.customerID });
+                .HasKey(fp => new { fp.ProductID, fp.CustomerID });
 
             modelBuilder.Entity<OrderDetail>()
-                .HasKey(od => new { od.productID, od.orderID });
+                .HasKey(od => new { od.ProductID, od.OrderID });
 
             modelBuilder.Entity<Product>()
                 .HasOne(p => p.Category)
                 .WithMany(c => c.Products)
-                .HasForeignKey(p => p.categoryID)
+                .HasForeignKey(p => p.CategoryID)
                 .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Product>()
                 .HasOne(p => p.Brand)
                 .WithMany(b => b.Products)
-                .HasForeignKey(p => p.brandID)
+                .HasForeignKey(p => p.BrandID)
                 .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Product>()
                 .HasOne(p => p.Supplier)
                 .WithMany(s => s.Products)
-                .HasForeignKey(p => p.supplierID)
+                .HasForeignKey(p => p.SupplierID)
                 .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<ProductImage>()
                 .HasOne(pi => pi.Product)
                 .WithMany(p => p.ProductImages)
-                .HasForeignKey(pi => pi.productID)
+                .HasForeignKey(pi => pi.ProductID)
                 .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Order>()
                 .HasOne(o => o.Customer)
                 .WithMany(c => c.Orders)
-                .HasForeignKey(o => o.customerID)
+                .HasForeignKey(o => o.CustomerID)
                 .OnDelete(DeleteBehavior.Cascade);
 
             base.OnModelCreating(modelBuilder);

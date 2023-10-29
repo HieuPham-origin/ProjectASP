@@ -15,26 +15,26 @@ namespace Fashion.Migrations
                 name: "Brands",
                 columns: table => new
                 {
-                    brandID = table.Column<int>(type: "int", nullable: false)
+                    BrandID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    brandName = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    BrandName = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Brands", x => x.brandID);
+                    table.PrimaryKey("PK_Brands", x => x.BrandID);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Categories",
                 columns: table => new
                 {
-                    categoryID = table.Column<int>(type: "int", nullable: false)
+                    CategoryID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    categoryName = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    CategoryName = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Categories", x => x.categoryID);
+                    table.PrimaryKey("PK_Categories", x => x.CategoryID);
                 });
 
             migrationBuilder.CreateTable(
@@ -43,12 +43,11 @@ namespace Fashion.Migrations
                 {
                     CustomerID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    firstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    lastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    phone = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    role = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    password = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    address = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Phone = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Role = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Address = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Id = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UserName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -76,9 +75,9 @@ namespace Fashion.Migrations
                 {
                     SupplierID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    supplierName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    phoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    address = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    SupplierName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Address = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -89,20 +88,20 @@ namespace Fashion.Migrations
                 name: "Orders",
                 columns: table => new
                 {
-                    orderID = table.Column<int>(type: "int", nullable: false)
+                    OrderID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    orderStatus = table.Column<bool>(type: "bit", nullable: false),
-                    orderDay = table.Column<int>(type: "int", nullable: false),
-                    receiveDay = table.Column<int>(type: "int", nullable: false),
-                    customerID = table.Column<int>(type: "int", nullable: false),
-                    isChecked = table.Column<bool>(type: "bit", nullable: false)
+                    OrderStatus = table.Column<bool>(type: "bit", nullable: false),
+                    OrderDay = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ReceiveDay = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CustomerID = table.Column<int>(type: "int", nullable: false),
+                    IsChecked = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Orders", x => x.orderID);
+                    table.PrimaryKey("PK_Orders", x => x.OrderID);
                     table.ForeignKey(
-                        name: "FK_Orders_Customers_customerID",
-                        column: x => x.customerID,
+                        name: "FK_Orders_Customers_CustomerID",
+                        column: x => x.CustomerID,
                         principalTable: "Customers",
                         principalColumn: "CustomerID",
                         onDelete: ReferentialAction.Cascade);
@@ -114,32 +113,32 @@ namespace Fashion.Migrations
                 {
                     ProductID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    categoryID = table.Column<int>(type: "int", nullable: false),
-                    brandID = table.Column<int>(type: "int", nullable: false),
-                    supplierID = table.Column<int>(type: "int", nullable: false),
-                    productName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    productDescription = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    price = table.Column<int>(type: "int", nullable: false),
-                    quantity = table.Column<int>(type: "int", nullable: false)
+                    CategoryID = table.Column<int>(type: "int", nullable: false),
+                    BrandID = table.Column<int>(type: "int", nullable: false),
+                    SupplierID = table.Column<int>(type: "int", nullable: false),
+                    ProductName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ProductDescription = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Price = table.Column<int>(type: "int", nullable: false),
+                    Quantity = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Products", x => x.ProductID);
                     table.ForeignKey(
-                        name: "FK_Products_Brands_brandID",
-                        column: x => x.brandID,
+                        name: "FK_Products_Brands_BrandID",
+                        column: x => x.BrandID,
                         principalTable: "Brands",
-                        principalColumn: "brandID",
+                        principalColumn: "BrandID",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Products_Categories_categoryID",
-                        column: x => x.categoryID,
+                        name: "FK_Products_Categories_CategoryID",
+                        column: x => x.CategoryID,
                         principalTable: "Categories",
-                        principalColumn: "categoryID",
+                        principalColumn: "CategoryID",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Products_Supplier_supplierID",
-                        column: x => x.supplierID,
+                        name: "FK_Products_Supplier_SupplierID",
+                        column: x => x.SupplierID,
                         principalTable: "Supplier",
                         principalColumn: "SupplierID",
                         onDelete: ReferentialAction.Cascade);
@@ -149,21 +148,21 @@ namespace Fashion.Migrations
                 name: "Favorite_Products",
                 columns: table => new
                 {
-                    productID = table.Column<int>(type: "int", nullable: false),
-                    customerID = table.Column<int>(type: "int", nullable: false)
+                    ProductID = table.Column<int>(type: "int", nullable: false),
+                    CustomerID = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Favorite_Products", x => new { x.productID, x.customerID });
+                    table.PrimaryKey("PK_Favorite_Products", x => new { x.ProductID, x.CustomerID });
                     table.ForeignKey(
-                        name: "FK_Favorite_Products_Customers_customerID",
-                        column: x => x.customerID,
+                        name: "FK_Favorite_Products_Customers_CustomerID",
+                        column: x => x.CustomerID,
                         principalTable: "Customers",
                         principalColumn: "CustomerID",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Favorite_Products_Products_productID",
-                        column: x => x.productID,
+                        name: "FK_Favorite_Products_Products_ProductID",
+                        column: x => x.ProductID,
                         principalTable: "Products",
                         principalColumn: "ProductID",
                         onDelete: ReferentialAction.Cascade);
@@ -173,23 +172,23 @@ namespace Fashion.Migrations
                 name: "OrderDetails",
                 columns: table => new
                 {
-                    productID = table.Column<int>(type: "int", nullable: false),
-                    orderID = table.Column<int>(type: "int", nullable: false),
-                    quantity = table.Column<int>(type: "int", nullable: false),
-                    price = table.Column<int>(type: "int", nullable: false)
+                    ProductID = table.Column<int>(type: "int", nullable: false),
+                    OrderID = table.Column<int>(type: "int", nullable: false),
+                    Quantity = table.Column<int>(type: "int", nullable: false),
+                    Price = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_OrderDetails", x => new { x.productID, x.orderID });
+                    table.PrimaryKey("PK_OrderDetails", x => new { x.ProductID, x.OrderID });
                     table.ForeignKey(
-                        name: "FK_OrderDetails_Orders_orderID",
-                        column: x => x.orderID,
+                        name: "FK_OrderDetails_Orders_OrderID",
+                        column: x => x.OrderID,
                         principalTable: "Orders",
-                        principalColumn: "orderID",
+                        principalColumn: "OrderID",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_OrderDetails_Products_productID",
-                        column: x => x.productID,
+                        name: "FK_OrderDetails_Products_ProductID",
+                        column: x => x.ProductID,
                         principalTable: "Products",
                         principalColumn: "ProductID",
                         onDelete: ReferentialAction.Cascade);
@@ -199,56 +198,56 @@ namespace Fashion.Migrations
                 name: "ProductImages",
                 columns: table => new
                 {
-                    imageID = table.Column<int>(type: "int", nullable: false)
+                    ImageID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    imageUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    productID = table.Column<int>(type: "int", nullable: false)
+                    ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ProductID = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ProductImages", x => x.imageID);
+                    table.PrimaryKey("PK_ProductImages", x => x.ImageID);
                     table.ForeignKey(
-                        name: "FK_ProductImages_Products_productID",
-                        column: x => x.productID,
+                        name: "FK_ProductImages_Products_ProductID",
+                        column: x => x.ProductID,
                         principalTable: "Products",
                         principalColumn: "ProductID",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Favorite_Products_customerID",
+                name: "IX_Favorite_Products_CustomerID",
                 table: "Favorite_Products",
-                column: "customerID");
+                column: "CustomerID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_OrderDetails_orderID",
+                name: "IX_OrderDetails_OrderID",
                 table: "OrderDetails",
-                column: "orderID");
+                column: "OrderID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Orders_customerID",
+                name: "IX_Orders_CustomerID",
                 table: "Orders",
-                column: "customerID");
+                column: "CustomerID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ProductImages_productID",
+                name: "IX_ProductImages_ProductID",
                 table: "ProductImages",
-                column: "productID");
+                column: "ProductID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Products_brandID",
+                name: "IX_Products_BrandID",
                 table: "Products",
-                column: "brandID");
+                column: "BrandID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Products_categoryID",
+                name: "IX_Products_CategoryID",
                 table: "Products",
-                column: "categoryID");
+                column: "CategoryID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Products_supplierID",
+                name: "IX_Products_SupplierID",
                 table: "Products",
-                column: "supplierID");
+                column: "SupplierID");
         }
 
         /// <inheritdoc />

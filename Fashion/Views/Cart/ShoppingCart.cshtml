@@ -41,10 +41,12 @@
                                 {
                                     <tr>
                                         <td class="product__cart__item">
-                                            <div class="product__cart__item__pic">
+                                            <div class="product__cart__item__pic">@* 
+                                                <img class="product__item__img" style="position: absolute; top: 0; left: 0; width:  100%; height:  100%; object-fit: cover;" src="@Url.Content("~/img/product_img/" + image.ImageUrl)" alt="@product.ProductName" /> *@
                                                 @if (orderDetail.Product.ProductImages != null && orderDetail.Product.ProductImages.Any())
                                                 {
-                                                    <img src="@orderDetail.Product.ProductImages.First().imageUrl" alt style="width: 80px; height: 80px;">
+                                                    @* src = "@Url.Content("~/ img / product_img / " + image.ImageUrl)" alt = "@product.ProductName" *@
+                                                    <img src="@Url.Content("~/img/product_img/" + @orderDetail.Product.ProductImages.First().ImageUrl)" alt style="width: 80px; height: 80px;">
                                                 }
                                                 else
                                                 {
@@ -52,21 +54,21 @@
                                                 }
                                             </div>
                                             <div class="product__cart__item__text">
-                                                <h6>@orderDetail.Product.productName</h6>
-                                                <h5>@orderDetail.Product.price.ToString("C")</h5>
+                                                <h6>@orderDetail.Product.ProductName</h6>
+                                                <h5>@orderDetail.Product.Price.ToString("C")</h5>
                                             </div>
                                         </td>
                                         <td class="quantity__item">
                                             <div class="quantity">
                                                 <div class="pro-qty-2">
-                                                    <input type="text" class="quantity-input" name="quantities[]" value="@orderDetail.quantity" min="1">
+                                                    <input type="text" class="quantity-input" name="quantities[]" value="@orderDetail.Quantity" min="1">
                                                 </div>
                                             </div>
                                         </td>
-                                        <td class="cart__price">@((orderDetail.Product.price * orderDetail.quantity).ToString("C"))</td>
+                                        <td class="cart__price">@((orderDetail.Product.Price * orderDetail.Quantity).ToString("C"))</td>
                                         <td class="cart__close"><i class="fa fa-close"></i></td>
-                                        <input type="hidden" name="productIds[]" value="@orderDetail.productID" />
-                                        <input type="hidden" name="orderIds[]" value="@orderDetail.orderID" />
+                                        <input type="hidden" name="productIds[]" value="@orderDetail.ProductID" />
+                                        <input type="hidden" name="orderIds[]" value="@orderDetail.OrderID" />
                                     </tr>
                                 }
                             </tbody>
@@ -98,8 +100,8 @@
                 <div class="cart__total">
                     <h6>Cart total</h6>
                     <ul>
-                        <li>Subtotal <span>$ @Model.OrderDetails.Sum(od => od.Product.price * od.quantity)</span></li>
-                        <li>Total <span>$ @Math.Round(Model.OrderDetails.Sum(od => od.Product.price * od.quantity) * 1.08, 2)</span></li>
+                        <li>Subtotal <span>$ @Model.OrderDetails.Sum(od => od.Product.Price * od.Quantity)</span></li>
+                        <li>Total <span>$ @Math.Round(Model.OrderDetails.Sum(od => od.Product.Price * od.Quantity) * 1.08, 2)</span></li>
                     </ul>
                     <a href="@Url.Action("Checkout", "Cart")" class="primary-btn">Proceed to checkout</a>
                 </div>

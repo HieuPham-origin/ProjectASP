@@ -23,20 +23,23 @@
 
 <section class="checkout spad">
     <div class="container">
-        <div class="checkout__form text-center">
+        <form action="@Url.Action("Shop", "Home")" method="get">
+            <div class="checkout__form text-center">
 
-            <div class="col-lg-4 col-md-6">
+                <div class="col-lg-4 col-md-6">
                     <div class="checkout__order">
                         <h4 class="order__title">Thanks for your order</h4>
                         <p>
-                            Thank you for placing your order with us. We have received your order and it's being processed. 
+                            Thank you for placing your order with us. We have received your order and it's being processed.
                             Our team will review your order details and contact you as soon as possible with further information.
                         </p>
 
                         <button type="submit" class="site-btn">Continue Shopping</button>
                     </div>
-             </div>
+                </div>
 
-        </div>
+            </div>
+        </form>
+        
     </div>
 </section>

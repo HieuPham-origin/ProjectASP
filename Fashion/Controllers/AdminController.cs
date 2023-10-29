@@ -21,11 +21,44 @@ namespace Fashion.Controllers
 
         public IActionResult Invoice()
         {
-            return View();
+            var orders = _db.Orders.Include(o => o.Customer).ToList();
+            return View(orders);
         }
-        public IActionResult Invoice_Details()
+        [HttpPost]
+        public IActionResult CheckedOrder(int orderId)
         {
-            return View();
+            var order = _db.Orders.FirstOrDefault(o => o.OrderID == orderId);
+
+            if (order == null)
+            {
+                return NotFound();
+            }
+
+            order.OrderStatus = true;
+
+            var orderDetails = _db.OrderDetails.Where(od => od.OrderID == orderId).ToList();
+            foreach (var orderDetail in orderDetails)
+            {
+                orderDetail.Price = 0;
+            }
+
+            _db.SaveChanges();
+
+            return RedirectToAction("Invoice");
+        }
+        [HttpPost]
+        public IActionResult Invoice_Details(int customerID)
+        {
+            var order = _db.Orders.Include(o => o.Customer).FirstOrDefault(o => o.CustomerID == customerID);
+            if (order == null)
+            {
+                return RedirectToAction("Invoice");
+            }
+
+            var orderDetails = _db.OrderDetails.Include(od => od.Product).Where(od => od.OrderID == order.OrderID).ToList();
+            ViewBag.OrderDetails = orderDetails;
+
+            return View(order);
         }
 
         public IActionResult Customer()
@@ -73,6 +106,24 @@ namespace Fashion.Controllers
 
             return RedirectToAction("Product"); // Chuyển hướng người dùng đến trang hoặc hành động khác sau khi xóa thành công
         }
+        public IActionResult AddProduct()
+        {
+            ViewBag.Brands = _db.Brands.ToList(); // Lấy danh sách các thương hiệu từ cơ sở dữ liệu
+            ViewBag.Categories = _db.Categories.ToList(); // Lấy danh sách các danh mục từ cơ sở dữ liệu
+            //ViewBag.Supplies = _db.Suppliers.ToList();
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> AddProduct(Product product)
+        {
+            if (ModelState.IsValid)
+            {
+                _db.Products.Add(product);
+                await _db.SaveChangesAsync();
+                return RedirectToAction("Product"); // Chuyển hướng đến trang chủ hoặc trang sản phẩm
+            }
+            return View(product);
+        }
         [HttpPost]
         public async Task<IActionResult> UpdateProduct(ProductViewModel model)
         {
@@ -85,24 +136,24 @@ namespace Fashion.Controllers
             }
 
             // Cập nhật thông tin sản phẩm
-            product.productName = model.Product.productName;
-            product.productDescription = model.Product.productDescription;
+            product.ProductName = model.Product.ProductName;
+            product.ProductDescription = model.Product.ProductDescription;
 
             // Cập nhật thông tin liên quan đến danh mục và thương hiệu
-            var category = await _db.Categories.FindAsync(model.Product.categoryID);
+            var category = await _db.Categories.FindAsync(model.Product.CategoryID);
             if (category != null)
             {
                 product.Category = category;
             }
 
-            var brand = await _db.Brands.FindAsync(model.Product.brandID);
+            var brand = await _db.Brands.FindAsync(model.Product.BrandID);
             if (brand != null)
             {
                 product.Brand = brand;
             }
 
-            product.price = model.Product.price;
-            product.quantity = model.Product.quantity;
+            product.Price = model.Product.Price;
+            product.Quantity = model.Product.Quantity;
 
             // Lưu thay đổi vào cơ sở dữ liệu
             await _db.SaveChangesAsync();
@@ -113,9 +164,8 @@ namespace Fashion.Controllers
         [HttpPost]
         public async Task<IActionResult> UpdateCustomer(Customer model)
         {
-            if (string.IsNullOrEmpty(model.role) &&
+            if (string.IsNullOrEmpty(model.Role) &&
                 model.Orders == null &&
-                string.IsNullOrEmpty(model.password) &&
                 model.Favorite_Products == null)
             {
                 // Tìm khách hàng trong cơ sở dữ liệu
@@ -127,11 +177,11 @@ namespace Fashion.Controllers
                 }
 
                 // Cập nhật thông tin khách hàng
-                customer.firstName = model.firstName;
-                customer.lastName = model.lastName; 
-                customer.phone = model.phone;
-                customer.Email = model.Email;
-                customer.address = model.address;
+                customer.FirstName = model.FirstName;
+                customer.LastName = model.LastName;
+                customer.Phone = model.Phone;
+                customer.NormalizedEmail = model.NormalizedEmail;
+                customer.Address = model.Address;
 
                 // Lưu thay đổi vào cơ sở dữ liệu
                 await _db.SaveChangesAsync();
@@ -167,12 +217,12 @@ namespace Fashion.Controllers
 
             if (categoryId.HasValue)
             {
-                query = query.Where(p => p.categoryID == categoryId.Value);
+                query = query.Where(p => p.CategoryID == categoryId.Value);
             }
 
             if (brandId.HasValue)
             {
-                query = query.Where(p => p.brandID == brandId.Value);
+                query = query.Where(p => p.BrandID == brandId.Value);
             }
 
             var products = query
@@ -187,8 +237,8 @@ namespace Fashion.Controllers
                 .Include(c => c.Products)
                 .Select(c => new CategoryViewModel
                 {
-                    CategoryID = c.categoryID,
-                    CategoryName = c.categoryName,
+                    CategoryID = c.CategoryID,
+                    CategoryName = c.CategoryName,
                     ProductCount = c.Products.Count()
                 })
                 .ToList();
@@ -200,12 +250,13 @@ namespace Fashion.Controllers
 
             ViewBag.CurrentPage = page;
             ViewBag.TotalPages = totalPages;
-
+            var productImages = products.SelectMany(p => p.ProductImages).ToList();
             var viewModel = new ShopViewModel
             {
                 Products = products,
                 Categories = categories,
-                Brands = brands
+                Brands = brands,
+                ProductImages = productImages
             };
 
             return View(viewModel);

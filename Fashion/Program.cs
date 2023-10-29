@@ -18,9 +18,9 @@ namespace Fashion
             builder.Services.AddDbContext<FashionShopContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
             builder.Services.AddIdentity<Customer, IdentityRole>()
+                .AddEntityFrameworkStores<FashionShopContext>()
                 .AddDefaultTokenProviders()
-                .AddDefaultUI()
-                .AddEntityFrameworkStores<FashionShopContext>();
+                .AddDefaultUI();
 
             var mailsettings = builder.Configuration.GetSection("MailSettings") ?? throw new InvalidOperationException("mailsettings not found");
             builder.Services.AddOptions();

@@ -23,7 +23,7 @@
                             {
                                 <li class="nav-item">
                                     <a class="nav-link @(counter == 1 ? "active" : "")" data-toggle="tab" href="#tabs-@counter" role="tab">
-                                        <div class="product__thumb__pic set-bg" data-setbg="@image.imageUrl"></div>
+                                        <div class="product__thumb__pic set-bg" data-setbg="@image.ImageUrl"></div>
                                     </a>
                                 </li>
                                 counter++;
@@ -40,7 +40,7 @@
                             {
                                 <div class="tab-pane @(counter == 1 ? "active" : "")" id="tabs-@counter" role="tabpanel">
                                     <div class="product__details__pic__item">
-                                        <img src="@image.imageUrl" alt />
+                                        <img src="@image.ImageUrl" alt />
                                     </div>
                                 </div>
                                 counter++;  
@@ -58,8 +58,8 @@
             <div class="row d-flex justify-content-center">
                 <div class="col-lg-8">
                     <div class="product__details__text">
-                        <h4>@Model.productName</h4>
-                        <h3>$@Model.price <span>70.00</span></h3>
+                        <h4>@Model.ProductName</h4>
+                        <h3>$@Model.Price <span>70.00</span></h3>
                         <p>
                             Coat with quilted lining and an adjustable hood. Featuring
                             long sleeves with adjustable cuff tabs, adjustable asymmetric
@@ -106,7 +106,7 @@
                             <img src="img/shop-details/details-payment.png" alt />
                             <ul>
                                 <li><span>SKU:</span> 3812912</li>
-                                <li><span>Categories:</span> @Model.Category.categoryName</li>
+                                <li><span>Categories:</span> @Model.Category.CategoryName</li>
                                 <li><span>Tag:</span> Clothes, Skin, Body</li>
                             </ul>
                         </div>

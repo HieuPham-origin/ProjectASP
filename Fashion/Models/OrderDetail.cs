@@ -6,11 +6,11 @@ namespace Fashion.Models
     public class OrderDetail
     {
         [Key, Column(Order = 0)]
-        public int productID { get; set; }
+        public int ProductID { get; set; }
         [Key, Column(Order = 1)]
-        public int orderID { get; set; }
-        public int quantity { get; set; }
-        public int price { get; set; }
+        public int OrderID { get; set; }
+        public int Quantity { get; set; }
+        public int Price { get; set; }
 
         // Navigation properties
         public virtual Product Product { get; set; }

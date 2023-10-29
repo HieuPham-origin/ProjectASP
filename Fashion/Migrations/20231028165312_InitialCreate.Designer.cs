@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Fashion.Migrations
 {
     [DbContext(typeof(FashionShopContext))]
-    [Migration("20231022163409_InitialCreate")]
+    [Migration("20231028165312_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -27,34 +27,34 @@ namespace Fashion.Migrations
 
             modelBuilder.Entity("Fashion.Models.Brand", b =>
                 {
-                    b.Property<int>("brandID")
+                    b.Property<int>("BrandID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("brandID"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("BrandID"));
 
-                    b.Property<string>("brandName")
+                    b.Property<string>("BrandName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("brandID");
+                    b.HasKey("BrandID");
 
                     b.ToTable("Brands");
                 });
 
             modelBuilder.Entity("Fashion.Models.Category", b =>
                 {
-                    b.Property<int>("categoryID")
+                    b.Property<int>("CategoryID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("categoryID"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CategoryID"));
 
-                    b.Property<string>("categoryName")
+                    b.Property<string>("CategoryName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("categoryID");
+                    b.HasKey("CategoryID");
 
                     b.ToTable("Categories");
                 });
@@ -70,6 +70,10 @@ namespace Fashion.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("ConcurrencyStamp")
                         .HasColumnType("nvarchar(max)");
 
@@ -79,7 +83,15 @@ namespace Fashion.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Id")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("LockoutEnabled")
@@ -97,11 +109,19 @@ namespace Fashion.Migrations
                     b.Property<string>("PasswordHash")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Phone")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("PhoneNumber")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
+
+                    b.Property<string>("Role")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
@@ -112,30 +132,6 @@ namespace Fashion.Migrations
                     b.Property<string>("UserName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("address")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("firstName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("lastName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("password")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("phone")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("role")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("CustomerID");
 
                     b.ToTable("Customers");
@@ -143,70 +139,70 @@ namespace Fashion.Migrations
 
             modelBuilder.Entity("Fashion.Models.Favorite_Product", b =>
                 {
-                    b.Property<int>("productID")
+                    b.Property<int>("ProductID")
                         .HasColumnType("int")
                         .HasColumnOrder(0);
 
-                    b.Property<int>("customerID")
+                    b.Property<int>("CustomerID")
                         .HasColumnType("int")
                         .HasColumnOrder(1);
 
-                    b.HasKey("productID", "customerID");
+                    b.HasKey("ProductID", "CustomerID");
 
-                    b.HasIndex("customerID");
+                    b.HasIndex("CustomerID");
 
                     b.ToTable("Favorite_Products");
                 });
 
             modelBuilder.Entity("Fashion.Models.Order", b =>
                 {
-                    b.Property<int>("orderID")
+                    b.Property<int>("OrderID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("orderID"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OrderID"));
 
-                    b.Property<int>("customerID")
+                    b.Property<int>("CustomerID")
                         .HasColumnType("int");
 
-                    b.Property<bool>("isChecked")
+                    b.Property<bool>("IsChecked")
                         .HasColumnType("bit");
 
-                    b.Property<int>("orderDay")
-                        .HasColumnType("int");
+                    b.Property<DateTime>("OrderDay")
+                        .HasColumnType("datetime2");
 
-                    b.Property<bool>("orderStatus")
+                    b.Property<bool>("OrderStatus")
                         .HasColumnType("bit");
 
-                    b.Property<int>("receiveDay")
-                        .HasColumnType("int");
+                    b.Property<DateTime>("ReceiveDay")
+                        .HasColumnType("datetime2");
 
-                    b.HasKey("orderID");
+                    b.HasKey("OrderID");
 
-                    b.HasIndex("customerID");
+                    b.HasIndex("CustomerID");
 
                     b.ToTable("Orders");
                 });
 
             modelBuilder.Entity("Fashion.Models.OrderDetail", b =>
                 {
-                    b.Property<int>("productID")
+                    b.Property<int>("ProductID")
                         .HasColumnType("int")
                         .HasColumnOrder(0);
 
-                    b.Property<int>("orderID")
+                    b.Property<int>("OrderID")
                         .HasColumnType("int")
                         .HasColumnOrder(1);
 
-                    b.Property<int>("price")
+                    b.Property<int>("Price")
                         .HasColumnType("int");
 
-                    b.Property<int>("quantity")
+                    b.Property<int>("Quantity")
                         .HasColumnType("int");
 
-                    b.HasKey("productID", "orderID");
+                    b.HasKey("ProductID", "OrderID");
 
-                    b.HasIndex("orderID");
+                    b.HasIndex("OrderID");
 
                     b.ToTable("OrderDetails");
                 });
@@ -219,58 +215,58 @@ namespace Fashion.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProductID"));
 
-                    b.Property<int>("brandID")
+                    b.Property<int>("BrandID")
                         .HasColumnType("int");
 
-                    b.Property<int>("categoryID")
+                    b.Property<int>("CategoryID")
                         .HasColumnType("int");
 
-                    b.Property<int>("price")
+                    b.Property<int>("Price")
                         .HasColumnType("int");
 
-                    b.Property<string>("productDescription")
+                    b.Property<string>("ProductDescription")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("productName")
+                    b.Property<string>("ProductName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("quantity")
+                    b.Property<int>("Quantity")
                         .HasColumnType("int");
 
-                    b.Property<int>("supplierID")
+                    b.Property<int>("SupplierID")
                         .HasColumnType("int");
 
                     b.HasKey("ProductID");
 
-                    b.HasIndex("brandID");
+                    b.HasIndex("BrandID");
 
-                    b.HasIndex("categoryID");
+                    b.HasIndex("CategoryID");
 
-                    b.HasIndex("supplierID");
+                    b.HasIndex("SupplierID");
 
                     b.ToTable("Products");
                 });
 
             modelBuilder.Entity("Fashion.Models.ProductImage", b =>
                 {
-                    b.Property<int>("imageID")
+                    b.Property<int>("ImageID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("imageID"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ImageID"));
 
-                    b.Property<string>("imageUrl")
+                    b.Property<string>("ImageUrl")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("productID")
+                    b.Property<int>("ProductID")
                         .HasColumnType("int");
 
-                    b.HasKey("imageID");
+                    b.HasKey("ImageID");
 
-                    b.HasIndex("productID");
+                    b.HasIndex("ProductID");
 
                     b.ToTable("ProductImages");
                 });
@@ -283,15 +279,15 @@ namespace Fashion.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SupplierID"));
 
-                    b.Property<string>("address")
+                    b.Property<string>("Address")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("phoneNumber")
+                    b.Property<string>("PhoneNumber")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("supplierName")
+                    b.Property<string>("SupplierName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -304,13 +300,13 @@ namespace Fashion.Migrations
                 {
                     b.HasOne("Fashion.Models.Customer", "Customer")
                         .WithMany("Favorite_Products")
-                        .HasForeignKey("customerID")
+                        .HasForeignKey("CustomerID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Fashion.Models.Product", "Product")
                         .WithMany()
-                        .HasForeignKey("productID")
+                        .HasForeignKey("ProductID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -323,7 +319,7 @@ namespace Fashion.Migrations
                 {
                     b.HasOne("Fashion.Models.Customer", "Customer")
                         .WithMany("Orders")
-                        .HasForeignKey("customerID")
+                        .HasForeignKey("CustomerID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -334,13 +330,13 @@ namespace Fashion.Migrations
                 {
                     b.HasOne("Fashion.Models.Order", "Order")
                         .WithMany("OrderDetails")
-                        .HasForeignKey("orderID")
+                        .HasForeignKey("OrderID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Fashion.Models.Product", "Product")
                         .WithMany("OrderDetails")
-                        .HasForeignKey("productID")
+                        .HasForeignKey("ProductID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -353,19 +349,19 @@ namespace Fashion.Migrations
                 {
                     b.HasOne("Fashion.Models.Brand", "Brand")
                         .WithMany("Products")
-                        .HasForeignKey("brandID")
+                        .HasForeignKey("BrandID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Fashion.Models.Category", "Category")
                         .WithMany("Products")
-                        .HasForeignKey("categoryID")
+                        .HasForeignKey("CategoryID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Fashion.Models.Supplier", "Supplier")
                         .WithMany("Products")
-                        .HasForeignKey("supplierID")
+                        .HasForeignKey("SupplierID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -380,7 +376,7 @@ namespace Fashion.Migrations
                 {
                     b.HasOne("Fashion.Models.Product", "Product")
                         .WithMany("ProductImages")
-                        .HasForeignKey("productID")
+                        .HasForeignKey("ProductID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

@@ -8,11 +8,11 @@ namespace Fashion.Models
         [Key]
         public int SupplierID { get; set; }
         [Required]
-        public string supplierName { get; set; }
+        public string SupplierName { get; set; }
         [Required]
-        public string phoneNumber { get; set; }
+        public string PhoneNumber { get; set; }
         [Required]
-        public string address { get; set; }
+        public string Address { get; set; }
 
         // Navigation properties
         public virtual ICollection<Product> Products { get; set; }

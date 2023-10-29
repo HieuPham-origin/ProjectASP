@@ -8,15 +8,13 @@ namespace Fashion.Models
     {
         [Key]
         public int CustomerID { get; set; }
-        public string firstName { get; set; }
-        public string lastName { get; set; }
-        public string phone { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string Phone { get; set; }
 
         [Required]
-        public string role { get; set; }
-        [Required]
-        public string password { get; set; }
-        public string address { get; set; }
+        public string Role { get; set; }
+        public string Address { get; set; }
 
         public virtual ICollection<Favorite_Product> Favorite_Products { get; set; }
         public virtual ICollection<Order> Orders { get; set; }

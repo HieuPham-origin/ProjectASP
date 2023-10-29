@@ -135,12 +135,14 @@ ol {
 	background-repeat: no-repeat;
 	background-size: cover;
 	background-position: top center;
+	background-image: url(data-setbg);
 }
 
 .spad {
 	padding-top: 100px;
 	padding-bottom: 100px;
 }
+
 
 /* buttons */
 

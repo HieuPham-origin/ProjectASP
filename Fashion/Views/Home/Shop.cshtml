@@ -61,7 +61,7 @@
                                             <ul>
                                                 @foreach (var brand in Model.Brands)
                                                 {
-                                                    <li><a href="@Url.Action("Shop", "Home", new {brandID = brand.brandID})">@brand.brandName</a></li>
+                                                    <li><a href="@Url.Action("Shop", "Home", new {BrandID = brand.BrandID})">@brand.BrandName</a></li>
                                                 }
                                             </ul>
                                         </div>
@@ -76,12 +76,12 @@
                                     <div class="card-body">
                                         <div class="shop__sidebar__price">
                                             <ul>
-                                                <li><a href="@Url.Action("Shop", "Home", new { minPrice = 0, maxPrice = 50 })">$0.00 - $50.00</a></li>
-                                                <li><a href="@Url.Action("Shop", "Home", new { minPrice = 50, maxPrice = 100 })">$50.00 - $100.00</a></li>
-                                                <li><a href="@Url.Action("Shop", "Home", new { minPrice = 100, maxPrice = 150 })">$100.00 - $150.00</a></li>
-                                                <li><a href="@Url.Action("Shop", "Home", new { minPrice = 150, maxPrice = 200 })">$150.00 - $200.00</a></li>
-                                                <li><a href="@Url.Action("Shop", "Home", new { minPrice = 200, maxPrice = 250 })">$200.00 - $250.00</a></li>
-                                                <li><a href="@Url.Action("Shop", "Home", new { minPrice = 250 })">$250.00+</a></li>
+                                                <li><a href="@Url.Action("Shop", "Home", new { MinPrice = 0, MaxPrice = 50 })">$0.00 - $50.00</a></li>
+                                                <li><a href="@Url.Action("Shop", "Home", new { MinPrice = 50, MaxPrice = 100 })">$50.00 - $100.00</a></li>
+                                                <li><a href="@Url.Action("Shop", "Home", new { MinPrice = 100, MaxPrice = 150 })">$100.00 - $150.00</a></li>
+                                                <li><a href="@Url.Action("Shop", "Home", new { MinPrice = 150, MaxPrice = 200 })">$150.00 - $200.00</a></li>
+                                                <li><a href="@Url.Action("Shop", "Home", new { MinPrice = 200, MaxPrice = 250 })">$200.00 - $250.00</a></li>
+                                                <li><a href="@Url.Action("Shop", "Home", new { MinPrice = 250 })">$250.00+</a></li>
                                             </ul>
                                         </div>
                                     </div>
@@ -195,39 +195,48 @@
                 <div class="row">
                     @foreach (var product in Model.Products)
                     {
-                        <div class="col-lg-4 col-md-6 col-sm-6">
-                            <div class="product__item">
-                                <div class="product__item__pic set-bg" data-setbg="@product.ProductImages.FirstOrDefault()?.imageUrl">
-@*                                     @if (product.IsOnSale)
-                                    {
-                                        <span class="label">Sale</span>
-                                    } *@
-                                    <ul class="product__hover">
-                                        <li>
-                                            <form id="addToWishlist-@product.ProductID" method="post" action="@Url.Action("AddToWishlist", "Home")">
-                                                <input type="hidden" name="productId" value="@product.ProductID" />
-                                                <a href="#" onclick="document.getElementById('addToWishlist-@product.ProductID').submit()">
-                                                    <img src="~/img/icon/heart.png" alt>
+                        @foreach (var image in Model.ProductImages.Where(pi => pi.ProductID == product.ProductID))
+                        {
+                            @* <p>@image.ImageUrl</p> *@
+                            <div class="col-lg-4 col-md-6 col-sm-6">
+                                <div class="product__item">
+                                    <div class="product__item__pic" style="position: relative; width: 100%; height: 0; padding-bottom: 100%;">
+                                        <img class="product__item__img" style="position: absolute; top: 0; left: 0; width:  100%; height:  100%; object-fit: cover;" src="@Url.Content("~/img/product_img/" + image.ImageUrl)" alt="@product.ProductName" />
+
+                                        @*                                     @if (product.IsOnSale)
+                                {
+                                <span class="label">Sale</span>
+                                } *@
+                                        <ul class="product__hover">
+                                            <li>
+                                                <form id="addToWishlist-@product.ProductID" method="post" action="@Url.Action("Favorites", "Home")">
+                                                    <input type="hidden" name="productId" value="@product.ProductID" />
+                                                    <a href="#" onclick="document.getElementById('addToWishlist-@product.ProductID').submit()">
+                                                        <img src="~/img/icon/heart.png" alt>
+                                                    </a>
+                                                </form>
+                                            </li>
+                                            <li>
+                                                <a href="@Url.Action("Product_Detail", "Product", new { id = product.ProductID })">
+                                                    <img src="~/img/icon/search.png" alt="">
                                                 </a>
-                                            </form>
-                                        </li>
-                                        <li>
-                                            <a href="@Url.Action("Product_Detail", "Product", new { id = product.ProductID })">
-                                                <img src="~/img/icon/search.png" alt="">
-                                            </a>
-                                        </li>
-                                    </ul>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="product__item__text">
+                                        <h6>@product.ProductName</h6>
+                                        <form id="addToCart-@product.ProductID" method="post" action="@Url.Action("AddToCart", "Home")">
+                                            <input type="hidden" name="productId" value="@product.ProductID" />
+                                            <a href="#" onclick="document.getElementById('addToCart-@product.ProductID').submit()">+ Add To Cart</a>
+                                        </form>
+                                        <h5>@product.Price.ToString("C")</h5>
+                                    </div>
                                 </div>
-                                <div class="product__item__text">
-                                    <h6>@product.productName</h6>
-                                    <form id="addToCart-@product.ProductID" method="post" action="@Url.Action("AddToCart", "Home")">
-                                        <input type="hidden" name="productId" value="@product.ProductID" />
-                                        <a href="#" onclick="document.getElementById('addToCart-@product.ProductID').submit()">+ Add To Cart</a>
-                                    </form>
-                                    <h5>@product.price.ToString("C")</h5>
-                                </div>  
                             </div>
-                        </div>
+                        }
+                        @* <p>@product.ProductImages.FirstOrDefault()?.imageUrl</p> *@
+                        @* <p>@Url.Content("img/product_img/" + product.ProductImages.FirstOrDefault()?.imageUrl)</p> *@
+                       
                     }
                 </div>
                 <div class="row">

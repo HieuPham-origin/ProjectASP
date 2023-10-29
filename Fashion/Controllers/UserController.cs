@@ -6,6 +6,7 @@ using System.Text.Encodings.Web;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using NuGet.Common;
 
 namespace Fashion.Controllers
 {
@@ -28,30 +29,30 @@ namespace Fashion.Controllers
 			return View();
 		}
 
-		[HttpPost]
-		public IActionResult Login(string email, string password)
-		{
-			if (!String.IsNullOrEmpty(email) && !String.IsNullOrEmpty(password) && _db.Customers.FirstOrDefault(c => c.Email == email) != null)
-			{
-				Customer customer = _db.Customers.FirstOrDefault(c => c.Email == email);
-				if (BCrypt.Net.BCrypt.Verify(password, customer.password))
-				{
-					HttpContext.Session.SetString("CustomerId", customer.CustomerID.ToString());
-					HttpContext.Session.SetString("CustomerEmail", customer.Email);
-					HttpContext.Session.SetString("CustomerLastName", customer.lastName);
-					return RedirectToAction("Index", "Home");
-				}
-				else
-				{
-					ViewBag.ThongBao = "Wrong username or password";
-				}
-			}
+        [HttpPost]
+        public async Task<IActionResult> Login(string email, string password)
+        {
+            if (!String.IsNullOrEmpty(email) && !String.IsNullOrEmpty(password))
+            {
+                var user = await _userManager.FindByEmailAsync(email);
+                if (user != null && await _userManager.CheckPasswordAsync(user, password))
+                {
+                    HttpContext.Session.SetString("CustomerId", user.CustomerID.ToString());
+                    HttpContext.Session.SetString("CustomerEmail", user.NormalizedEmail);
+                    HttpContext.Session.SetString("CustomerLastName", user.LastName);
+                    return RedirectToAction("Index", "Home");
+                }
+                else
+                {
+                    ViewBag.ThongBao = "Wrong username or password";
+                }
+            }
 
-			return View();
-		}
+            return View();
+        }
 
 
-		public IActionResult Favorites() 
+        public IActionResult Favorites() 
         {
             return View();
         }
@@ -62,31 +63,37 @@ namespace Fashion.Controllers
 			return View();
 		}
 
-		[HttpPost]
-		public IActionResult Register(CustomerRegistrationModel model)
-		{
-			if (ModelState.IsValid)
-			{
-				string hashedPassword = BCrypt.Net.BCrypt.HashPassword(model.Password);
-				var customer = new Customer
-				{
-					firstName = model.FirstName,
-					lastName = model.LastName,
-					phone = model.Phone,
-					Email = model.Email,
-					role = "user",
-					password = hashedPassword,
-					address = ""
-				};
+        [HttpPost]
+        public async Task<IActionResult> Register(CustomerRegistrationModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = new Customer
+                {
+                    FirstName = model.FirstName,
+                    LastName = model.LastName,
+                    UserName = model.Email,
+                    Phone = model.Phone,
+                    Email = model.Email,
+                    NormalizedEmail = model.Email,
+                    Role = "user",
+                    Address = ""
+                };
 
-				_db.Customers.Add(customer);
-				_db.SaveChanges();
+                var result = await _userManager.CreateAsync(user, model.Password);
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("Login");
+                }
 
-				return RedirectToAction("Login");
-			}
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError(string.Empty, error.Description);
+                }
+            }
 
-			return View(model);
-		}
+            return View(model);
+        }
         public IActionResult Logout()
         {
             HttpContext.Session.Clear();
@@ -128,51 +135,60 @@ namespace Fashion.Controllers
             await _emailSender.SendEmailAsync(
                 email,
                 "Reset Password",
-                $"Please reset your password by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                $"Please reset your password by <a href=\"" + callbackUrl + "\">clicking here</a>.");
 
             return View("ForgotPasswordConfirmation");	
         }
 
-        public IActionResult ResetPassword()
-		{
-			return View();
-		}
+        public IActionResult ResetPassword(string token, string email)
+        {
+            var model = new ResetPasswordViewModel
+            {
+                Email = email,
+                Token = token
+            };
+
+            return View(model);
+        }
 
         [HttpPost]
-        public async Task<IActionResult> ResetPassword( [FromQuery] string email)
+        public async Task<IActionResult> ResetPassword(ResetPasswordViewModel model)
         {
-            Console.WriteLine(email);
-
-            return View();
-/*            if (!ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                foreach (var error in ModelState.Values.SelectMany(v => v.Errors))
-                {
-                    Console.WriteLine(error.ErrorMessage);
-                }
-
                 return View(model);
             }
 
             var user = await _userManager.FindByEmailAsync(model.Email);
+            //Console.WriteLine(user);
+            //Console.WriteLine(model.Email);
+
             if (user == null)
             {
-                return RedirectToAction(nameof(ForgotPasswordConfirmation));
+                return View(model);
             }
 
+            if (model.Password != model.ConfirmPassword)
+            {
+                ModelState.AddModelError(string.Empty, "The password and confirmation password do not match.");
+                return View(model);
+            }
+
+            
             var result = await _userManager.ResetPasswordAsync(user, model.Token, model.Password);
             if (result.Succeeded)
             {
-                return RedirectToAction(nameof(ResetPasswordConfirmation));
+                // Password reset successful, redirect to a confirmation view
+                return RedirectToAction("ResetPasswordConfirmation");
             }
-            else
+
+            // Password reset failed, display error messages
+            foreach (var error in result.Errors)
             {
-                foreach (var error in result.Errors)
-                {
-                    ModelState.AddModelError(string.Empty, error.Description);
-                }
-                return View();
-            }*/
+                ModelState.AddModelError(string.Empty, error.Description);
+            }
+
+            return View(model);
         }
 
 

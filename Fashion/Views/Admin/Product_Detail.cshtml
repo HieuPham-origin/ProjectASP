@@ -36,7 +36,7 @@
                                     <div class="space-y-3">
                                         <div class="space-y-2">
                                             <label class="ti-form-label mb-0">Product Title</label>
-                                            <input type="text" class="my-auto ti-form-input" placeholder="Type Product Name" value="@Model.Product.productName" id="product-name" />
+                                            <input type="text" class="my-auto ti-form-input" placeholder="Type Product Name" value="@Model.Product.ProductName" id="product-name" />
                                         </div>
                                         <div class="space-y-2">
                                             <label class="ti-form-label mb-0">Product Id</label>
@@ -45,7 +45,7 @@
                                         <div class="space-y-2">
                                             <label class="ti-form-label">Product Description</label>
                                             <div id="product-editor">
-                                                <p>@Model.Product.productDescription</p>
+                                                <p>@Model.Product.ProductDescription</p>
                                             </div>
                                         </div>
                                         <div class="grid grid-cols-12 gap-4">
@@ -75,7 +75,7 @@
                                                     <option value="">Select Category</option>
                                                     @foreach (var category in Model.Categories)
                                                     {
-                                                        <option value="@category.categoryID">@category.categoryName</option>
+                                                        <option value="@category.CategoryID">@category.CategoryName</option>
                                                     }
                                                 </select>
                                             </div>
@@ -87,7 +87,7 @@
                                                     <option value="">Select Brand</option>
                                                     @foreach (var brand in Model.Brands)
                                                     {
-                                                        <option value="@brand.brandID">@brand.brandName</option>
+                                                        <option value="@brand.BrandID">@brand.BrandName</option>
                                                     }
                                                 </select>
                                             </div>
@@ -108,7 +108,7 @@
                                         <div class="col-span-12 lg:col-span-4">
                                             <div class="space-y-2">
                                                 <label class="ti-form-label mb-0">Actual Price</label>
-                                                <input type="text" class="my-auto ti-form-input" placeholder="$550" value="$@Model.Product.price" />
+                                                <input type="text" class="my-auto ti-form-input" placeholder="$550" value="$@Model.Product.Price" />
                                             </div>
                                         </div>
                                         <div class="col-span-12 lg:col-span-4">
@@ -129,7 +129,7 @@
                                     <div class="col-span-12 lg:col-span-4">
                                         <div class="space-y-2">
                                             <label class="ti-form-label mb-0">Product Quantity</label>
-                                            <input type="text" class="my-auto ti-form-input" placeholder="100" value="@Model.Product.quantity" />
+                                            <input type="text" class="my-auto ti-form-input" placeholder="100" value="@Model.Product.Quantity" />
                                         </div>
                                     </div>
                                     <!-- Add the remaining fields here -->

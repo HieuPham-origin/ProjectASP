@@ -1,4 +1,4 @@
-﻿
+﻿@model Fashion.Models.Order
 @{
     ViewBag.Title = "Invoice_Details";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
@@ -35,33 +35,33 @@
                                 <img src="~/Content/admin/img/brand-logos/desktop-logo.png" alt="logo" class="flex dark:hidden">
                                 <img src="~/Content/admin/img/brand-logos/desktop-dark.png" alt="logo" class="hidden dark:flex">
                             </div>
-                            <div class="mt-1">Cecilia Chapman</div>
-                            <div class="mt-1">P.O. Box 283 8562 Fusce Rd., 20620</div>
-                            <div class="mt-1">ypurdomain@example.com</div>
+                            <div class="mt-1">@Model.Customer.FirstName @Model.Customer.LastName</div>
+                            <div class="mt-1">@Model.Customer.Address</div>
+                            <div class="mt-1">@Model.Customer.Email</div>
                         </div>
                         <div class="text-end">
                             <h3 class="text-2xl text-primary uppercase font-semibold">Invoice</h3>
-                            <div class="mt-1"><span class="font-bold"> #INV-0033970</span></div>
-                            <div class="mt-1">Created Date: <span class="font-bold"> September 28 2022</span></div>
-                            <div class="mt-1">Due Date:<span class="font-bold"> September 28 2022</span></div>
+                            <div class="mt-1"><span class="font-bold">#@Model.OrderID</span></div>
+                            <div class="mt-1">Created Date: <span class="font-bold">@Model.OrderDay.ToString("MMMM dd yyyy")</span></div>
+                            <div class="mt-1">Due Date:<span class="font-bold">@Model.ReceiveDay.ToString("MMMM dd yyyy")</span></div>
                         </div>
                     </div>
                     <hr class="pb-5 dark:border-t-white/10">
                     <div class="flex flex-col lg:flex-row justify-between mb-5 space-y-4">
                         <div class="lg:col-span-6 col-span-12">
-                            <h3 class="font-semibold text-xl">Billed To :</h3>
+                            <h3 class="font-semibold text-xl">Billed To:</h3>
                             <address class="not-italic">
-                                Cecilia Chapman<br>
-                                P.O. Box 283 8562 Fusce Rd., 20620<br>
-                                ypurdomain@example.com
+                                @Model.Customer.LastName<br>
+                                @Model.Customer.Address<br>
+                                @Model.Customer.Email
                             </address>
                         </div>
                         <div class="lg:col-span-6 col-span-12 text-end">
-                            <h3 class="font-semibold text-xl">Shipped To :</h3>
+                            <h3 class="font-semibold text-xl">Shipped To:</h3>
                             <address class="not-italic">
-                                Cecilia Chapman<br>
-                                P.O. Box 283 8562 Fusce Rd., 20620<br>
-                                ypurdomain@example.com
+                                @Model.Customer.LastName<br>
+                                @Model.Customer.Address<br>
+                                @Model.Customer.Email
                             </address>
                         </div>
                     </div>
@@ -78,77 +78,43 @@
                                     </tr>
                                 </thead>
                                 <tbody class="">
-                                    <tr>
-                                        <td class="">1</td>
-                                        <td class="">
-                                            <span class="font-bold">Logo Creation</span>
-                                            <p class="text-gray-500 dark:text-white/70">PhotoShop</p>
-                                        </td>
-                                        <td class="font-semibold ">2</td>
-                                        <td class="">$60.00</td>
-                                        <td class="text-end font-medium">$120.00</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="">2</td>
-                                        <td class="">
-                                            <span class="font-bold">Online Store Design &amp; Development</span>
-                                            <p class="text-gray-500 dark:text-white/70">Html</p>
-                                        </td>
-                                        <td class="font-semibold ">3</td>
-                                        <td class="">$80.00</td>
-                                        <td class="text-end font-medium">$240.00</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="">3</td>
-                                        <td class="">
-                                            <span class="font-bold">App Design</span>
-                                            <p class="text-gray-500 dark:text-white/70">Android Studio</p>
-                                        </td>
-                                        <td class="font-semibold ">1</td>
-                                        <td class="">$40.00</td>
-                                        <td class="text-end font-medium">$40.00</td>
-                                    </tr>
-                                    <tr class="!border-b-0">
+                                    @foreach (var orderDetail in Model.OrderDetails)
+                                    {
+                                        <tr>
+                                            <td class="">@(ViewBag.OrderDetails.IndexOf(orderDetail) + 1)</td>
+                                           <td class="">
+                                                <span class="font-bold">@orderDetail.Product.ProductName</span>
+                                                @* <p class="text-gray-500 dark:text-white/70">@orderDetail.Product.ProductDescription</p> *@
+                                            </td>
+                                            <td class="font-semibold">@orderDetail.Quantity</td>
+                                            <td class="">$@(orderDetail.Price.ToString("0.00"))</td>
+                                            <td class="text-end font-medium">$@(orderDetail.Quantity * orderDetail.Price).ToString("0.00")</td>
+                                        </tr>
+                                    }
+                                     <tr class="!border-b-0">
                                         <td colspan="3" class="ltr:border-r rtl:border-l border-gray-200 dark:border-white/10">
                                             <h3 class="font-bold text-xl">Invoice Payment Method</h3>
                                         </td>
                                         <td class="">Sub-Total</td>
-                                        <td class="!text-end">$700.00</td>
+                                        <td class="!text-end">$@(Model.OrderDetails.Sum(od => od.Quantity * od.Price).ToString("0.00"))</td>
                                     </tr>
                                     <tr class="!border-b-0 !border-t-0">
-                                        <td colspan="3" class="ltr:border-r rtl:border-l border-gray-200 dark:border-white/10">Account :<span class="font-bold"> 000252522525253625</span> </td>
+                                         @* <td colspan="3" class="ltr:border-r rtl:border-l border-gray-200 dark:border-white/10">Account :<span class="font-bold">@Model.PaymentMethod.AccountNumber</span></td> *@
                                         <td class="">Tax</td>
-                                        <td class="!text-end">3%</td>
+                                         @* <td class="!text-end">$@(Model.Tax.ToString("0.00"))</td> *@
                                     </tr>
                                     <tr class="!border-b-0 !border-t-0">
-                                        <td colspan="3" class="ltr:border-r rtl:border-l border-gray-200 dark:border-white/10">Account Name : <span class="font-bold"> Synto</span></td>
-                                        <td class="">Discount</td>
-                                        <td class="!text-end">20%</td>
-                                    </tr>
-                                    <tr class="!border-t-0">
-                                        <td colspan="3" class="ltr:border-r rtl:border-l border-gray-200 dark:border-white/10">Bank Details :<span class="font-bold"> Lorem Ipsum</span> </td>
-                                        <td class="">Total</td>
-                                        <td class="!text-end">$900.2</td>
+                                        @* <td colspan="3" class="ltr:border-r rtl:border-l border-gray-200 dark:border-white/10">Payment Date :<span class="font-bold">@Model.PaymentDate.ToString("MMMM dd yyyy")</span></td> *@
+                                        <td class="">Total Amount</td>
+                                        @* <td class="!text-end">$@(Model.TotalAmount.ToString("0.00"))</td> *@
                                     </tr>
                                 </tbody>
                             </table>
                         </div>
                     </div>
-                    <div class="sm:grid grid-cols-12 gap-6 pb-5 space-y-5">
-                        <div class="lg:col-span-6 col-span-12">
-                            <h3 class="text-xl fon-bold mb-2">Terms And Conditions</h3>
-                            <p class="text-gray-500 dark:text-white/70 font-light text-sm">Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
-                        </div>
-                        <div class="lg:col-span-6 col-span-12 text-end my-auto">
-                            <div class="text-3xl text-primary">Synto</div>
-                            <h3 class="font-semibold">Signature</h3>
-                        </div>
-                    </div>
-                    <hr class="pb-5 dark:border-t-white/10">
-                    <div class="flex justify-end">
-                        <button type="button" class="w-20 !p-1 ti-btn ti-btn-primary" onclick="location.href='javascript:window.print()'"> Print</button>
-                        <button type="button" class="w-20 !p-1 ti-btn ti-btn-secondary">Save</button>
-                        <button type="button" class="w-20 !p-1 ti-btn ti-btn-danger">Cancel</button>
+                    <div class="mt-5">
+                        <h3 class="font-semibold text-xl">Notes:</h3>
+                        @* <p class="text-gray-500 dark:text-white/70">@Model.Notes</p> *@
                     </div>
                 </div>
             </div>
@@ -158,7 +124,6 @@
 
 </div>
 <!-- Start::main-content -->
-            </div>
 
 <!-- END MAIN-CONTENT -->
 <!-- SEARCH-MODAL -->

@@ -28,13 +28,15 @@ namespace Fashion.Controllers
             var orderDetails = _db.OrderDetails
                                 .Include(od => od.Product)
                                 .ThenInclude(p => p.ProductImages)
-                                .Where(od => od.Order.customerID == int.Parse(customerId) && !od.Order.isChecked)
+                                .Where(od => od.Order.CustomerID == int.Parse(customerId) && !od.Order.IsChecked)
                                 .ToList();
 
             var viewModel = new ShoppingCartViewModel
             {
                 OrderDetails = orderDetails
             };
+            //_db.OrderDetails.AddRange(orderDetails);
+            //_db.SaveChanges();
 
             return View(viewModel);
         }
@@ -49,10 +51,10 @@ namespace Fashion.Controllers
                 int orderId = orderIds[i];
                 int quantity = quantities[i];
 
-                var orderDetail = _db.OrderDetails.FirstOrDefault(od => od.productID == productId && od.orderID == orderId);
+                var orderDetail = _db.OrderDetails.FirstOrDefault(od => od.ProductID == productId && od.OrderID == orderId);
                 if (orderDetail != null)
                 {
-                    orderDetail.quantity = quantity;
+                    orderDetail.Quantity = quantity;
                     _db.SaveChanges();
                 }
             }
@@ -77,7 +79,7 @@ namespace Fashion.Controllers
 
             var orderDetails = _db.OrderDetails
                                   .Include(od => od.Product)
-                                  .Where(od => od.Order.customerID == int.Parse(customerId) && !od.Order.isChecked)
+                                  .Where(od => od.Order.CustomerID == int.Parse(customerId) && !od.Order.IsChecked)
                                   .ToList();
 
             var viewModel = new CheckoutViewModel
@@ -105,13 +107,13 @@ namespace Fashion.Controllers
                 return RedirectToAction("Login", "User");
             }
 
-            customer.address = address;
+            customer.Address = address;
             _db.SaveChanges();
 
-            var orders = _db.Orders.Where(o => o.customerID == customer.CustomerID && !o.isChecked).ToList();
+            var orders = _db.Orders.Where(o => o.CustomerID == customer.CustomerID && !o.IsChecked).ToList();
             foreach (var order in orders)
             {
-                order.isChecked = true;
+                order.IsChecked = true;
             }
             _db.SaveChanges();
 

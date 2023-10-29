@@ -5,13 +5,12 @@ namespace Fashion.Models
     public class Order
     {
         [Key]
-        public int orderID { get; set; }
-        public bool orderStatus { get; set; }
-        public int orderDay { get; set; }
-        public int receiveDay { get; set; }
-        public int customerID { get; set; }
-
-        public bool isChecked { get; set; }
+        public int OrderID { get; set; }
+        public bool OrderStatus { get; set; }
+        public DateTime OrderDay { get; set; }
+        public DateTime ReceiveDay { get; set; }
+        public int CustomerID { get; set; }
+        public bool IsChecked { get; set; }
 
         // Navigation properties
         public virtual Customer Customer { get; set; }

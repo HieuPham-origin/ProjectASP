@@ -137,11 +137,11 @@
                                                      src="~/css/admin/img/users/2.jpg" alt="Image Description" />
                                             </div>
                                         </td>
-                                        <td>@customer.firstName</td>
-                                        <td>@customer.lastName</td>
-                                        <td>@customer.phone</td>
+                                        <td>@customer.FirstName</td>
+                                        <td>@customer.LastName</td>
+                                        <td>@customer.Phone</td>
                                         <td>@customer.Email</td>
-                                        <td>@customer.address</td>
+                                        <td>@customer.Address</td>
                                         <td class="font-medium space-x-2 rtl:space-x-reverse">
                                             <div class="hs-tooltip ti-main-tooltip">
                                                 <a href="@Url.Action("Customer_Detail", "Admin", new { id = customer.CustomerID })"
