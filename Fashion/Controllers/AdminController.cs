@@ -9,9 +9,11 @@ namespace Fashion.Controllers
     public class AdminController : Controller
     {
         private readonly FashionShopContext _db;
-        public AdminController(FashionShopContext db)
+        private readonly IWebHostEnvironment _webHostEnvironment;
+        public AdminController(FashionShopContext db, IWebHostEnvironment webHostEnvironment)
         {
             _db = db;
+            _webHostEnvironment = webHostEnvironment;
         }
 
         public IActionResult Sales()
@@ -154,7 +156,7 @@ namespace Fashion.Controllers
                 if (image != null && image.Length > 0)
                 {
                     // Save the image to a storage location
-                    var imagePath = $"img/product_img/{Guid.NewGuid()}{Path.GetExtension(image.FileName)}";
+                    var imagePath = Path.Combine(_webHostEnvironment.WebRootPath, "img/product_img", $"{Guid.NewGuid()}{Path.GetExtension(image.FileName)}");
                     using (var stream = new FileStream(imagePath, FileMode.Create))
                     {
                         await image.CopyToAsync(stream);
@@ -163,7 +165,7 @@ namespace Fashion.Controllers
                     // Create a new ProductImage object and associate it with the new product
                     var newProductImage = new ProductImage
                     {
-                        ImageUrl = imagePath,
+                        ImageUrl = image.FileName,
                         ProductID = newProduct.ProductID // Assuming the Product entity has an Id property
                         
                     };

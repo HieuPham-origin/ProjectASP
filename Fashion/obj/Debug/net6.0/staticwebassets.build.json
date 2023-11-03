@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "Z8f1KgcCyjAdlUa5q5FWynKDoBO66GSlnkO+VbpFbBo=",
+  "Hash": "K+pjKIDrdhsoMTBSXo2ZSQzS1Pw3t9Oav1TSlG9VixM=",
   "Source": "Fashion",
   "BasePath": "_content/Fashion",
   "Mode": "Default",
@@ -7327,6 +7327,23 @@
       "OriginalItemSpec": "wwwroot\\img\\payment.png"
     },
     {
+      "Identity": "E:\\Student\\HK5\\ASP\\final\\ProjectASP\\Fashion\\wwwroot\\img\\product_img\\22df6d11-49e7-4fb4-8292-57ec92928450.png",
+      "SourceId": "Fashion",
+      "SourceType": "Discovered",
+      "ContentRoot": "E:\\Student\\HK5\\ASP\\final\\ProjectASP\\Fashion\\wwwroot\\",
+      "BasePath": "_content/Fashion",
+      "RelativePath": "img/product_img/22df6d11-49e7-4fb4-8292-57ec92928450.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\img\\product_img\\22df6d11-49e7-4fb4-8292-57ec92928450.png"
+    },
+    {
       "Identity": "E:\\Student\\HK5\\ASP\\final\\ProjectASP\\Fashion\\wwwroot\\img\\product_img\\Chanel Clutch Bag - Limited Edition.jpg",
       "SourceId": "Fashion",
       "SourceType": "Discovered",
@@ -7580,6 +7597,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\img\\product_img\\Chanel Women Wallet.jpg"
+    },
+    {
+      "Identity": "E:\\Student\\HK5\\ASP\\final\\ProjectASP\\Fashion\\wwwroot\\img\\product_img\\d5549387-c04f-4b9b-8db2-a90deea3c23a.jpg",
+      "SourceId": "Fashion",
+      "SourceType": "Discovered",
+      "ContentRoot": "E:\\Student\\HK5\\ASP\\final\\ProjectASP\\Fashion\\wwwroot\\",
+      "BasePath": "_content/Fashion",
+      "RelativePath": "img/product_img/d5549387-c04f-4b9b-8db2-a90deea3c23a.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\img\\product_img\\d5549387-c04f-4b9b-8db2-a90deea3c23a.jpg"
     },
     {
       "Identity": "E:\\Student\\HK5\\ASP\\final\\ProjectASP\\Fashion\\wwwroot\\img\\product_img\\Fred Perry Accessories Set.jpg",

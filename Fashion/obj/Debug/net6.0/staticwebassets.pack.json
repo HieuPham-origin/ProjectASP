@@ -1577,6 +1577,10 @@
       "PackagePath": "staticwebassets\\img\\product-sale.png"
     },
     {
+      "Id": "E:\\Student\\HK5\\ASP\\final\\ProjectASP\\Fashion\\wwwroot\\img\\product_img\\22df6d11-49e7-4fb4-8292-57ec92928450.png",
+      "PackagePath": "staticwebassets\\img\\product_img\\22df6d11-49e7-4fb4-8292-57ec92928450.png"
+    },
+    {
       "Id": "E:\\Student\\HK5\\ASP\\final\\ProjectASP\\Fashion\\wwwroot\\img\\product_img\\Chanel Clutch Bag - Limited Edition.jpg",
       "PackagePath": "staticwebassets\\img\\product_img\\Chanel Clutch Bag - Limited Edition.jpg"
     },
@@ -1971,6 +1975,10 @@
     {
       "Id": "E:\\Student\\HK5\\ASP\\final\\ProjectASP\\Fashion\\wwwroot\\img\\product_img\\Y3 mens shiku run trainers.jpg",
       "PackagePath": "staticwebassets\\img\\product_img\\Y3 mens shiku run trainers.jpg"
+    },
+    {
+      "Id": "E:\\Student\\HK5\\ASP\\final\\ProjectASP\\Fashion\\wwwroot\\img\\product_img\\d5549387-c04f-4b9b-8db2-a90deea3c23a.jpg",
+      "PackagePath": "staticwebassets\\img\\product_img\\d5549387-c04f-4b9b-8db2-a90deea3c23a.jpg"
     },
     {
       "Id": "E:\\Student\\HK5\\ASP\\final\\ProjectASP\\Fashion\\wwwroot\\img\\shop-details\\details-payment.png",

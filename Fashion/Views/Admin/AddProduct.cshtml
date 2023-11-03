@@ -37,7 +37,7 @@
             </li>
         </ol>
     </div>
-
+    
     @using (Html.BeginForm("AddProduct", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
     {
         <div class="grid grid-cols-12 gap-x-6">
@@ -91,12 +91,10 @@
                                             </div>
                                             <!-- Other input fields for colors, sizes, etc. -->
                                         </div>
-                                        <div class="space-y-2">
-                                            <label class="flex justify-between ti-form-label">
-                                                <span class="my-auto">Product Images</span>
-                                            </label>
-                                            <input type="file" class="filepond multiple-filepond" id="productImages" name="productImages" multiple
-                                                   data-allow-reorder="true" data-max-file-size="3MB" data-max-files="5">
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.ProductImages, new { @class = "flex justify-between ti-form-label" })
+                                            <input type="file" name="productImages" multiple="multiple" id="productImages"/>
+                                            @Html.ValidationMessageFor(model => model.ProductImages)
                                         </div>
                                     </div>
                                 </div>
@@ -113,7 +111,7 @@
         </div>
     }
 
-    @section scripts {
+   @*  @section scripts {
         <script src="https://unpkg.com/filepond/dist/filepond.min.js"></script>
         <script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.js"></script>
         <link href="https://unpkg.com/filepond/dist/filepond.min.css" rel="stylesheet">
@@ -133,5 +131,5 @@
                         });
                     });
         </script>
-    }
+    } *@
 </div>
