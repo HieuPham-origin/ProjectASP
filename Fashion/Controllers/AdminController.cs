@@ -108,21 +108,75 @@ namespace Fashion.Controllers
         }
         public IActionResult AddProduct()
         {
-            ViewBag.Brands = _db.Brands.ToList(); // Lấy danh sách các thương hiệu từ cơ sở dữ liệu
-            ViewBag.Categories = _db.Categories.ToList(); // Lấy danh sách các danh mục từ cơ sở dữ liệu
-            //ViewBag.Supplies = _db.Suppliers.ToList();
-            return View();
+            var model = new ProductViewModel();
+
+            // Populate the necessary data for the view (e.g., categories, brands)
+            model.Categories = _db.Categories.ToList();
+            model.Brands = _db.Brands.ToList();
+
+            return View(model);
         }
         [HttpPost]
-        public async Task<IActionResult> AddProduct(Product product)
+        public async Task<IActionResult> AddProduct(ProductViewModel model, List<IFormFile> productImages)
         {
-            if (ModelState.IsValid)
+            // Create a new Product object with the provided information
+
+            var newProduct = new Product
             {
-                _db.Products.Add(product);
-                await _db.SaveChangesAsync();
-                return RedirectToAction("Product"); // Chuyển hướng đến trang chủ hoặc trang sản phẩm
+                ProductName = model.Product.ProductName,
+                ProductDescription = model.Product.ProductDescription,
+                Price = model.Product.Price,
+                Quantity = model.Product.Quantity
+            };
+            
+            // Get the Category and Brand objects based on the provided IDs
+            var category = await _db.Categories.FindAsync(model.Product.CategoryID);
+            var brand = await _db.Brands.FindAsync(model.Product.BrandID);
+
+            // Check if the Category and Brand exist
+            if (category == null || brand == null)
+            {
+                return NotFound();
             }
-            return View(product);
+
+            // Associate the new product with the Category and Brand
+            newProduct.Category = category;
+            newProduct.Brand = brand;
+
+            // Add the new product to the database
+            _db.Products.Add(newProduct);
+            await _db.SaveChangesAsync();
+            //Console.WriteLine(newProduct.ProductID);
+            // Process uploaded images
+            Console.WriteLine(productImages);
+            foreach (var image in productImages)
+            {
+                if (image != null && image.Length > 0)
+                {
+                    // Save the image to a storage location
+                    var imagePath = $"img/product_img/{Guid.NewGuid()}{Path.GetExtension(image.FileName)}";
+                    using (var stream = new FileStream(imagePath, FileMode.Create))
+                    {
+                        await image.CopyToAsync(stream);
+                    }
+
+                    // Create a new ProductImage object and associate it with the new product
+                    var newProductImage = new ProductImage
+                    {
+                        ImageUrl = imagePath,
+                        ProductID = newProduct.ProductID // Assuming the Product entity has an Id property
+                        
+                    };
+
+                    // Add the new product image to the database
+                    _db.ProductImages.Add(newProductImage);
+                }
+            }
+
+            await _db.SaveChangesAsync();
+
+            // Redirect the user to a page or action after successful addition
+            return RedirectToAction("Product");
         }
         [HttpPost]
         public async Task<IActionResult> UpdateProduct(ProductViewModel model)

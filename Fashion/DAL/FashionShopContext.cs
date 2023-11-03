@@ -5,11 +5,11 @@ namespace Fashion.DAL
 {
     public class FashionShopContext : DbContext
     {
-		public FashionShopContext(DbContextOptions<FashionShopContext> options) : base(options)
-		{
-		}
+        public FashionShopContext(DbContextOptions<FashionShopContext> options) : base(options)
+        {
+        }
 
-		public DbSet<Customer> Customers { get; set; }
+        public DbSet<Customer> Customers { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Brand> Brands { get; set; }
         public DbSet<Product> Products { get; set; }
@@ -17,6 +17,7 @@ namespace Fashion.DAL
         public DbSet<Favorite_Product> Favorite_Products { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderDetail> OrderDetails { get; set; }
+        public DbSet<Size> Sizes { get; set; } // Add DbSet for Size
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -36,12 +37,6 @@ namespace Fashion.DAL
                 .HasOne(p => p.Brand)
                 .WithMany(b => b.Products)
                 .HasForeignKey(p => p.BrandID)
-                .OnDelete(DeleteBehavior.Cascade);
-
-            modelBuilder.Entity<Product>()
-                .HasOne(p => p.Supplier)
-                .WithMany(s => s.Products)
-                .HasForeignKey(p => p.SupplierID)
                 .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<ProductImage>()

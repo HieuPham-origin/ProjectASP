@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Drawing;
 
 namespace Fashion.Models
 {
@@ -8,7 +9,6 @@ namespace Fashion.Models
         public int ProductID { get; set; }
         public int CategoryID { get; set; }
         public int BrandID { get; set; }
-        public int SupplierID { get; set; }
         [Required]
         public string ProductName { get; set; }
         public string ProductDescription { get; set; }
@@ -18,8 +18,9 @@ namespace Fashion.Models
         // Navigation properties
         public virtual Category Category { get; set; }
         public virtual Brand Brand { get; set; }
-        public virtual Supplier Supplier { get; set; }
         public virtual ICollection<ProductImage> ProductImages { get; set; }
         public virtual ICollection<OrderDetail> OrderDetails { get; set; }
+        // Many-to-many relationship with Size
+        public virtual ICollection<Size> Sizes { get; set; }
     }
 }

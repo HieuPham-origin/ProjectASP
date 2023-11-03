@@ -232,16 +232,11 @@ namespace Fashion.Migrations
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
-                    b.Property<int>("SupplierID")
-                        .HasColumnType("int");
-
                     b.HasKey("ProductID");
 
                     b.HasIndex("BrandID");
 
                     b.HasIndex("CategoryID");
-
-                    b.HasIndex("SupplierID");
 
                     b.ToTable("Products");
                 });
@@ -268,29 +263,36 @@ namespace Fashion.Migrations
                     b.ToTable("ProductImages");
                 });
 
-            modelBuilder.Entity("Fashion.Models.Supplier", b =>
+            modelBuilder.Entity("Fashion.Models.Size", b =>
                 {
-                    b.Property<int>("SupplierID")
+                    b.Property<int>("SizeID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SupplierID"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SizeID"));
 
-                    b.Property<string>("Address")
+                    b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("PhoneNumber")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.HasKey("SizeID");
 
-                    b.Property<string>("SupplierName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.ToTable("Sizes");
+                });
 
-                    b.HasKey("SupplierID");
+            modelBuilder.Entity("ProductSize", b =>
+                {
+                    b.Property<int>("ProductsProductID")
+                        .HasColumnType("int");
 
-                    b.ToTable("Supplier");
+                    b.Property<int>("SizesSizeID")
+                        .HasColumnType("int");
+
+                    b.HasKey("ProductsProductID", "SizesSizeID");
+
+                    b.HasIndex("SizesSizeID");
+
+                    b.ToTable("ProductSize");
                 });
 
             modelBuilder.Entity("Fashion.Models.Favorite_Product", b =>
@@ -356,17 +358,9 @@ namespace Fashion.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Fashion.Models.Supplier", "Supplier")
-                        .WithMany("Products")
-                        .HasForeignKey("SupplierID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Brand");
 
                     b.Navigation("Category");
-
-                    b.Navigation("Supplier");
                 });
 
             modelBuilder.Entity("Fashion.Models.ProductImage", b =>
@@ -378,6 +372,21 @@ namespace Fashion.Migrations
                         .IsRequired();
 
                     b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("ProductSize", b =>
+                {
+                    b.HasOne("Fashion.Models.Product", null)
+                        .WithMany()
+                        .HasForeignKey("ProductsProductID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Fashion.Models.Size", null)
+                        .WithMany()
+                        .HasForeignKey("SizesSizeID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Fashion.Models.Brand", b =>
@@ -407,11 +416,6 @@ namespace Fashion.Migrations
                     b.Navigation("OrderDetails");
 
                     b.Navigation("ProductImages");
-                });
-
-            modelBuilder.Entity("Fashion.Models.Supplier", b =>
-                {
-                    b.Navigation("Products");
                 });
 #pragma warning restore 612, 618
         }

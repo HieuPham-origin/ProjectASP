@@ -74,7 +74,7 @@
                         }
                         <button type="button" class="hs-collapse-toggle w-full py-2 px-4 inline-flex justify-center items-center gap-2 rounded-sm border border-transparent font-semibold bg-primary text-white hover:bg-primary focus:outline-none focus:ring-0 focus:ring-primary focus:ring-offset-0 transition-all text-sm dark:focus:ring-offset-white/10"
                                 id="hs-category-collapse" data-hs-collapse="#category-collapse">
-                            Show more
+                            Filter
                         </button>
                     </div>
                 </div>
@@ -96,7 +96,7 @@
                         <button type="button"
                                 class="hs-collapse-toggle w-full py-2 px-4 inline-flex justify-center items-center gap-2 rounded-sm border border-transparent font-semibold bg-primary text-white hover:bg-primary focus:outline-none focus:ring-0 focus:ring-primary focus:ring-offset-0 transition-all text-sm dark:focus:ring-offset-white/10"
                                 id="hs-brand-collapse" data-hs-collapse="#brand-collapse">
-                            Show more
+                            Filter
                         </button>
                     </div>
                 </div>
@@ -146,8 +146,9 @@
                 <div class="box product-box">
                     <div class="col-lg-4 col-md-6 col-sm-6">
                         <div class="product__item">
-                            <div class="product__item__pic" style="position: relative; width: 362.8px; height: 0; padding-bottom: 362.8px;">
-                                            <img class="product__item__img" style="position: absolute; top: 0; left: 0; width:  362.8px; height:  362.8px; object-fit: cover;" src="@Url.Content("~/img/product_img/" + image.ImageUrl)" alt="@product.ProductName" />
+                                        <div class="product__item__pic" style="position: relative; width: 100%; height: 0; padding-bottom: 100%;">
+                                            <img class="product__item__img" style="position: absolute; top: 0; left: 0; width:  100%; height:  100%; object-fit: cover;" src="@Url.Content("~/img/product_img/" + image.ImageUrl)" alt="@product.ProductName" />
+
                                 <ul class="product__hover">
                                     <li>
                                     <a href="@Url.Action("Update_Product", "Admin", new { id = product.ProductID })"
