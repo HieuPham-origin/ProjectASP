@@ -27,18 +27,22 @@ namespace Fashion.Controllers
 
             var orderDetails = _db.OrderDetails
                                 .Include(od => od.Product)
-                                .Include(od => od.Size) // Bao gồm thông tin về Size
+                                .ThenInclude(p => p.ProductImages)
+                                .Include(od => od.Size)
                                 .Where(od => od.Order.CustomerID == int.Parse(customerId) && !od.Order.IsChecked)
                                 .ToList();
 
+            var productIds = orderDetails.Select(od => od.ProductID).ToList();
+
             var productSizes = _db.ProductSizes
-                                .Include(ps => ps.Product)
-                                .Include(ps => ps.Size)
-                                .Where(ps => orderDetails.Any(od => od.ProductID == ps.ProductID))
-                                .ToList();
+                .Include(ps => ps.Product)
+                .Include(ps => ps.Size)
+                .Where(ps => productIds.Contains(ps.ProductID))
+                .ToList();
+
 
             var viewModel = new ShoppingCartViewModel
-            {
+            {   
                 OrderDetails = orderDetails,
                 ProductSizes = productSizes
             };
@@ -58,19 +62,15 @@ namespace Fashion.Controllers
                 var orderDetail = _db.OrderDetails.FirstOrDefault(od => od.ProductID == productId && od.OrderID == orderId);
                 if (orderDetail != null)
                 {
-                    // Kiểm tra xem `sizeId` có giá trị hợp lệ hay không
-                    var validSize = _db.Sizes.FirstOrDefault(s => s.SizeID == sizeId);
-                    if (validSize != null)
-                    {
-                        orderDetail.Quantity = quantity;
-                        orderDetail.SizeID = sizeId;
-                        _db.SaveChanges();
-                    }
+                    orderDetail.Quantity = quantity;
+                    orderDetail.SizeID = sizeId;
+                    _db.SaveChanges();
                 }
             }
 
             return RedirectToAction("ShoppingCart");
         }
+
 
 
         public IActionResult Checkout()

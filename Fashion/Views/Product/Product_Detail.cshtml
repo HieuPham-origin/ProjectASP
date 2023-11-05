@@ -23,7 +23,7 @@
                             {
                                 <li class="nav-item">
                                     <a class="nav-link @(counter == 1 ? "active" : "")" data-toggle="tab" href="#tabs-@counter" role="tab">
-                                        <div class="product__thumb__pic set-bg" data-setbg="@image.ImageUrl"></div>
+                                        <div class="product__thumb__pic set-bg" data-setbg="@Url.Content("~/img/product_img/" + @image.ImageUrl)"></div>
                                     </a>
                                 </li>
                                 counter++;
@@ -40,7 +40,7 @@
                             {
                                 <div class="tab-pane @(counter == 1 ? "active" : "")" id="tabs-@counter" role="tabpanel">
                                     <div class="product__details__pic__item">
-                                        <img src="@image.ImageUrl" alt />
+                                        <img src="@Url.Content("/img/product_img/" +@image.ImageUrl)" alt />
                                     </div>
                                 </div>
                                 counter++;  
@@ -95,7 +95,7 @@
                             </div>
                             <form id="addToCart-@Model.ProductID" method="post" action="@Url.Action("AddToCart", "Home")">
                                 <input type="hidden" name="productId" value="@Model.ProductID" />
-                                <a href="#" onclick="document.getElementById('addToCart-@Model.ProductID').submit()">+ Add To Cart</a>
+                                <a href="#" class="primary-btn" onclick="document.getElementById('addToCart-@Model.ProductID').submit()">+ Add To Cart</a>
                             </form>
                         </div>
                         <div class="product__details__btns__option">
@@ -305,7 +305,7 @@
                     </div>
                     <div class="product__item__text">
                         <h6>Diagonal Textured Cap</h6>
-                        <a href="#" class="add-cart">+ Add To Cart</a>
+                        <a href="#" class="primary-btn">+ Add To Cart</a>
                         <h5>$60.9</h5>
                     </div>
                 </div>

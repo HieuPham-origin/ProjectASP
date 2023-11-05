@@ -1,4 +1,25 @@
-﻿@* @model ShoppingCartViewModel
+﻿@model ShoppingCartViewModel
+@{
+
+}
+
+<section class="breadcrumb-option">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="breadcrumb__text">
+                    <h4>Shopping Cart</h4>
+                    <div class="breadcrumb__links">
+                        <a href="index-2.html">Home</a>
+                        <a href="shop.html">Shop</a>
+                        <span>Shopping Cart</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
 
 <section class="shopping-cart spad">
     <div class="container">
@@ -28,7 +49,7 @@
                                                 }
                                                 else
                                                 {
-                                                    <img src="https://placehold.co/80x80" alt="Product Image">
+                                                    <img src="https://placehold.co/80x80" alt>
                                                 }
                                             </div>
                                             <div class="product__cart__item__text">
@@ -39,30 +60,19 @@
                                         <td class="quantity__item">
                                             <div class="quantity">
                                                 <div class="pro-qty-2">
-                                                    <input type="number" class="quantity-input" name="quantities[@orderDetail.ProductID]" value="@orderDetail.Quantity" min="1">
+                                                    <input type="text" class="quantity-input" name="quantities[]" value="@orderDetail.Quantity" min="1">
                                                 </div>
                                             </div>
                                         </td>
                                         <td class="size__item">
-                                            <select name="sizeIds[@orderDetail.ProductID]" class="size-select">
-                                                <option value="">Choose size</option>
-                                                @foreach (var productSize in Model.ProductSizes)
+                                            <select name="sizeIds[]" class="size-select">
+                                                @foreach (var size in Model.ProductSizes.Where(ps => ps.ProductID == orderDetail.ProductID))
                                                 {
-                                                    var size = productSize.Size;
-                                                    if (size != null)
-                                                    {
-                                                        if (productSize.SizeID == orderDetail.SizeID)
-                                                        {
-                                                            <option value="@productSize.SizeID" selected>@size.SizeID</option>
-                                                        }
-                                                        else
-                                                        {
-                                                            <option value="@productSize.SizeID">@size.SizeID</option>
-                                                        }
-                                                    }
+                                                    <option value="@size.SizeID" selected="@(orderDetail.SizeID == size.SizeID)">@size.Size.Name</option>
                                                 }
                                             </select>
                                         </td>
+
                                         <td class="cart__price">@((orderDetail.Product.Price * orderDetail.Quantity).ToString("C"))</td>
                                         <td class="cart__close"><i class="fa fa-close"></i></td>
                                         <input type="hidden" name="productIds[]" value="@orderDetail.ProductID" />
@@ -80,7 +90,8 @@
                         </div>
                         <div class="col-lg-6 col-md-6 col-sm-6">
                             <div class="continue__btn update__btn">
-                                <button type="submit"><i class="fa fa-spinner"></i> Update Cart</button>
+                                <a href="#" onclick="document.getElementById('updateCart').submit()"><i class="fa fa-spinner"></i> Update cart</a>
+
                             </div>
                         </div>
                     </div>
@@ -100,66 +111,9 @@
                         <li>Subtotal <span>$ @Model.OrderDetails.Sum(od => od.Product.Price * od.Quantity)</span></li>
                         <li>Total <span>$ @Math.Round(Model.OrderDetails.Sum(od => od.Product.Price * od.Quantity) * 1.08, 2)</span></li>
                     </ul>
-                    <a href="@Url.Action("Checkout", "Cart")" class="primary-btn">Proceed to Checkout</a>
+                    <a href="@Url.Action("Checkout", "Cart")" class="primary-btn">Proceed to checkout</a>
                 </div>
             </div>
         </div>
     </div>
 </section>
-    <!-- Các mã JavaScript -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
-        $(document).ready(function() {
-            $('.size-select').change(function() {
-                var selectedSizeId = $(this).val();
-                $(this).closest('tr').find('input[name="sizeIds[]"]').val(selectedSizeId);
-            });
-        });
-    </script> *@
-@model ShoppingCartViewModel
-
-<h2>Shopping Cart</h2>
-
-@if (Model.OrderDetails.Count == 0)
-{
-    <p>Your shopping cart is empty.</p>
-}
-else
-{
-    <table>
-        <thead>
-            <tr>
-                <th>Product</th>
-                <th>Size</th>
-                <th>Quantity</th>
-                <th>Price</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var orderDetail in Model.OrderDetails)
-            {
-                <tr>
-                    <td>@orderDetail.Product.ProductName</td>
-                    <td>@orderDetail.Size.Name</td>
-                    <td>@orderDetail.Quantity</td>
-                    <td>@orderDetail.Price</td>
-                </tr>
-            }
-        </tbody>
-    </table>
-}
-
-@if (Model.ProductSizes.Count > 0)
-{
-    <h3>Available Sizes:</h3>
-    <ul>
-        @foreach (var productSize in Model.ProductSizes)
-        {
-            <li>@productSize.Size.Name - @productSize.Product.ProductName</li>
-        }
-    </ul>
-}
-
-<form method="post" action="/ShoppingCart/Checkout">
-    <button type="submit">Checkout</button>
-</form>
