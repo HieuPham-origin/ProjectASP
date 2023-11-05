@@ -185,16 +185,23 @@ namespace Fashion.Controllers
                 _db.SaveChanges();
             }
 
+            var defaultSizeId = _db.ProductSizes
+                .Where(ps => ps.ProductID == productId)
+                .Select(ps => ps.SizeID)
+                .FirstOrDefault();
+
+
             var orderDetail = _db.OrderDetails.FirstOrDefault(od => od.OrderID == order.OrderID && od.ProductID == product.ProductID);
             if (orderDetail == null)
             {
-                // If the product is not in the order details, add a new OrderDetail
+                // If the product is not in the order details, add a new OrderDetail with the default sizeID
                 orderDetail = new OrderDetail
                 {
                     OrderID = order.OrderID,
                     ProductID = product.ProductID,
                     Quantity = 1,
-                    Price = product.Price
+                    Price = product.Price,
+                    SizeID = defaultSizeId
                 };
                 _db.OrderDetails.Add(orderDetail);
             }
@@ -209,8 +216,6 @@ namespace Fashion.Controllers
 
             return RedirectToAction("Shop");
         }
-
-
 
         public IActionResult Contact()
         {

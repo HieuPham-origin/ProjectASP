@@ -122,7 +122,6 @@ namespace Fashion.Controllers
         public async Task<IActionResult> AddProduct(ProductViewModel model, List<IFormFile> productImages)
         {
             // Create a new Product object with the provided information
-
             var newProduct = new Product
             {
                 ProductName = model.Product.ProductName,
@@ -130,7 +129,7 @@ namespace Fashion.Controllers
                 Price = model.Product.Price,
                 Quantity = model.Product.Quantity
             };
-            
+
             // Get the Category and Brand objects based on the provided IDs
             var category = await _db.Categories.FindAsync(model.Product.CategoryID);
             var brand = await _db.Brands.FindAsync(model.Product.BrandID);
@@ -148,9 +147,8 @@ namespace Fashion.Controllers
             // Add the new product to the database
             _db.Products.Add(newProduct);
             await _db.SaveChangesAsync();
-            //Console.WriteLine(newProduct.ProductID);
+
             // Process uploaded images
-            Console.WriteLine(productImages);
             foreach (var image in productImages)
             {
                 if (image != null && image.Length > 0)
@@ -166,13 +164,40 @@ namespace Fashion.Controllers
                     var newProductImage = new ProductImage
                     {
                         ImageUrl = image.FileName,
-                        ProductID = newProduct.ProductID // Assuming the Product entity has an Id property
-                        
+                        ProductID = newProduct.ProductID
                     };
 
                     // Add the new product image to the database
                     _db.ProductImages.Add(newProductImage);
                 }
+            }
+
+            await _db.SaveChangesAsync();
+
+            // Add product sizes to the ProductSize table
+            var productSizes = new List<Size>();
+
+            if (category.CategoryName == "Shoes")
+            {
+                // Retrieve sizes with IDs from 9 to 24
+                productSizes = await _db.Sizes.Where(s => s.SizeID >= 9 && s.SizeID <= 24).ToListAsync();
+            }
+            else
+            {
+                // Retrieve sizes with IDs from 1 to 8
+                productSizes = await _db.Sizes.Where(s => s.SizeID >= 1 && s.SizeID <= 8).ToListAsync();
+            }
+
+            // Associate the product with the retrieved sizes
+            foreach (var size in productSizes)
+            {
+                var productSize = new ProductSize
+                {
+                    ProductID = newProduct.ProductID,
+                    SizeID = size.SizeID
+                };
+
+                _db.ProductSizes.Add(productSize);
             }
 
             await _db.SaveChangesAsync();

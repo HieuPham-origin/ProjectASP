@@ -17,13 +17,15 @@ namespace Fashion.DAL
         public DbSet<Favorite_Product> Favorite_Products { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderDetail> OrderDetails { get; set; }
-        public DbSet<Size> Sizes { get; set; } // Add DbSet for Size
+        public DbSet<Size> Sizes { get; set; }
+        public DbSet<ProductSize> ProductSizes { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Favorite_Product>()
                 .HasKey(fp => new { fp.ProductID, fp.CustomerID });
-
+            modelBuilder.Entity<ProductSize>()
+                .HasKey(ps => new { ps.ProductID, ps.SizeID });
             modelBuilder.Entity<OrderDetail>()
                 .HasKey(od => new { od.ProductID, od.OrderID });
 
@@ -50,6 +52,9 @@ namespace Fashion.DAL
                 .WithMany(c => c.Orders)
                 .HasForeignKey(o => o.CustomerID)
                 .OnDelete(DeleteBehavior.Cascade);
+
+
+            
 
             base.OnModelCreating(modelBuilder);
         }

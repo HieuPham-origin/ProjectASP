@@ -11,6 +11,6 @@ namespace Fashion.Models
         public string Name { get; set; }
 
         // Navigation properties
-        public virtual ICollection<Product> Products { get; set; }
+        public virtual ICollection<ProductSize> ProductSizes { get; set; }
     }
 }

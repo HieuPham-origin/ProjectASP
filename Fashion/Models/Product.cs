@@ -21,6 +21,6 @@ namespace Fashion.Models
         public virtual ICollection<ProductImage> ProductImages { get; set; }
         public virtual ICollection<OrderDetail> OrderDetails { get; set; }
         // Many-to-many relationship with Size
-        public virtual ICollection<Size> Sizes { get; set; }
+        public virtual ICollection<ProductSize> ProductSizes { get; set; }
     }
 }

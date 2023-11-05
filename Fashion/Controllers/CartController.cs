@@ -27,35 +27,45 @@ namespace Fashion.Controllers
 
             var orderDetails = _db.OrderDetails
                                 .Include(od => od.Product)
-                                .ThenInclude(p => p.ProductImages)
+                                .Include(od => od.Size) // Bao gồm thông tin về Size
                                 .Where(od => od.Order.CustomerID == int.Parse(customerId) && !od.Order.IsChecked)
+                                .ToList();
+
+            var productSizes = _db.ProductSizes
+                                .Include(ps => ps.Product)
+                                .Include(ps => ps.Size)
+                                .Where(ps => orderDetails.Any(od => od.ProductID == ps.ProductID))
                                 .ToList();
 
             var viewModel = new ShoppingCartViewModel
             {
-                OrderDetails = orderDetails
+                OrderDetails = orderDetails,
+                ProductSizes = productSizes
             };
-            //_db.OrderDetails.AddRange(orderDetails);
-            //_db.SaveChanges();
 
             return View(viewModel);
         }
-
-
         [HttpPost]
-        public IActionResult UpdateCart(List<int> productIds, List<int> orderIds, List<int> quantities)
+        public IActionResult UpdateCart(List<int> productIds, List<int> orderIds, List<int> quantities, List<int> sizeIds)
         {
             for (int i = 0; i < productIds.Count; i++)
             {
                 int productId = productIds[i];
                 int orderId = orderIds[i];
                 int quantity = quantities[i];
+                int sizeId = sizeIds[i];
 
                 var orderDetail = _db.OrderDetails.FirstOrDefault(od => od.ProductID == productId && od.OrderID == orderId);
                 if (orderDetail != null)
                 {
-                    orderDetail.Quantity = quantity;
-                    _db.SaveChanges();
+                    // Kiểm tra xem `sizeId` có giá trị hợp lệ hay không
+                    var validSize = _db.Sizes.FirstOrDefault(s => s.SizeID == sizeId);
+                    if (validSize != null)
+                    {
+                        orderDetail.Quantity = quantity;
+                        orderDetail.SizeID = sizeId;
+                        _db.SaveChanges();
+                    }
                 }
             }
 

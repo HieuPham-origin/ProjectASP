@@ -197,9 +197,14 @@ namespace Fashion.Migrations
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
+                    b.Property<int>("SizeID")
+                        .HasColumnType("int");
+
                     b.HasKey("ProductID", "OrderID");
 
                     b.HasIndex("OrderID");
+
+                    b.HasIndex("SizeID");
 
                     b.ToTable("OrderDetails");
                 });
@@ -263,6 +268,21 @@ namespace Fashion.Migrations
                     b.ToTable("ProductImages");
                 });
 
+            modelBuilder.Entity("Fashion.Models.ProductSize", b =>
+                {
+                    b.Property<int>("ProductID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SizeID")
+                        .HasColumnType("int");
+
+                    b.HasKey("ProductID", "SizeID");
+
+                    b.HasIndex("SizeID");
+
+                    b.ToTable("ProductSizes");
+                });
+
             modelBuilder.Entity("Fashion.Models.Size", b =>
                 {
                     b.Property<int>("SizeID")
@@ -278,21 +298,6 @@ namespace Fashion.Migrations
                     b.HasKey("SizeID");
 
                     b.ToTable("Sizes");
-                });
-
-            modelBuilder.Entity("ProductSize", b =>
-                {
-                    b.Property<int>("ProductsProductID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SizesSizeID")
-                        .HasColumnType("int");
-
-                    b.HasKey("ProductsProductID", "SizesSizeID");
-
-                    b.HasIndex("SizesSizeID");
-
-                    b.ToTable("ProductSize");
                 });
 
             modelBuilder.Entity("Fashion.Models.Favorite_Product", b =>
@@ -339,9 +344,17 @@ namespace Fashion.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Fashion.Models.Size", "Size")
+                        .WithMany()
+                        .HasForeignKey("SizeID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Order");
 
                     b.Navigation("Product");
+
+                    b.Navigation("Size");
                 });
 
             modelBuilder.Entity("Fashion.Models.Product", b =>
@@ -374,19 +387,23 @@ namespace Fashion.Migrations
                     b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("ProductSize", b =>
+            modelBuilder.Entity("Fashion.Models.ProductSize", b =>
                 {
-                    b.HasOne("Fashion.Models.Product", null)
-                        .WithMany()
-                        .HasForeignKey("ProductsProductID")
+                    b.HasOne("Fashion.Models.Product", "Product")
+                        .WithMany("ProductSizes")
+                        .HasForeignKey("ProductID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Fashion.Models.Size", null)
-                        .WithMany()
-                        .HasForeignKey("SizesSizeID")
+                    b.HasOne("Fashion.Models.Size", "Size")
+                        .WithMany("ProductSizes")
+                        .HasForeignKey("SizeID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Product");
+
+                    b.Navigation("Size");
                 });
 
             modelBuilder.Entity("Fashion.Models.Brand", b =>
@@ -416,6 +433,13 @@ namespace Fashion.Migrations
                     b.Navigation("OrderDetails");
 
                     b.Navigation("ProductImages");
+
+                    b.Navigation("ProductSizes");
+                });
+
+            modelBuilder.Entity("Fashion.Models.Size", b =>
+                {
+                    b.Navigation("ProductSizes");
                 });
 #pragma warning restore 612, 618
         }

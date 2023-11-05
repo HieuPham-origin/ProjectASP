@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "K+pjKIDrdhsoMTBSXo2ZSQzS1Pw3t9Oav1TSlG9VixM=",
+  "Hash": "BmGwCYTzl2kJ1zmcTaCtgcTLKmR6b8a5RFeSkxjClkQ=",
   "Source": "Fashion",
   "BasePath": "_content/Fashion",
   "Mode": "Default",
@@ -7327,12 +7327,12 @@
       "OriginalItemSpec": "wwwroot\\img\\payment.png"
     },
     {
-      "Identity": "E:\\Student\\HK5\\ASP\\final\\ProjectASP\\Fashion\\wwwroot\\img\\product_img\\22df6d11-49e7-4fb4-8292-57ec92928450.png",
+      "Identity": "E:\\Student\\HK5\\ASP\\final\\ProjectASP\\Fashion\\wwwroot\\img\\product_img\\2b160200-c4ed-43bc-9d2a-5ec46b0f2d4f.jpg",
       "SourceId": "Fashion",
       "SourceType": "Discovered",
       "ContentRoot": "E:\\Student\\HK5\\ASP\\final\\ProjectASP\\Fashion\\wwwroot\\",
       "BasePath": "_content/Fashion",
-      "RelativePath": "img/product_img/22df6d11-49e7-4fb4-8292-57ec92928450.png",
+      "RelativePath": "img/product_img/2b160200-c4ed-43bc-9d2a-5ec46b0f2d4f.jpg",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
@@ -7341,7 +7341,24 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\img\\product_img\\22df6d11-49e7-4fb4-8292-57ec92928450.png"
+      "OriginalItemSpec": "wwwroot\\img\\product_img\\2b160200-c4ed-43bc-9d2a-5ec46b0f2d4f.jpg"
+    },
+    {
+      "Identity": "E:\\Student\\HK5\\ASP\\final\\ProjectASP\\Fashion\\wwwroot\\img\\product_img\\676b69fa-f393-4a8b-8117-4892d7ae1cbe.png",
+      "SourceId": "Fashion",
+      "SourceType": "Discovered",
+      "ContentRoot": "E:\\Student\\HK5\\ASP\\final\\ProjectASP\\Fashion\\wwwroot\\",
+      "BasePath": "_content/Fashion",
+      "RelativePath": "img/product_img/676b69fa-f393-4a8b-8117-4892d7ae1cbe.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\img\\product_img\\676b69fa-f393-4a8b-8117-4892d7ae1cbe.png"
     },
     {
       "Identity": "E:\\Student\\HK5\\ASP\\final\\ProjectASP\\Fashion\\wwwroot\\img\\product_img\\Chanel Clutch Bag - Limited Edition.jpg",
@@ -7597,23 +7614,6 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\img\\product_img\\Chanel Women Wallet.jpg"
-    },
-    {
-      "Identity": "E:\\Student\\HK5\\ASP\\final\\ProjectASP\\Fashion\\wwwroot\\img\\product_img\\d5549387-c04f-4b9b-8db2-a90deea3c23a.jpg",
-      "SourceId": "Fashion",
-      "SourceType": "Discovered",
-      "ContentRoot": "E:\\Student\\HK5\\ASP\\final\\ProjectASP\\Fashion\\wwwroot\\",
-      "BasePath": "_content/Fashion",
-      "RelativePath": "img/product_img/d5549387-c04f-4b9b-8db2-a90deea3c23a.jpg",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\img\\product_img\\d5549387-c04f-4b9b-8db2-a90deea3c23a.jpg"
     },
     {
       "Identity": "E:\\Student\\HK5\\ASP\\final\\ProjectASP\\Fashion\\wwwroot\\img\\product_img\\Fred Perry Accessories Set.jpg",

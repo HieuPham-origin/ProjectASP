@@ -12,8 +12,11 @@ namespace Fashion.Models
         public int Quantity { get; set; }
         public int Price { get; set; }
 
+        public int SizeID { get; set; } // Thêm thuộc tính SizeId để lưu trữ thông tin về kích thước
+
         // Navigation properties
         public virtual Product Product { get; set; }
         public virtual Order Order { get; set; }
+        public virtual Size Size { get; set; } // Thêm thuộc tính Size để tạo quan hệ với bảng Size
     }
 }
