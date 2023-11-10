@@ -71,7 +71,18 @@ namespace Fashion.Controllers
             return RedirectToAction("ShoppingCart");
         }
 
+        [HttpPost]
+        public IActionResult RemoveFromCart(int productId, int orderId)
+        {
+            var orderDetail = _db.OrderDetails.FirstOrDefault(od => od.ProductID == productId && od.OrderID == orderId);
+            if (orderDetail != null)
+            {
+                _db.OrderDetails.Remove(orderDetail);
+                _db.SaveChanges();
+            }
 
+            return Json(new { success = true });
+        }
 
         public IActionResult Checkout()
         {

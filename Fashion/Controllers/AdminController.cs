@@ -91,7 +91,17 @@ namespace Fashion.Controllers
                 return NotFound();
             }
 
-            return View(product);
+            var images = await _db.ProductImages
+                .Where(i => i.ProductID == id)
+                .ToListAsync();
+
+            var viewModel = new ProductViewModel
+            {
+                Product = product,
+                Images = images
+            };
+
+            return View(viewModel);
         }
         [HttpPost]
         public async Task<IActionResult> DeleteProduct(int id)
@@ -107,6 +117,15 @@ namespace Fashion.Controllers
             await _db.SaveChangesAsync();
 
             return RedirectToAction("Product"); // Chuyển hướng người dùng đến trang hoặc hành động khác sau khi xóa thành công
+        }
+        [HttpGet]
+        public IActionResult SearchProduct(string searchTerm)
+        {
+            var products = _db.Products
+                .Where(p => p.ProductName.Contains(searchTerm))
+                .ToList();
+
+            return View("ProductSearch", products);
         }
         public IActionResult AddProduct()
         {
@@ -205,41 +224,126 @@ namespace Fashion.Controllers
             // Redirect the user to a page or action after successful addition
             return RedirectToAction("Product");
         }
-        [HttpPost]
-        public async Task<IActionResult> UpdateProduct(ProductViewModel model)
+        [HttpGet]
+        public async Task<IActionResult> UpdateProduct(int id)
         {
-            // Kiểm tra xem sản phẩm có tồn tại trong cơ sở dữ liệu hay không
-            var product = await _db.Products.FindAsync(model.Product.ProductID);
+            var product = await _db.Products
+                .Include(p => p.Category)
+                .Include(p => p.Brand)
+                .FirstOrDefaultAsync(c => c.ProductID == id);
 
             if (product == null)
             {
                 return NotFound();
             }
 
-            // Cập nhật thông tin sản phẩm
-            product.ProductName = model.Product.ProductName;
-            product.ProductDescription = model.Product.ProductDescription;
+            var categories = await _db.Categories.ToListAsync();
+            var brands = await _db.Brands.ToListAsync();
 
-            // Cập nhật thông tin liên quan đến danh mục và thương hiệu
+            var viewModel = new ProductViewModel
+            {
+                Product = product,
+                Categories = categories,
+                Brands = brands
+            };
+
+            return View(viewModel);
+        }
+        [HttpPost]
+        public async Task<IActionResult> UpdateProduct(ProductViewModel model, List<IFormFile> productImages)
+        {
+            // Find the existing product by productId
+            var existingProduct = await _db.Products.Include(p => p.Category).Include(p => p.Brand)
+                                                    .FirstOrDefaultAsync(p => p.ProductID == model.Product.ProductID);
+
+            if (existingProduct == null)
+            {
+                return NotFound();
+            }
+
+            // Update the existing product with the provided information
+            existingProduct.ProductName = model.Product.ProductName;
+            existingProduct.ProductDescription = model.Product.ProductDescription;
+            existingProduct.Price = model.Product.Price;
+            existingProduct.Quantity = model.Product.Quantity;
+
+            // Get the Category and Brand objects based on the provided IDs
             var category = await _db.Categories.FindAsync(model.Product.CategoryID);
-            if (category != null)
-            {
-                product.Category = category;
-            }
-
             var brand = await _db.Brands.FindAsync(model.Product.BrandID);
-            if (brand != null)
+
+            // Check if the Category and Brand exist
+            if (category == null || brand == null)
             {
-                product.Brand = brand;
+                return NotFound();
             }
 
-            product.Price = model.Product.Price;
-            product.Quantity = model.Product.Quantity;
+            // Associate the existing product with the updated Category and Brand
+            existingProduct.Category = category;
+            existingProduct.Brand = brand;
 
-            // Lưu thay đổi vào cơ sở dữ liệu
+            // Update the product in the database
+            _db.Products.Update(existingProduct);
             await _db.SaveChangesAsync();
 
-            // Chuyển hướng người dùng đến trang hoặc hành động khác sau khi cập nhật thành công
+            // Process uploaded images
+            foreach (var image in productImages)
+            {
+                if (image != null && image.Length > 0)
+                {
+                    // Save the image to a storage location
+                    var imagePath = Path.Combine(_webHostEnvironment.WebRootPath, "img/product_img", $"{Guid.NewGuid()}{Path.GetExtension(image.FileName)}");
+                    using (var stream = new FileStream(imagePath, FileMode.Create))
+                    {
+                        await image.CopyToAsync(stream);
+                    }
+
+                    // Create a new ProductImage object and associate it with the existing product
+                    var newProductImage = new ProductImage
+                    {
+                        ImageUrl = image.FileName,
+                        ProductID = existingProduct.ProductID
+                    };
+
+                    // Add the new product image to the database
+                    _db.ProductImages.Add(newProductImage);
+                }
+            }
+
+            await _db.SaveChangesAsync();
+
+            // Update product sizes in the ProductSize table
+            var productSizes = new List<Size>();
+
+            if (category.CategoryName == "Shoes")
+            {
+                // Retrieve sizes with IDs from 9 to 24
+                productSizes = await _db.Sizes.Where(s => s.SizeID >= 9 && s.SizeID <= 24).ToListAsync();
+            }
+            else
+            {
+                // Retrieve sizes with IDs from 1 to 8
+                productSizes = await _db.Sizes.Where(s => s.SizeID >= 1 && s.SizeID <= 8).ToListAsync();
+            }
+
+            // Remove existing product sizes associated with the existing product
+            var existingProductSizes = _db.ProductSizes.Where(ps => ps.ProductID == existingProduct.ProductID);
+            _db.ProductSizes.RemoveRange(existingProductSizes);
+
+            // Associate the existing product with the updated sizes
+            foreach (var size in productSizes)
+            {
+                var productSize = new ProductSize
+                {
+                    ProductID = existingProduct.ProductID,
+                    SizeID = size.SizeID
+                };
+
+                _db.ProductSizes.Add(productSize);
+            }
+
+            await _db.SaveChangesAsync();
+
+            // Redirect the user to a page or action after successful update
             return RedirectToAction("Product");
         }
         [HttpPost]

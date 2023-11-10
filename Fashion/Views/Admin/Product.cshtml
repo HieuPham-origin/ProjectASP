@@ -31,14 +31,20 @@
                 <div class="box-body">
                     <div class="relative">
                         <label for="hs-table-search" class="sr-only">Search</label>
-                        <div class="absolute inset-y-0 ltr:right-0 rtl:left-0 flex items-center ltr:pr-4 rtl:pl-4">
+                        @* <div class="absolute inset-y-0 ltr:right-0 rtl:left-0 flex items-center ltr:pr-4 rtl:pl-4">
                             <svg class="h-3.5 w-3.5 text-gray-400" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                  fill="currentColor" viewBox="0 0 16 16">
                                 <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z">
                                 </path>
                             </svg>
-                        </div><input type="text" name="hs-table-search" id="hs-table-search" class="p-3 ltr:pr-10 rtl:pl-10 ti-form-input"
-                                     placeholder="Search for items">
+                        </div> *@
+                        <form action="@Url.Action("SearchProduct", "Admin")" method="get">
+                            <!-- Updated action attribute -->
+                            <input type="text" id="product-search" 
+                            placeholder="Search products">
+                            <button type="submit"><span class="icon_search"></span></button>
+                        </form>
+                       
                     </div>
                 </div>
             </div>
@@ -137,7 +143,7 @@
                     </div>
                 </div>
             </div>
-            <div class="grid grid-cols-12 gap-x-6">
+            <div class="grid grid-cols-12 gap-x-6" >
                 @foreach (var product in Model.Products)
                 {
                     @foreach (var image in Model.ProductImages.Where(pi => pi.ProductID == product.ProductID))
@@ -151,7 +157,7 @@
 
                                         <ul class="product__hover">
                                             <li>
-                                            <a href="@Url.Action("Update_Product", "Admin", new { id = product.ProductID })"
+                                            <a href="@Url.Action("UpdateProduct", "Admin", new { id = product.ProductID })"
                                                 class="m-0 hs-tooltip-toggle relative w-8 h-8 ti-btn rounded-full p-0 transition-none focus:outline-none ti-btn-soft-primary"
                                                 onmouseenter="showTooltip(this)"
                                                 onmouseleave="hideTooltip(this)">
@@ -192,9 +198,7 @@
                                     </div>
                                     <div class="product__item__text">
                                         <h6>@product.ProductName</h6>
-                                        <form id="addToCart-@product.ProductID" method="post" action="@Url.Action("AddToCart", "Home")">
-                                            <input type="hidden" name="productId" value="@product.ProductID" />        
-                                        </form>
+                                       
                                         <h5>@product.Price.ToString("C")</h5>
                                     </div>
                                 </div>
@@ -204,6 +208,7 @@
                         }
                     }
             </div>
+            
             <div class="product__pagination">
                 @for (int i = 1; i <= ViewBag.TotalPages; i++)
                 {
@@ -224,142 +229,10 @@
                 }
             </div>
         </div>
-        </div>
     </div>
+</div>
+
     <!-- End::row-1 -->
 
-</div>
-<!-- Start::main-content -->
-            </div>
 
-<!-- END MAIN-CONTENT -->
-<!-- SEARCH-MODAL -->
-
-<div id="search-modal" class="hs-overlay ti-modal hidden">
-    <div class="ti-modal-box">
-        <div class="ti-modal-content">
-            <div class="ti-modal-body">
-                <div class="header-search">
-                    <label for="icon" class="sr-only">Search</label>
-                    <div class="relative">
-                        <div class="search-btn">
-                            <i class="ri ri-search-2-line search-btn-icon"></i>
-                        </div>
-                        <input type="text" id="icon" name="icon" class="py-2 ltr:pl-11 rtl:pr-11 ti-form-input focus:z-10"
-                               placeholder="Search">
-                        <div class="voice-search">
-                            <i class="ri ri-mic-2-line voice-btn-icon"></i>
-                        </div>
-                        <div class="search-dropdown">
-                            <i class="ri ri-more-2-line search-dropdown-btn-icon"></i>
-                        </div>
-                    </div>
-                </div>
-                <div class="mt-5">
-                    <p class="font-semibold text-[13px] text-gray-400 dark:text-gray-200 mb-2">Are You Looking For...</p>
-                    <div class="badge rounded-sm bg-secondary/20 text-secondary relative header-box">
-                        <a href="team.html" class="w-full my-auto items-center flex space-x-2 rtl:space-x-reverse">
-                            <span class="inline-block text-secondary mr-1"><i class="ri ri-user-line text-sm"></i></span>
-                            Team
-                        </a>
-                        <a href="javascript:void(0);"
-                           class="header-remove-btn flex-shrink-0 h-4 w-4 inline-flex items-center justify-center rounded-full text-secondary hover:bg-secondary hover:text-secondary focus:outline-none focus:bg-secondary focus:text-white">
-                            <span class="sr-only">Remove badge</span>
-                            <svg class="h-4 w-4 hover:fill-white" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                 fill="currentColor" viewBox="0 0 16 16">
-                                <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z">
-                                </path>
-                            </svg>
-                        </a>
-                    </div>
-                    <div class="badge rounded-sm bg-secondary/20 text-secondary relative header-box">
-                        <a href="form-elements.html" class="w-full my-auto items-center flex space-x-2 rtl:space-x-reverse">
-                            <span class="inline-block text-secondary mr-1"><i class="ri ri-file-text-line text-sm"></i></span>
-                            Forms
-                        </a>
-                        <a href="javascript:void(0);"
-                           class="header-remove-btn flex-shrink-0 h-4 w-4 inline-flex items-center justify-center rounded-full text-secondary hover:bg-secondary hover:text-secondary focus:outline-none focus:bg-secondary focus:text-white">
-                            <span class="sr-only">Remove badge</span>
-                            <svg class="h-4 w-4 hover:fill-white" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                 fill="currentColor" viewBox="0 0 16 16">
-                                <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z">
-                                </path>
-                            </svg>
-                        </a>
-                    </div>
-                    <div class="badge rounded-sm bg-secondary/20 text-secondary relative header-box">
-                        <a href="vector-maps.html" class="w-full my-auto items-center flex space-x-2 rtl:space-x-reverse">
-                            <span class="inline-block text-secondary mr-1"><i class="ri ri-map-pin-line text-sm"></i></span>
-                            Maps
-                        </a>
-                        <a href="javascript:void(0);"
-                           class="header-remove-btn flex-shrink-0 h-4 w-4 inline-flex items-center justify-center rounded-full text-secondary hover:bg-secondary hover:text-secondary focus:outline-none focus:bg-secondary focus:text-white">
-                            <span class="sr-only">Remove badge</span>
-                            <svg class="h-4 w-4 hover:fill-white" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                 fill="currentColor" viewBox="0 0 16 16">
-                                <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z">
-                                </path>
-                            </svg>
-                        </a>
-                    </div>
-                    <div class="badge rounded-sm bg-secondary/20 text-secondary relative header-box">
-                        <a href="widgets.html" class="w-full my-auto items-center flex space-x-2 rtl:space-x-reverse">
-                            <span class="inline-block text-secondary mr-1"><i class="ri ri-server-line text-sm"></i></span>
-                            Widgets
-                        </a>
-                        <a href="javascript:void(0);"
-                           class="header-remove-btn flex-shrink-0 h-4 w-4 inline-flex items-center justify-center rounded-full text-secondary hover:bg-secondary hover:text-secondary focus:outline-none focus:bg-secondary focus:text-white">
-                            <span class="sr-only">Remove badge</span>
-                            <svg class="h-4 w-4 hover:fill-white" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                 fill="currentColor" viewBox="0 0 16 16">
-                                <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z">
-                                </path>
-                            </svg>
-                        </a>
-                    </div>
-                </div>
-                <div class="mt-5">
-                    <p class="font-semibold text-sm text-gray-500 mb-2">Recent Search :</p>
-                    <div class="p-2 border dark:border-white/10 rounded-sm flex items-center text-gray-500 mb-1 relative header-box">
-                        <a href="notifications.html" class="w-full my-auto items-center flex">
-                            <span class="text-sm">Notifications</span>
-                        </a>
-                        <a aria-label="anchor" href="javascript:void(0);"
-                           class="ltr:ml-auto rtl:mr-auto flex-shrink-0 h-4 w-4 inline-flex items-center justify-center rounded-full text-gray-500 focus:outline-none header-remove-btn">
-                            <i class="ri-close-line"></i>
-                        </a>
-                    </div>
-                    <div class="p-2 border dark:border-white/10 rounded-sm flex items-center text-gray-500 mb-1 relative header-box">
-                        <a href="alerts.html" class="w-full my-auto items-center flex">
-                            <span class="text-sm">Alerts</span>
-                        </a>
-                        <a aria-label="anchor" href="javascript:void(0);"
-                           class="ltr:ml-auto rtl:mr-auto flex-shrink-0 h-4 w-4 inline-flex items-center justify-center rounded-full text-gray-500 focus:outline-none header-remove-btn">
-                            <i class="ri-close-line"></i>
-                        </a>
-                    </div>
-                    <div class="p-2 border dark:border-white/10 rounded-sm flex items-center text-gray-500 relative header-box">
-                        <a href="tables.html" class="w-full my-auto items-center flex">
-                            <span class="text-sm">Tables</span>
-                        </a>
-                        <a aria-label="anchor" href="javascript:void(0);"
-                           class="ltr:ml-auto rtl:mr-auto flex-shrink-0 h-4 w-4 inline-flex items-center justify-center rounded-full text-gray-500 focus:outline-none header-remove-btn">
-                            <i class="ri-close-line"></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="ti-modal-footer">
-                <div class="inline-flex rounded-md shadow-sm">
-                    <button type="button" class="ti-btn-group py-1 ti-btn-soft-primary dark:border-white/10">
-                        Search
-                    </button>
-                    <button type="button" class="ti-btn-group py-1 ti-btn-primary dark:border-white/10">
-                        Clear Recents
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 

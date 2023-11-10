@@ -25,7 +25,6 @@ namespace Fashion.Controllers
         }
         public IActionResult Login()
 		{
-
 			return View();
 		}
 
@@ -37,10 +36,18 @@ namespace Fashion.Controllers
                 var user = await _userManager.FindByEmailAsync(email);
                 if (user != null && await _userManager.CheckPasswordAsync(user, password))
                 {
-                    HttpContext.Session.SetString("CustomerId", user.CustomerID.ToString());
-                    HttpContext.Session.SetString("CustomerEmail", user.NormalizedEmail);
-                    HttpContext.Session.SetString("CustomerLastName", user.LastName);
-                    return RedirectToAction("Index", "Home");
+                    string role = GetUserRole(email);
+                    if (role == "admin")
+                    {
+                        return RedirectToAction("Sales", "Admin");
+                    }
+                    else if (role == "user")
+                    {
+                        HttpContext.Session.SetString("CustomerId", user.CustomerID.ToString());
+                        HttpContext.Session.SetString("CustomerEmail", user.NormalizedEmail);
+                        HttpContext.Session.SetString("CustomerLastName", user.LastName);
+                        return RedirectToAction("Index", "Home");
+                    }
                 }
                 else
                 {
@@ -50,6 +57,24 @@ namespace Fashion.Controllers
 
             return View();
         }
+
+
+
+        public string GetUserRole(string email)
+        {
+            var user = _userManager.Users.FirstOrDefault(u => u.Email == email);
+            if (user != null)
+            {
+                return user.Role;
+            }
+
+            return "";
+        }
+
+
+
+
+
 
 
         public IActionResult Favorites() 

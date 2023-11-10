@@ -98,7 +98,7 @@ namespace Fashion.Controllers
             return View(viewModel);
         }
 
-        [HttpPost]
+        [HttpGet]
         public IActionResult Search(string searchTerm)
         {
             var products = _db.Products
@@ -107,7 +107,19 @@ namespace Fashion.Controllers
 
             return View("ProductSearch", products);
         }
+        [HttpPost]
+        public ActionResult RemoveFromFavorites(int productId)
+        {
+            // Tìm và xóa sản phẩm yêu thích từ cơ sở dữ liệu
+            var favoriteProduct = _db.Favorite_Products.FirstOrDefault(fp => fp.ProductID == productId);
+            if (favoriteProduct != null)
+            {
+                _db.Favorite_Products.Remove(favoriteProduct);
+                _db.SaveChanges();
+            }
 
+            return Json(new { success = true });
+        }
         [HttpGet]
         public IActionResult ViewFavorites(int page = 1)
         {
