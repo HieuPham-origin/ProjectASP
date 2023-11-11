@@ -18,17 +18,32 @@ namespace Fashion.Controllers
 
         public IActionResult Sales()
         {
+            var customerId = HttpContext.Session.GetString("CustomerId");
+            if (customerId == null)
+            {
+                return RedirectToAction("Login", "User");
+            }
             return View();
         }
 
         public IActionResult Invoice()
         {
+            var customerId = HttpContext.Session.GetString("CustomerId");
+            if (customerId == null)
+            {
+                return RedirectToAction("Login", "User");
+            }
             var orders = _db.Orders.Include(o => o.Customer).ToList();
             return View(orders);
         }
         [HttpPost]
         public IActionResult CheckedOrder(int orderId)
         {
+            var customerId = HttpContext.Session.GetString("CustomerId");
+            if (customerId == null)
+            {
+                return RedirectToAction("Login", "User");
+            }
             var order = _db.Orders.FirstOrDefault(o => o.OrderID == orderId);
 
             if (order == null)
@@ -65,11 +80,21 @@ namespace Fashion.Controllers
 
         public IActionResult Customer()
         {
+            var customerId = HttpContext.Session.GetString("CustomerId");
+            if (customerId == null)
+            {
+                return RedirectToAction("Login", "User");
+            }
             var customers = _db.Customers.ToList();
             return View(customers);
         }
         public async Task<IActionResult> Customer_Detail(int id)
         {
+            var customerId = HttpContext.Session.GetString("CustomerId");
+            if (customerId == null)
+            {
+                return RedirectToAction("Login", "User");
+            }
             var customer = await _db.Customers.FirstOrDefaultAsync(c => c.CustomerID == id);
 
             if (customer == null)
@@ -81,6 +106,12 @@ namespace Fashion.Controllers
         }
         public async Task<IActionResult> Product_Detail(int id)
         {
+
+            var customerId = HttpContext.Session.GetString("CustomerId");
+            if (customerId == null)
+            {
+                return RedirectToAction("Login", "User");
+            }
             var product = await _db.Products
                 .Include(p => p.Category)
                 .Include(p => p.Brand)
@@ -106,6 +137,12 @@ namespace Fashion.Controllers
         [HttpPost]
         public async Task<IActionResult> DeleteProduct(int id)
         {
+
+            var customerId = HttpContext.Session.GetString("CustomerId");
+            if (customerId == null)
+            {
+                return RedirectToAction("Login", "User");
+            }
             var product = await _db.Products.FindAsync(id);
 
             if (product == null)
@@ -121,6 +158,11 @@ namespace Fashion.Controllers
         [HttpGet]
         public IActionResult SearchProduct(string searchTerm)
         {
+            var customerId = HttpContext.Session.GetString("CustomerId");
+            if (customerId == null)
+            {
+                return RedirectToAction("Login", "User");
+            }
             var products = _db.Products
                 .Where(p => p.ProductName.Contains(searchTerm))
                 .ToList();
@@ -129,6 +171,11 @@ namespace Fashion.Controllers
         }
         public IActionResult AddProduct()
         {
+            var customerId = HttpContext.Session.GetString("CustomerId");
+            if (customerId == null)
+            {
+                return RedirectToAction("Login", "User");
+            }
             var model = new ProductViewModel();
 
             // Populate the necessary data for the view (e.g., categories, brands)
@@ -140,6 +187,11 @@ namespace Fashion.Controllers
         [HttpPost]
         public async Task<IActionResult> AddProduct(ProductViewModel model, List<IFormFile> productImages)
         {
+            var customerId = HttpContext.Session.GetString("CustomerId");
+            if (customerId == null)
+            {
+                return RedirectToAction("Login", "User");
+            }
             // Create a new Product object with the provided information
             var newProduct = new Product
             {
@@ -227,6 +279,11 @@ namespace Fashion.Controllers
         [HttpGet]
         public async Task<IActionResult> UpdateProduct(int id)
         {
+            var customerId = HttpContext.Session.GetString("CustomerId");
+            if (customerId == null)
+            {
+                return RedirectToAction("Login", "User");
+            }
             var product = await _db.Products
                 .Include(p => p.Category)
                 .Include(p => p.Brand)
@@ -346,6 +403,9 @@ namespace Fashion.Controllers
             // Redirect the user to a page or action after successful update
             return RedirectToAction("Product");
         }
+
+
+
         [HttpPost]
         public async Task<IActionResult> UpdateCustomer(Customer model)
         {
@@ -378,6 +438,9 @@ namespace Fashion.Controllers
             // Nếu dữ liệu không hợp lệ, hiển thị form cập nhật lại cho người dùng
             return View("Customer_Detail", model);
         }
+
+
+
         [HttpPost]
         public async Task<IActionResult> DeleteCustomer(int id)
         {
@@ -393,8 +456,15 @@ namespace Fashion.Controllers
 
             return RedirectToAction("Customer"); // Chuyển hướng người dùng đến trang hoặc hành động khác sau khi xóa thành công
         }
+
+
         public IActionResult Product(int page = 1, int? categoryId = null, int? brandId = null)
         {
+            var customerId = HttpContext.Session.GetString("CustomerId");
+            if (customerId == null)
+            {
+                return RedirectToAction("Login", "User");
+            }
             int pageSize = 12;
             int skip = (page - 1) * pageSize;
 

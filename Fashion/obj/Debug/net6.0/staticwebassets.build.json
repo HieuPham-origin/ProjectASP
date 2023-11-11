@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "BmGwCYTzl2kJ1zmcTaCtgcTLKmR6b8a5RFeSkxjClkQ=",
+  "Hash": "pgI7VWOu+RWwq12u5Su+XDPLGnPNc++ntpxXBpUwBRI=",
   "Source": "Fashion",
   "BasePath": "_content/Fashion",
   "Mode": "Default",
@@ -6985,6 +6985,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\img\\banner\\banner-3.jpg"
+    },
+    {
+      "Identity": "E:\\Student\\HK5\\ASP\\final\\ProjectASP\\Fashion\\wwwroot\\img\\bg.jpg",
+      "SourceId": "Fashion",
+      "SourceType": "Discovered",
+      "ContentRoot": "E:\\Student\\HK5\\ASP\\final\\ProjectASP\\Fashion\\wwwroot\\",
+      "BasePath": "_content/Fashion",
+      "RelativePath": "img/bg.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\img\\bg.jpg"
     },
     {
       "Identity": "E:\\Student\\HK5\\ASP\\final\\ProjectASP\\Fashion\\wwwroot\\img\\blog\\details\\blog-author.jpg",

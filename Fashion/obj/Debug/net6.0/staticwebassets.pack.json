@@ -1493,6 +1493,10 @@
       "PackagePath": "staticwebassets\\img\\banner\\banner-3.jpg"
     },
     {
+      "Id": "E:\\Student\\HK5\\ASP\\final\\ProjectASP\\Fashion\\wwwroot\\img\\bg.jpg",
+      "PackagePath": "staticwebassets\\img\\bg.jpg"
+    },
+    {
       "Id": "E:\\Student\\HK5\\ASP\\final\\ProjectASP\\Fashion\\wwwroot\\img\\blog\\details\\blog-author.jpg",
       "PackagePath": "staticwebassets\\img\\blog\\details\\blog-author.jpg"
     },
