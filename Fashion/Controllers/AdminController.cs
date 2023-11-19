@@ -18,11 +18,6 @@ namespace Fashion.Controllers
 
         public IActionResult Sales()
         {
-            var customerId = HttpContext.Session.GetString("CustomerId");
-            if (customerId == null)
-            {
-                return RedirectToAction("Login", "User");
-            }
             return View();
         }
 

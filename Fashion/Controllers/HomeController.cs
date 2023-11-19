@@ -18,19 +18,55 @@ namespace Fashion.Controllers
 			_db = db;
 		}
 
-		public IActionResult Index()
+        public IActionResult Index()
         {
+            var hotSales = _db.OrderDetails
+                .GroupBy(od => od.ProductID)
+                .OrderByDescending(g => g.Count())
+                .Take(2)
+                .Select(g => g.First().Product)
+                .ToList();
 
-            return View();
+            var newArrivals = _db.OrderDetails
+                .OrderByDescending(od => od.ProductID)
+                .Take(4)
+                .Select(od => od.Product)
+                .ToList();
+
+            var viewModel = new HomeViewModel
+            {
+                HotSales = hotSales,
+                NewArrivals = newArrivals
+            };
+
+            return View(viewModel);
         }
 
 
-        public IActionResult Shop(int page = 1, int? categoryId = null, int? brandId = null, int? minPrice = null, int? maxPrice = null, string search = null)
+        public IActionResult Shop(int page = 1, int? categoryId = null, int? brandId = null, int? minPrice = null, int? maxPrice = null, string search = null, string  sortOption = null)
         {
             int pageSize = 12;
             int skip = (page - 1) * pageSize;
 
             var query = _db.Products.AsQueryable();
+
+
+            if (!string.IsNullOrEmpty(sortOption))
+            {
+                switch (sortOption)
+                {
+                    case "low-to-high":
+                        query = query.OrderBy(p => p.Price);
+
+                        break;
+                    case "zero-to-fiftyfive":       
+                        query = query.Where(p => p.Price >= 0 && p.Price <= 55);
+                        break;
+                    case "above":
+                        query = query.Where(p => p.Price > 55 && p.Price <= 100);
+                        break;
+                }
+            }
 
             if (categoryId.HasValue)
             {
@@ -42,10 +78,12 @@ namespace Fashion.Controllers
                 query = query.Where(p => p.BrandID == brandId.Value);
             }
 
-            if (minPrice.HasValue)
+
+            if (!string.IsNullOrEmpty(search))
             {
-                query = query.Where(p => p.Price >= minPrice.Value);
+                query = query.Where(p => p.ProductName.Contains(search));
             }
+
 
             if (maxPrice.HasValue)
             {
@@ -56,6 +94,8 @@ namespace Fashion.Controllers
             {
                 query = query.Where(p => p.ProductName.Contains(search));
             }
+
+
 
             var products = query
                     .OrderBy(p => p.ProductID)
@@ -77,11 +117,21 @@ namespace Fashion.Controllers
 
             var brands = _db.Brands.ToList();
 
-            int totalProducts = _db.Products.Count();
+            var filteredProducts = query.ToList();
+
+            int totalProducts = filteredProducts.Count;
             int totalPages = (int)Math.Ceiling((double)totalProducts / pageSize);
 
             ViewBag.CurrentPage = page;
+            ViewBag.TotalProduct = totalProducts;
             ViewBag.TotalPages = totalPages;
+            ViewBag.TotalPages = totalPages;
+            ViewBag.CategoryId = categoryId;
+            ViewBag.BrandId = brandId;
+            ViewBag.MinPrice = minPrice;
+            ViewBag.MaxPrice = maxPrice;
+            ViewBag.Search = search;
+            ViewBag.SortOption = sortOption;
 
             var productImages = products.SelectMany(p => p.ProductImages).ToList();
 
@@ -90,9 +140,9 @@ namespace Fashion.Controllers
                 Products = products,
                 Categories = categories,
                 Brands = brands,
-                ProductImages = productImages, // Assign the list of ProductImages
+                ProductImages = productImages,
                 MinPrice = minPrice ?? 0,
-                MaxPrice = maxPrice ?? 0
+                MaxPrice = maxPrice ?? 0,
             };
 
             return View(viewModel);
@@ -237,6 +287,25 @@ namespace Fashion.Controllers
         public IActionResult Blog()
         {
             return View();
+        }
+
+        public IActionResult Delivery()
+        {
+            var customerId = HttpContext.Session.GetString("CustomerId");
+            if (customerId == null)
+            {
+                return RedirectToAction("Login", "User");
+            }
+
+
+            var orders = _db.Orders
+                .Where(o => o.CustomerID == int.Parse(customerId) && o.IsChecked)
+                .Include(o => o.OrderDetails)
+                .ThenInclude(p => p.Product)
+                .ToList();
+
+            return View(orders);
+
         }
     }
 }

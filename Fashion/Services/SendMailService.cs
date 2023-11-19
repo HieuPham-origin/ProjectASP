@@ -3,6 +3,7 @@ using System.Net.Mail;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.Extensions.Configuration;
+using MimeKit;
 
 public interface IEmailSender
 {
@@ -28,6 +29,7 @@ public class SendMailService : IEmailSender
             using (MailMessage mailMessage = new MailMessage("phuhoang07051003@gmail.com", email))
             {
                 mailMessage.Subject = subject;
+                mailMessage.IsBodyHtml = true;
                 mailMessage.Body = message;
 
                 try

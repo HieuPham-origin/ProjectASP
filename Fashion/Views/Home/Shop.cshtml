@@ -87,87 +87,6 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="card">
-                                <div class="card-heading">
-                                    <a data-toggle="collapse" data-target="#collapseFour">Size</a>
-                                </div>
-                                <div id="collapseFour" class="collapse show" data-parent="#accordionExample">
-                                    <div class="card-body">
-                                        <div class="shop__sidebar__size">
-                                            <label for="xs">
-                                                xs
-                                                <input type="radio" id="xs">
-                                            </label>
-                                            <label for="sm">
-                                                s
-                                                <input type="radio" id="sm">
-                                            </label>
-                                            <label for="md">
-                                                m
-                                                <input type="radio" id="md">
-                                            </label>
-                                            <label for="xl">
-                                                xl
-                                                <input type="radio" id="xl">
-                                            </label>
-                                            <label for="2xl">
-                                                2xl
-                                                <input type="radio" id="2xl">
-                                            </label>
-                                            <label for="xxl">
-                                                xxl
-                                                <input type="radio" id="xxl">
-                                            </label>
-                                            <label for="3xl">
-                                                3xl
-                                                <input type="radio" id="3xl">
-                                            </label>
-                                            <label for="4xl">
-                                                4xl
-                                                <input type="radio" id="4xl">
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card">
-                                <div class="card-heading">
-                                    <a data-toggle="collapse" data-target="#collapseFive">Colors</a>
-                                </div>
-                                <div id="collapseFive" class="collapse show" data-parent="#accordionExample">
-                                    <div class="card-body">
-                                        <div class="shop__sidebar__color">
-                                            <label class="c-1" for="sp-1">
-                                                <input type="radio" id="sp-1">
-                                            </label>
-                                            <label class="c-2" for="sp-2">
-                                                <input type="radio" id="sp-2">
-                                            </label>
-                                            <label class="c-3" for="sp-3">
-                                                <input type="radio" id="sp-3">
-                                            </label>
-                                            <label class="c-4" for="sp-4">
-                                                <input type="radio" id="sp-4">
-                                            </label>
-                                            <label class="c-5" for="sp-5">
-                                                <input type="radio" id="sp-5">
-                                            </label>
-                                            <label class="c-6" for="sp-6">
-                                                <input type="radio" id="sp-6">
-                                            </label>
-                                            <label class="c-7" for="sp-7">
-                                                <input type="radio" id="sp-7">
-                                            </label>
-                                            <label class="c-8" for="sp-8">
-                                                <input type="radio" id="sp-8">
-                                            </label>
-                                            <label class="c-9" for="sp-9">
-                                                <input type="radio" id="sp-9">
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -177,17 +96,23 @@
                     <div class="row">
                         <div class="col-lg-6 col-md-6 col-sm-6">
                             <div class="shop__product__option__left">
-                                <p>Showing 1–12 of 126 results</p>
+                                @{
+                                    int start = (ViewBag.CurrentPage - 1) * 12 + 1;
+                                    int end = Math.Min(start + 11, ViewBag.TotalProduct);
+                                }
+                                <p>Showing @start–@end of @ViewBag.TotalProduct results</p>
                             </div>
                         </div>
                         <div class="col-lg-6 col-md-6 col-sm-6">
-                            <div class="shop__product__option__right">
-                                <p>Sort by Price:</p>
-                                <select>
-                                    <option value ="low-to-high">Low To High</option>
-                                    <option value = "zero-to-fiftyfive">$0 - $55</option>
-                                    <option value = "above">$55 - $100</option>   
-                                </select>
+                            <div class="shop__product__option__right">  
+                                <form asp-action="Shop" method="get">
+                                    <select name="sortOption" onchange="this.form.submit()">
+                                        <option value="">Sort by Price:</option>
+                                        <option value="low-to-high">Low To High</option>
+                                        <option value="zero-to-fiftyfive">$0 - $55</option>
+                                        <option value="above">$55 - $100</option>
+                                    </select>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -241,12 +166,11 @@
                 </div>
                 <div class="row">
                     <div class="col-lg-12">
-
                         <div class="product__pagination">
-@*                             @if (ViewBag.CurrentPage > 1)
+                            @if (ViewBag.CurrentPage > 1)
                             {
-                                <a href="@Url.Action("Shop", new { page = ViewBag.CurrentPage - 1 })">Previous</a>
-                            } *@
+                                <a href="@Url.Action("Shop", new { page = ViewBag.CurrentPage - 1, categoryId = ViewBag.CategoryId, brandId = ViewBag.BrandId, minPrice = ViewBag.MinPrice, maxPrice = ViewBag.MaxPrice, search = ViewBag.Search, sortOption = ViewBag.SortOption })"></a>
+                            }
                             @for (int i = 1; i <= ViewBag.TotalPages; i++)
                             {
                                 if (i == ViewBag.CurrentPage)
@@ -255,14 +179,13 @@
                                 }
                                 else
                                 {
-                                    <a href="@Url.Action("Shop", new { page = i })">@i</a>
+                                    <a href="@Url.Action("Shop", new { page = i, categoryId = ViewBag.CategoryId, brandId = ViewBag.BrandId, minPrice = ViewBag.MinPrice, maxPrice = ViewBag.MaxPrice, search = ViewBag.Search, sortOption = ViewBag.SortOption })">@i</a>
                                 }
                             }
-
                             @if (ViewBag.CurrentPage < ViewBag.TotalPages)
                             {
                                 <span>...</span>
-                                <a href="@Url.Action("Shop", new { page = ViewBag.TotalPages })">@ViewBag.TotalPages</a>
+                                <a href="@Url.Action("Shop", new { page = ViewBag.TotalPages, categoryId = ViewBag.CategoryId, brandId = ViewBag.BrandId, minPrice = ViewBag.MinPrice, maxPrice = ViewBag.MaxPrice, search = ViewBag.Search, sortOption = ViewBag.SortOption })">@ViewBag.TotalPages</a>
                             }
                         </div>
                     </div>

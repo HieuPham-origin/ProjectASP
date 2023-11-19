@@ -10,5 +10,7 @@
         public int MinPrice { get; set; }
         public int MaxPrice { get; set; }
         public string Search { get; set; }
+
+        public string SortOption { get; set; }
     }
 }

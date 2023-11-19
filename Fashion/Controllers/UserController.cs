@@ -72,11 +72,6 @@ namespace Fashion.Controllers
         }
 
 
-
-
-
-
-
         public IActionResult Favorites() 
         {
             return View();
@@ -160,7 +155,7 @@ namespace Fashion.Controllers
             await _emailSender.SendEmailAsync(
                 email,
                 "Reset Password",
-                $"Please reset your password by <a href=\"" + callbackUrl + "\">clicking here</a>.");
+                $"Please reset your password by <a href='{ callbackUrl }'> clicking here</a>.");
 
             return View("ForgotPasswordConfirmation");	
         }
