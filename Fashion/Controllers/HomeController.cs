@@ -21,16 +21,19 @@ namespace Fashion.Controllers
         public IActionResult Index()
         {
             var hotSales = _db.OrderDetails
-                .GroupBy(od => od.ProductID)
-                .OrderByDescending(g => g.Count())
-                .Take(2)
-                .Select(g => g.First().Product)
-                .ToList();
+               .Include(od => od.Product)
+               .ThenInclude(p => p.ProductImages)
+               .GroupBy(od => od.Product.ProductID)
+               .OrderByDescending(g => g.Count())
+               .Take(4)
+               .Select(g => g.First().Product)
+               .ToList();
 
-            var newArrivals = _db.OrderDetails
-                .OrderByDescending(od => od.ProductID)
-                .Take(4)
-                .Select(od => od.Product)
+           
+            var newArrivals = _db.Products
+                .OrderByDescending(p => p.ProductID)
+                .Take(5) 
+                .Include(p => p.ProductImages)
                 .ToList();
 
             var viewModel = new HomeViewModel

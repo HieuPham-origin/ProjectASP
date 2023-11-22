@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using NuGet.Common;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Fashion.Controllers
 {
@@ -16,11 +17,13 @@ namespace Fashion.Controllers
 		private readonly FashionShopContext _db;
         private readonly IEmailSender _emailSender;
         private readonly UserManager<Customer> _userManager;
-        public UserController(FashionShopContext db, IEmailSender emailSender, UserManager<Customer> userManager)
+        private readonly SignInManager<Customer> _signInManager;
+        public UserController(FashionShopContext db, IEmailSender emailSender, UserManager<Customer> userManager, SignInManager<Customer> signInManager)
 		{
 			_db = db;
             _emailSender = emailSender;
             _userManager = userManager;
+            _signInManager = signInManager;
 
         }
         public IActionResult Login()
@@ -39,6 +42,9 @@ namespace Fashion.Controllers
                     string role = GetUserRole(email);
                     if (role == "admin")
                     {
+                        HttpContext.Session.SetString("CustomerId", user.CustomerID.ToString());
+                        HttpContext.Session.SetString("CustomerEmail", user.NormalizedEmail);
+                        HttpContext.Session.SetString("CustomerLastName", user.LastName);
                         return RedirectToAction("Sales", "Admin");
                     }
                     else if (role == "user")
@@ -146,7 +152,6 @@ namespace Fashion.Controllers
 
 
 
-            // Generate the token
             var token = await _userManager.GeneratePasswordResetTokenAsync(user);
 
             var callbackUrl = Url.Action("ResetPassword", "User", new { token = token, email = email }, Request.Scheme);
@@ -223,6 +228,55 @@ namespace Fashion.Controllers
         {
             return View();
         }
+
+        [HttpGet]
+        public IActionResult ChangePassword()
+        {
+
+            var customerId = HttpContext.Session.GetString("CustomerId");
+            if (customerId == null)
+            {
+                return RedirectToAction("Login", "User");
+            }
+
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ChangePassword(string oldPassword, string newPassword)
+        {
+            var customerId = HttpContext.Session.GetString("CustomerId");
+
+            var user = await _userManager.Users.FirstOrDefaultAsync(u => u.CustomerID.ToString() == customerId);
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            // Verify the old password
+            var passwordChangeResult = await _userManager.ChangePasswordAsync(user, oldPassword, newPassword);
+            if (!passwordChangeResult.Succeeded)
+            {
+                foreach (var error in passwordChangeResult.Errors)
+                {
+                    ModelState.AddModelError(string.Empty, error.Description);
+                }
+                return View();
+            }
+
+            return RedirectToAction("ChangePasswordSuccess");
+        }
+
+
+        public IActionResult ChangePasswordSuccess()
+        {
+            return View();
+        }
+
+
+
+
 
 
 

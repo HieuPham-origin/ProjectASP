@@ -1,5 +1,6 @@
 ﻿using Fashion.DAL;
 using Fashion.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,10 +11,13 @@ namespace Fashion.Controllers
 
 
         private readonly FashionShopContext _db;
+        private readonly UserManager<Customer> _userManager;
 
-        public CartController(FashionShopContext db)
+
+        public CartController(FashionShopContext db, UserManager<Customer> userManager)
         {
             _db = db;
+            _userManager = userManager;
         }
 
 
@@ -114,7 +118,7 @@ namespace Fashion.Controllers
 
 
         [HttpPost]
-        public IActionResult Checkout(string address)
+        public async Task<IActionResult> Checkout(string address, string password)
         {
             var customerId = HttpContext.Session.GetString("CustomerId");
             if (customerId == null)
@@ -126,6 +130,31 @@ namespace Fashion.Controllers
             if (customer == null)
             {
                 return RedirectToAction("Login", "User");
+            }
+
+            var user = await _userManager.FindByNameAsync(customer.Email);
+            if (user == null)
+            {
+                return RedirectToAction("Login", "User");
+            }
+
+            // Check if the provided password matches the user's password
+            var passwordCorrect = await _userManager.CheckPasswordAsync(user, password);
+            if (!passwordCorrect)
+            {
+                ViewData["ErrorMessage"] = "Incorrect password";
+                ModelState.AddModelError("password", "Incorrect password");
+                var orderDetails = _db.OrderDetails
+                      .Include(od => od.Product)
+                      .Where(od => od.Order.CustomerID == int.Parse(customerId) && !od.Order.IsChecked)
+                      .ToList();
+
+                var viewModel = new CheckoutViewModel
+                {
+                    Customer = customer,
+                    OrderDetails = orderDetails
+                };
+                return View("Checkout", viewModel); ;
             }
 
             customer.Address = address;

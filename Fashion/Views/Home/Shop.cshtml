@@ -104,16 +104,7 @@
                             </div>
                         </div>
                         <div class="col-lg-6 col-md-6 col-sm-6">
-                            <div class="shop__product__option__right">  
-                                <form asp-action="Shop" method="get">
-                                    <select name="sortOption" onchange="this.form.submit()">
-                                        <option value="">Sort by Price:</option>
-                                        <option value="low-to-high">Low To High</option>
-                                        <option value="zero-to-fiftyfive">$0 - $55</option>
-                                        <option value="above">$55 - $100</option>
-                                    </select>
-                                </form>
-                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -159,7 +150,7 @@
                                 </div>
                             </div>
                         }
-                        @* <p>@product.ProductImages.FirstOrDefault()?.imageUrl</p> *@
+                       @*  <p>@product.ProductImages.FirstOrDefault()?.ImageUrl</p> *@
                         @* <p>@Url.Content("img/product_img/" + product.ProductImages.FirstOrDefault()?.imageUrl)</p> *@
                        
                     }
