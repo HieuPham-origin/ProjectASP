@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "8IUBpDQOOlpO7f2wKQG2adO3iS9OSxbDNbTVhhKkUB5KmDEYi+2PKCQSIlaa72vFOxErn7nhZFLLTjN+JAoX4w==",
+  "dgSpecHash": "wwZyEYObT3HuaaNNxGVZayig5xg2I4Qj78kPr34JnhZBanJ5RQMBi68Dw/02Yc/umysPZ8BRXT02EojttB06xw==",
   "success": true,
-  "projectFilePath": "C:\\Programming\\Web\\ASP.NET\\project\\git2 - Copyss\\ProjectASP\\Fashion\\Fashion.csproj",
+  "projectFilePath": "C:\\Programming\\Web\\ASP.NET\\project\\git2 - Copyss - Copy\\ProjectASP\\Fashion\\Fashion.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\phuho\\.nuget\\packages\\azure.core\\1.25.0\\azure.core.1.25.0.nupkg.sha512",
     "C:\\Users\\phuho\\.nuget\\packages\\azure.identity\\1.7.0\\azure.identity.1.7.0.nupkg.sha512",

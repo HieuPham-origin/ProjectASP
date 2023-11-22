@@ -11895,11 +11895,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Programming\\Web\\ASP.NET\\project\\git2 - Copyss\\ProjectASP\\Fashion\\Fashion.csproj",
+      "projectUniqueName": "C:\\Programming\\Web\\ASP.NET\\project\\git2 - Copyss - Copy\\ProjectASP\\Fashion\\Fashion.csproj",
       "projectName": "Fashion",
-      "projectPath": "C:\\Programming\\Web\\ASP.NET\\project\\git2 - Copyss\\ProjectASP\\Fashion\\Fashion.csproj",
+      "projectPath": "C:\\Programming\\Web\\ASP.NET\\project\\git2 - Copyss - Copy\\ProjectASP\\Fashion\\Fashion.csproj",
       "packagesPath": "C:\\Users\\phuho\\.nuget\\packages\\",
-      "outputPath": "C:\\Programming\\Web\\ASP.NET\\project\\git2 - Copyss\\ProjectASP\\Fashion\\obj\\",
+      "outputPath": "C:\\Programming\\Web\\ASP.NET\\project\\git2 - Copyss - Copy\\ProjectASP\\Fashion\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\phuho\\AppData\\Roaming\\NuGet\\NuGet.Config",

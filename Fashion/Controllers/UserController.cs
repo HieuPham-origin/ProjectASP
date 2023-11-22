@@ -42,17 +42,10 @@ namespace Fashion.Controllers
                     string role = GetUserRole(email);
                     if (role == "admin")
                     {
-<<<<<<< HEAD
                         HttpContext.Session.SetString("CustomerId", user.CustomerID.ToString());
                         HttpContext.Session.SetString("CustomerEmail", user.NormalizedEmail);
                         HttpContext.Session.SetString("CustomerLastName", user.LastName);
                         return RedirectToAction("Sales", "Admin");
-=======
-						HttpContext.Session.SetString("CustomerId", user.CustomerID.ToString());
-						HttpContext.Session.SetString("CustomerEmail", user.NormalizedEmail);
-						HttpContext.Session.SetString("CustomerLastName", user.LastName);
-						return RedirectToAction("Sales", "Admin");
->>>>>>> 23390efcef39c3de09f4825f95734a8169f4f4fa
                     }
                     else if (role == "user")
                     {
