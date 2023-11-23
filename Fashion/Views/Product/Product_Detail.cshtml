@@ -23,7 +23,7 @@
                             {
                                 <li class="nav-item">
                                     <a class="nav-link @(counter == 1 ? "active" : "")" data-toggle="tab" href="#tabs-@counter" role="tab">
-                                        <div class="product__thumb__pic set-bg" data-setbg="@Url.Content("~/img/product_img/" + @image.ImageUrl)"></div>
+                                        <div class="product__thumb__pic" style = " background: url('@Url.Content("~/img/product_img/" + @image.ImageUrl)') top center / cover"></div>
                                     </a>
                                 </li>
                                 counter++;
@@ -40,7 +40,7 @@
                             {
                                 <div class="tab-pane @(counter == 1 ? "active" : "")" id="tabs-@counter" role="tabpanel">
                                     <div class="product__details__pic__item">
-                                        <img src="@Url.Content("/img/product_img/" +@image.ImageUrl)" alt />
+                                        <img src="@Url.Content("/img/product_img/" +@image.ImageUrl)" style=" width: 600px; height: 600px; object-fit: cover;" alt />
                                     </div>
                                 </div>
                                 counter++;  

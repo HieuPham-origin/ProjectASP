@@ -1,5 +1,6 @@
 ﻿using Fashion.DAL;
 using Fashion.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using StackExchange.Redis;
@@ -10,10 +11,12 @@ namespace Fashion.Controllers
     {
         private readonly FashionShopContext _db;
         private readonly IWebHostEnvironment _webHostEnvironment;
-        public AdminController(FashionShopContext db, IWebHostEnvironment webHostEnvironment)
+        private readonly UserManager<Customer> _userManager;
+        public AdminController(FashionShopContext db, IWebHostEnvironment webHostEnvironment, UserManager<Customer> userManager)
         {
             _db = db;
             _webHostEnvironment = webHostEnvironment;
+            _userManager = userManager;
         }
 
         public IActionResult Sales()
@@ -92,8 +95,32 @@ namespace Fashion.Controllers
             {
                 return RedirectToAction("Login", "User");
             }
+
+            var user = _userManager.Users.FirstOrDefault(u => u.CustomerID.ToString() == customerId);
+            if (user == null)
+            {
+                return RedirectToAction("Login", "User");
+            }
+
+            if (user.Role != "Admin")
+            {
+                return RedirectToAction("Login", "User");
+            }
+
+
             var orders = _db.Orders.Include(o => o.Customer).ToList();
             return View(orders);
+        }
+
+        public string GetUserRole(string email)
+        {
+            var user = _userManager.Users.FirstOrDefault(u => u.Email == email);
+            if (user != null)
+            {
+                return user.Role;
+            }
+
+            return "";
         }
         [HttpPost]
         public IActionResult CheckedOrder(int orderId)
@@ -156,6 +183,16 @@ namespace Fashion.Controllers
             {
                 return RedirectToAction("Login", "User");
             }
+            var user = _userManager.Users.FirstOrDefault(u => u.CustomerID.ToString() == customerId);
+            if (user == null)
+            {
+                return RedirectToAction("Login", "User");
+            }
+
+            if (user.Role != "Admin")
+            {
+                return RedirectToAction("Login", "User");
+            }
 
             var customers = _db.Customers.Where(c => c.Role == "user");
 
@@ -180,6 +217,18 @@ namespace Fashion.Controllers
             {
                 return RedirectToAction("Login", "User");
             }
+
+            var user = _userManager.Users.FirstOrDefault(u => u.CustomerID.ToString() == customerId);
+            if (user == null)
+            {
+                return RedirectToAction("Login", "User");
+            }
+
+            if (user.Role != "Admin")
+            {
+                return RedirectToAction("Login", "User");
+            }
+
             var customer = await _db.Customers.FirstOrDefaultAsync(c => c.CustomerID == id);
 
             if (customer == null)
@@ -194,6 +243,17 @@ namespace Fashion.Controllers
 
             var customerId = HttpContext.Session.GetString("CustomerId");
             if (customerId == null)
+            {
+                return RedirectToAction("Login", "User");
+            }
+
+            var user = _userManager.Users.FirstOrDefault(u => u.CustomerID.ToString() == customerId);
+            if (user == null)
+            {
+                return RedirectToAction("Login", "User");
+            }
+
+            if (user.Role != "Admin")
             {
                 return RedirectToAction("Login", "User");
             }
@@ -245,6 +305,17 @@ namespace Fashion.Controllers
         {
             var customerId = HttpContext.Session.GetString("CustomerId");
             if (customerId == null)
+            {
+                return RedirectToAction("Login", "User");
+            }
+
+            var user = _userManager.Users.FirstOrDefault(u => u.CustomerID.ToString() == customerId);
+            if (user == null)
+            {
+                return RedirectToAction("Login", "User");
+            }
+
+            if (user.Role != "Admin")
             {
                 return RedirectToAction("Login", "User");
             }
@@ -360,94 +431,79 @@ namespace Fashion.Controllers
                 .Include(p => p.Category)
                 .Include(p => p.Brand)
                 .FirstOrDefaultAsync(c => c.ProductID == id);
-
             if (product == null)
             {
                 return NotFound();
             }
-
             var categories = await _db.Categories.ToListAsync();
             var brands = await _db.Brands.ToListAsync();
-
             var viewModel = new ProductViewModel
             {
                 Product = product,
                 Categories = categories,
                 Brands = brands
             };
-
             return View(viewModel);
         }
         [HttpPost]
-        public async Task<IActionResult> UpdateProduct(ProductViewModel model, List<IFormFile> productImages, List<int> imageIds)
+        public async Task<IActionResult> UpdateProduct(ProductViewModel model, List<IFormFile> productImages)
         {
-            // Find the existing product by productId
-            var existingProduct = await _db.Products.Include(p => p.Category).Include(p => p.Brand)
-                                                    .FirstOrDefaultAsync(p => p.ProductID == model.Product.ProductID);
+            var test = model.Product;
 
+            var m = 1;
+
+            // Find the existing product by productId
+            var existingProduct = await _db.Products.Include(p => p.Category)
+                                                    .Include(p => p.Brand)
+                                                    .FirstOrDefaultAsync(p => p.ProductID == model.Product.ProductID);
             if (existingProduct == null)
             {
                 return NotFound();
             }
-
             // Update the existing product with the provided information
             existingProduct.ProductName = model.Product.ProductName;
             existingProduct.ProductDescription = model.Product.ProductDescription;
             existingProduct.Price = model.Product.Price;
             existingProduct.Quantity = model.Product.Quantity;
-
             // Get the Category and Brand objects based on the provided IDs
             var category = await _db.Categories.FindAsync(model.Product.CategoryID);
             var brand = await _db.Brands.FindAsync(model.Product.BrandID);
-
             // Check if the Category and Brand exist
             if (category == null || brand == null)
             {
                 return NotFound();
             }
-
             // Associate the existing product with the updated Category and Brand
             existingProduct.Category = category;
             existingProduct.Brand = brand;
-
             // Update the product in the database
             _db.Products.Update(existingProduct);
             await _db.SaveChangesAsync();
-
             // Process uploaded images
             foreach (var image in productImages)
             {
-                if (image != null && image.Length > 0 && !imageIds.Contains(existingProduct.ProductImages.Max(pi => pi.ImageID) + 1))
+                if (image != null && image.Length > 0)
                 {
                     // Save the image to a storage location
-                    var imagePath = Path.Combine(_webHostEnvironment.WebRootPath, "img/product_img", $"{Guid.NewGuid()}{Path.GetExtension(image.FileName)}");
+                    var newFileName = $"{Guid.NewGuid()}{Path.GetExtension(image.FileName)}";
+                    var imagePath = Path.Combine(_webHostEnvironment.WebRootPath, "img/product_img", newFileName);
                     using (var stream = new FileStream(imagePath, FileMode.Create))
                     {
                         await image.CopyToAsync(stream);
                     }
-
                     // Create a new ProductImage object and associate it with the existing product
                     var newProductImage = new ProductImage
                     {
-                        ImageUrl = image.FileName,
+                        ImageUrl = newFileName,
                         ProductID = existingProduct.ProductID
                     };
-
                     // Add the new product image to the database
                     _db.ProductImages.Add(newProductImage);
                 }
             }
-
-            // Remove existing product images that are not in the imageIds list
-            var existingImageIds = existingProduct.ProductImages.Select(pi => pi.ImageID).ToList();
-            var imagesToRemove = existingProduct.ProductImages.Where(pi => !imageIds.Contains(pi.ImageID));
-            _db.ProductImages.RemoveRange(imagesToRemove);
-
             await _db.SaveChangesAsync();
-
             // Update product sizes in the ProductSize table
             var productSizes = new List<Size>();
-
             if (category.CategoryName == "Shoes")
             {
                 // Retrieve sizes with IDs from 9 to 24
@@ -458,11 +514,10 @@ namespace Fashion.Controllers
                 // Retrieve sizes with IDs from 1 to 8
                 productSizes = await _db.Sizes.Where(s => s.SizeID >= 1 && s.SizeID <= 8).ToListAsync();
             }
-
             // Remove existing product sizes associated with the existing product
+
             var existingProductSizes = _db.ProductSizes.Where(ps => ps.ProductID == existingProduct.ProductID);
             _db.ProductSizes.RemoveRange(existingProductSizes);
-
             // Associate the existing product with the updated sizes
             foreach (var size in productSizes)
             {
@@ -471,12 +526,9 @@ namespace Fashion.Controllers
                     ProductID = existingProduct.ProductID,
                     SizeID = size.SizeID
                 };
-
                 _db.ProductSizes.Add(productSize);
             }
-
             await _db.SaveChangesAsync();
-
             // Redirect the user to a page or action after successful update
             return RedirectToAction("Product");
         }

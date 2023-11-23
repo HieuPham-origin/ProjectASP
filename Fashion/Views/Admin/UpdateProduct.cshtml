@@ -40,6 +40,8 @@
     </div>
     
     <form action="@Url.Action("UpdateProduct", "Admin", new { id = Model.Product.ProductID })" method="post" enctype="multipart/form-data">
+        <input type="hidden" name="Product.ProductID" value="@Model.Product.ProductID"/>
+
         <div class="grid grid-cols-12 gap-x-6">
             <div class="col-span-12">
                 <div class="box !bg-transparent border-0 shadow-none">
@@ -51,11 +53,11 @@
                                         <div class="space-y-3">
                                             <div class="space-y-2">
                                                 <label class="ti-form-label mb-0">Product Title</label>
-                                                <input type="text" name="ProductName" value="@Model.Product.ProductName" class="my-auto ti-form-input" placeholder="Product Name" />
+                                                <input type="text" name="Product.ProductName" value="@Model.Product.ProductName" class="my-auto ti-form-input" placeholder="Product Name" />
                                             </div>
                                             <div class="">
                                                 <label class="ti-form-label">Product Description</label>
-                                                <textarea name="ProductDescription" class="my-auto ti-form-input" placeholder="Product Description">@Model.Product.ProductDescription</textarea>
+                                                <textarea name="Product.ProductDescription" class="my-auto ti-form-input" placeholder="Product Description">@Model.Product.ProductDescription</textarea>
                                             </div>
                                         </div>
                                     </div>
@@ -68,7 +70,7 @@
                                             <div class="col-span-12 lg:col-span-6">
                                                 <div class="space-y-2 product-1">
                                                     <label class="ti-form-label mb-0">Product Category</label>
-                                                    <select name="CategoryID" class="ti-form-select product-search">
+                                                    <select name="Product.CategoryID" class="ti-form-select product-search">
                                                         <option value="">Select category</option>
                                                         @{
                                                             var selectedCategoryID = Model.Product.CategoryID;
@@ -84,7 +86,7 @@
                                             <div class="col-span-12 lg:col-span-6">
                                                 <div class="space-y-2 product-1">
                                                     <label class="ti-form-label mb-0">Brand</label>
-                                                    <select name="BrandID" class="ti-form-select product-search">
+                                                    <select name="Product.BrandID" class="ti-form-select product-search">
                                                         <option value="">Select brand</option>
                                                         @{
                                                             var selectedBrandID = Model.Product.BrandID;
@@ -100,43 +102,23 @@
                                             <div class="col-span-12 lg:col-span-6">
                                                 <div class="space-y-2 product-1">
                                                     <label class="ti-form-label mb-0">Price</label>
-                                                    <input type="text" name="Price" value="@Model.Product.Price" class="my-auto ti-form-input" placeholder="Price" />
+                                                    <input type="text" name="Product.Price" value="@Model.Product.Price" class="my-auto ti-form-input" placeholder="Price" />
                                                 </div>
                                             </div>
                                             <div class="col-span-12 lg:col-span-6">
                                                 <div class="space-y-2 product-1">
                                                     <label class="ti-form-label mb-0">Quantity</label>
-                                                    <input type="number" name="Quantity" value="@Model.Product.Quantity" class="my-auto ti-form-input" placeholder="Quantity" />
+                                                    <input type="number" name="Product.Quantity" value="@Model.Product.Quantity" class="my-auto ti-form-input" placeholder="Quantity" />
                                                 </div>
                                             </div>
                                             <div class="col-span-12">
                                                 <div class="space-y-2">
                                                     <label class="ti-form-label mb-0">Product Image</label>
-                                                    <input type="file" name="ProductImage" class="my-auto ti-form-input" />
+                                                    <input type="file" name="productImages" class="my-auto ti-form-input" />
                                                     @if (Model.Product.ProductImages != null && Model.Product.ProductImages.Any())
                                                     {
                                                         <div class="mt-2">
                                                             <img src="@Url.Content("~/img/product_img/" + Model.Product.ProductImages.First().ImageUrl)" alt="Product Image" class="h-24 w-24 object-cover" />
-                                                        </div>
-                                                    }
-                                                </div>
-                                            </div>
-                                            <div class="col-span-12">
-                                                <div class="space-y-2">
-                                                    <label class="ti-form-label mb-0">Product Images</label>
-                                                    <input type="file" name="ProductImages" class="my-auto ti-form-input" multiple />
-                                                    @if (Model.Product.ProductImages != null && Model.Product.ProductImages.Any())
-                                                    {
-                                                        <div class="mt-2">
-                                                            <div class="flex space-x-2">
-                                                                @foreach (var image in Model.Product.ProductImages)
-                                                                {
-                                                                    <div>
-                                                                        <img src="@Url.Content("~/img/product_img/" + image.ImageUrl)" alt="Product Image" class="h-24 w-24 object-cover" />
-                                                                        <button type="button" class="btn btn-danger btn-sm remove-image" data-image-id="@image.ImageID">Remove</button>
-                                                                    </div>
-                                                                }
-                                                            </div>
                                                         </div>
                                                     }
                                                 </div>

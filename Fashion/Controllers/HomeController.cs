@@ -46,7 +46,7 @@ namespace Fashion.Controllers
         }
 
 
-        public IActionResult Shop(int page = 1, int? categoryId = null, int? brandId = null, int? minPrice = null, int? maxPrice = null, string search = null, string  sortOption = null)
+        public IActionResult Shop(int page = 1, int? categoryId = null, int? brandId = null, int? minPrice = null, int? maxPrice = null, string search = null)
         {
             int pageSize = 12;
             int skip = (page - 1) * pageSize;
@@ -54,22 +54,7 @@ namespace Fashion.Controllers
             var query = _db.Products.AsQueryable();
 
 
-            if (!string.IsNullOrEmpty(sortOption))
-            {
-                switch (sortOption)
-                {
-                    case "low-to-high":
-                        query = query.OrderBy(p => p.Price);
 
-                        break;
-                    case "zero-to-fiftyfive":       
-                        query = query.Where(p => p.Price >= 0 && p.Price <= 55);
-                        break;
-                    case "above":
-                        query = query.Where(p => p.Price > 55 && p.Price <= 100);
-                        break;
-                }
-            }
 
             if (categoryId.HasValue)
             {
@@ -134,7 +119,6 @@ namespace Fashion.Controllers
             ViewBag.MinPrice = minPrice;
             ViewBag.MaxPrice = maxPrice;
             ViewBag.Search = search;
-            ViewBag.SortOption = sortOption;
 
             var productImages = products.SelectMany(p => p.ProductImages).ToList();
 
