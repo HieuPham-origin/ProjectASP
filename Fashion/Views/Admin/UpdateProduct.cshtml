@@ -121,6 +121,26 @@
                                                     }
                                                 </div>
                                             </div>
+                                            <div class="col-span-12">
+                                                <div class="space-y-2">
+                                                    <label class="ti-form-label mb-0">Product Images</label>
+                                                    <input type="file" name="ProductImages" class="my-auto ti-form-input" multiple />
+                                                    @if (Model.Product.ProductImages != null && Model.Product.ProductImages.Any())
+                                                    {
+                                                        <div class="mt-2">
+                                                            <div class="flex space-x-2">
+                                                                @foreach (var image in Model.Product.ProductImages)
+                                                                {
+                                                                    <div>
+                                                                        <img src="@Url.Content("~/img/product_img/" + image.ImageUrl)" alt="Product Image" class="h-24 w-24 object-cover" />
+                                                                        <button type="button" class="btn btn-danger btn-sm remove-image" data-image-id="@image.ImageID">Remove</button>
+                                                                    </div>
+                                                                }
+                                                            </div>
+                                                        </div>
+                                                    }
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -135,3 +155,25 @@
         </div>
     </form>
 </div>
+@section scripts {
+    <script>
+        $(document).ready(function () {
+            $('.remove-image').click(function () {
+                var imageId = $(this).data('image-id');
+                var imageContainer = $(this).closest('div');
+
+                $.ajax({
+                    url: '@Url.Action("RemoveImage", "Admin")',
+                    type: 'POST',
+                    data: { id: imageId },
+                    success: function () {
+                        imageContainer.remove();
+                    },
+                    error: function () {
+                        alert('An error occurred while removing the image.');
+                    }
+                });
+            });
+        });
+    </script>
+}

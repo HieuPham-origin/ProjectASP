@@ -149,15 +149,29 @@ namespace Fashion.Controllers
             ViewBag.Customer = customer;
             return View(order);
         }
-        public IActionResult Customer()
+        public IActionResult Customer(string searchString)
         {
             var customerId = HttpContext.Session.GetString("CustomerId");
             if (customerId == null)
             {
                 return RedirectToAction("Login", "User");
             }
-            var customers = _db.Customers.ToList();
-            return View(customers);
+
+            var customers = _db.Customers.Where(c => c.Role == "user");
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                customers = customers.Where(c =>
+                    c.FirstName.Contains(searchString) ||
+                    c.LastName.Contains(searchString) ||
+                    c.Phone.Contains(searchString) ||
+                    c.Email.Contains(searchString) ||
+                    c.Address.Contains(searchString)
+                );
+            }
+
+            var filteredCustomers = customers.ToList();
+            return View(filteredCustomers);
         }
         public async Task<IActionResult> Customer_Detail(int id)
         {
@@ -224,22 +238,9 @@ namespace Fashion.Controllers
             _db.Products.Remove(product);
             await _db.SaveChangesAsync();
 
-            return RedirectToAction("Product"); // Chuyển hướng người dùng đến trang hoặc hành động khác sau khi xóa thành công
+            return RedirectToAction("Product"); 
         }
-        [HttpGet]
-        public IActionResult SearchProduct(string searchTerm)
-        {
-            var customerId = HttpContext.Session.GetString("CustomerId");
-            if (customerId == null)
-            {
-                return RedirectToAction("Login", "User");
-            }
-            var products = _db.Products
-                .Where(p => p.ProductName.Contains(searchTerm))
-                .ToList();
-
-            return View("ProductSearch", products);
-        }
+        
         public IActionResult AddProduct()
         {
             var customerId = HttpContext.Session.GetString("CustomerId");
@@ -378,7 +379,7 @@ namespace Fashion.Controllers
             return View(viewModel);
         }
         [HttpPost]
-        public async Task<IActionResult> UpdateProduct(ProductViewModel model, List<IFormFile> productImages)
+        public async Task<IActionResult> UpdateProduct(ProductViewModel model, List<IFormFile> productImages, List<int> imageIds)
         {
             // Find the existing product by productId
             var existingProduct = await _db.Products.Include(p => p.Category).Include(p => p.Brand)
@@ -416,7 +417,7 @@ namespace Fashion.Controllers
             // Process uploaded images
             foreach (var image in productImages)
             {
-                if (image != null && image.Length > 0)
+                if (image != null && image.Length > 0 && !imageIds.Contains(existingProduct.ProductImages.Max(pi => pi.ImageID) + 1))
                 {
                     // Save the image to a storage location
                     var imagePath = Path.Combine(_webHostEnvironment.WebRootPath, "img/product_img", $"{Guid.NewGuid()}{Path.GetExtension(image.FileName)}");
@@ -436,6 +437,11 @@ namespace Fashion.Controllers
                     _db.ProductImages.Add(newProductImage);
                 }
             }
+
+            // Remove existing product images that are not in the imageIds list
+            var existingImageIds = existingProduct.ProductImages.Select(pi => pi.ImageID).ToList();
+            var imagesToRemove = existingProduct.ProductImages.Where(pi => !imageIds.Contains(pi.ImageID));
+            _db.ProductImages.RemoveRange(imagesToRemove);
 
             await _db.SaveChangesAsync();
 
@@ -474,8 +480,6 @@ namespace Fashion.Controllers
             // Redirect the user to a page or action after successful update
             return RedirectToAction("Product");
         }
-
-
 
         [HttpPost]
         public async Task<IActionResult> UpdateCustomer(Customer model)
@@ -529,17 +533,23 @@ namespace Fashion.Controllers
         }
 
 
-        public IActionResult Product(int page = 1, int? categoryId = null, int? brandId = null)
+        public IActionResult Product(string searchQuery, int page = 1, int? categoryId = null, int? brandId = null)
         {
             var customerId = HttpContext.Session.GetString("CustomerId");
             if (customerId == null)
             {
                 return RedirectToAction("Login", "User");
             }
+
             int pageSize = 12;
             int skip = (page - 1) * pageSize;
 
             var query = _db.Products.AsQueryable();
+
+            if (!string.IsNullOrEmpty(searchQuery))
+            {
+                query = query.Where(p => p.ProductName.Contains(searchQuery));
+            }
 
             if (categoryId.HasValue)
             {
@@ -552,12 +562,12 @@ namespace Fashion.Controllers
             }
 
             var products = query
-                    .OrderBy(p => p.ProductID)
-                    .Skip(skip)
-                    .Take(pageSize)
-                    .Include(p => p.Brand)
-                    .Include(p => p.ProductImages)
-                    .ToList();
+                .OrderBy(p => p.ProductID)
+                .Skip(skip)
+                .Take(pageSize)
+                .Include(p => p.Brand)
+                .Include(p => p.ProductImages)
+                .ToList();
 
             var categories = _db.Categories
                 .Include(c => c.Products)
@@ -571,18 +581,16 @@ namespace Fashion.Controllers
 
             var brands = _db.Brands.ToList();
 
-            int totalProducts = _db.Products.Count();
+            int totalProducts = query.Count();
             int totalPages = (int)Math.Ceiling((double)totalProducts / pageSize);
 
             ViewBag.CurrentPage = page;
             ViewBag.TotalPages = totalPages;
-            var productImages = products.SelectMany(p => p.ProductImages).ToList();
             var viewModel = new ShopViewModel
             {
                 Products = products,
                 Categories = categories,
-                Brands = brands,
-                ProductImages = productImages
+                Brands = brands
             };
 
             return View(viewModel);

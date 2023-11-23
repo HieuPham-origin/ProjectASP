@@ -30,40 +30,15 @@
             <div class="box">
                 <div class="box-body">
                     <div class="relative">
-                        <label for="hs-table-search" class="sr-only">Search</label>
-                        @* <div class="absolute inset-y-0 ltr:right-0 rtl:left-0 flex items-center ltr:pr-4 rtl:pl-4">
-                            <svg class="h-3.5 w-3.5 text-gray-400" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                 fill="currentColor" viewBox="0 0 16 16">
-                                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z">
-                                </path>
-                            </svg>
-                        </div> *@
-                        <form action="@Url.Action("SearchProduct", "Admin")" method="get">
-                            <!-- Updated action attribute -->
-                            <input type="text" id="product-search" 
-                            placeholder="Search products">
+                        <form action="@Url.Action("Product", "Admin")" method="get">
+                            <input type="text" id="product-search" name="searchQuery"
+                                   placeholder="Search products" value="@ViewBag.SearchQuery">
                             <button type="submit"><span class="icon_search"></span></button>
                         </form>
-                       
                     </div>
                 </div>
             </div>
-            <div class="box">
-                <div class="box-header">
-                    <h5 class="box-title">Colors</h5>
-                </div>
-                <div class="box-body">
-                    <button aria-label="button" type="button" class="ti-btn p-3 ti-btn-secondary"></button>
-                    <button aria-label="button" type="button" class="ti-btn p-3 ti-btn-info"></button>
-                    <button aria-label="button" type="button" class="ti-btn p-3 bg-red-500 text-white hover:bg-red-600 focus:ring-red-500 dark:focus:ring-offset-white/10"></button>
-                    <button aria-label="button" type="button" class="ti-btn p-3 bg-yellow-500 text-white hover:bg-yellow-600 focus:ring-yellow-500 dark:focus:ring-offset-white/10"></button>
-                    <button aria-label="button" type="button" class="ti-btn p-3 bg-green-500 text-white hover:bg-green-600 focus:ring-green-500 dark:focus:ring-offset-white/10"></button>
-                    <button aria-label="button" type="button" class="ti-btn p-3 ti-btn-primary"></button>
-                    <button aria-label="button" type="button" class="ti-btn p-3 bg-indigo-500 text-white hover:bg-indigo-600 focus:ring-indigo-500 dark:focus:ring-offset-white/10"></button>
-                    <button aria-label="button" type="button" class="ti-btn p-3 bg-purple-500 text-white hover:bg-purple-600 focus:ring-purple-500 dark:focus:ring-offset-white/10"></button>
-                    <button aria-label="button" type="button" class="ti-btn p-3 bg-pink-500 text-white hover:bg-pink-600 focus:ring-pink-500 dark:focus:ring-offset-white/10"></button>
-                </div>
-            </div>
+            
             <div class="box">
                 <div class="box-header">
                     <h5 class="box-title">Categories</h5>
@@ -73,19 +48,16 @@
                         @foreach (var category in Model.Categories)
                         {
                             <div class="flex">
-                                <input type="checkbox" class="ti-form-checkbox mt-0.5" id="category-@category.CategoryID" checked>
+                                <input type="checkbox" class="ti-form-checkbox mt-0.5" id="category-@category.CategoryID" @(ViewBag.CategoryId == category.CategoryID ? "checked" : "")>
                                 <label for="category-@category.CategoryID" class="text-sm text-gray-500 ltr:ml-3 rtl:mr-3 dark:text-white/70">@category.CategoryName</label>
                                 <span class="text-sm text-gray-500 ltr:ml-auto rtl:mr-auto dark:text-white/70">(@category.ProductCount)</span>
                             </div>
                         }
-                        <button type="button" class="hs-collapse-toggle w-full py-2 px-4 inline-flex justify-center items-center gap-2 rounded-sm border border-transparent font-semibold bg-primary text-white hover:bg-primary focus:outline-none focus:ring-0 focus:ring-primary focus:ring-offset-0 transition-all text-sm dark:focus:ring-offset-white/10"
-                                id="hs-category-collapse" data-hs-collapse="#category-collapse">
-                            Filter
-                        </button>
+                        
                     </div>
                 </div>
             </div>
-            
+
             <div class="box">
                 <div class="box-header">
                     <h5 class="box-title">Brands</h5>
@@ -95,15 +67,11 @@
                         @foreach (var brand in Model.Brands)
                         {
                             <div class="flex">
-                                <input type="checkbox" class="ti-form-checkbox mt-0.5" id="category-@brand.BrandID" checked>
-                                <label for="category-@brand.BrandID" class="text-sm text-gray-500 ltr:ml-3 rtl:mr-3 dark:text-white/70">@brand.BrandName</label>
+                                <input type="checkbox" class="ti-form-checkbox mt-0.5" id="brand-@brand.BrandID" @(ViewBag.BrandId == brand.BrandID ? "checked" : "")>
+                                <label for="brand-@brand.BrandID" class="text-sm text-gray-500 ltr:ml-3 rtl:mr-3 dark:text-white/70">@brand.BrandName</label>
                             </div>
                         }
-                        <button type="button"
-                                class="hs-collapse-toggle w-full py-2 px-4 inline-flex justify-center items-center gap-2 rounded-sm border border-transparent font-semibold bg-primary text-white hover:bg-primary focus:outline-none focus:ring-0 focus:ring-primary focus:ring-offset-0 transition-all text-sm dark:focus:ring-offset-white/10"
-                                id="hs-brand-collapse" data-hs-collapse="#brand-collapse">
-                            Filter
-                        </button>
+                        
                     </div>
                 </div>
             </div>
@@ -113,102 +81,77 @@
                 <div class="box-body">
                     <div class="">
                         <div class="hs-dropdown ti-dropdown">
-                            <button id="product-feature" type="button" class="hs-dropdown-toggle ti-dropdown-toggle">
-                                Features
-                                <svg class="hs-dropdown-open:rotate-180 ti-dropdown-caret" width="16" height="16" viewBox="0 0 16 16" fill="none"
-                                     xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M2 5L8.16086 10.6869C8.35239 10.8637 8.64761 10.8637 8.83914 10.6869L15 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
-                                </svg>
-                            </button>
-                            <div class="hs-dropdown-menu w-72 hidden z-10 hs-dropdown-open:ease-in hs-dropdown-open:opacity-100 hs-dropdown-open:scale-100 transition ease-out scale-95 duration-200 origin-top-left ti-dropdown-menu"
-                                 aria-labelledby="product-feature" data-hs-transition>
-                                <a class="ti-dropdown-item" href="javascript:void(0);">
-                                    Featured
-                                </a>
-                                <a class="ti-dropdown-item" href="javascript:void(0);">
-                                    Newest Items
-                                </a>
-                                <a class="ti-dropdown-item" href="javascript:void(0);">
-                                    Low To High
-                                </a>
-                                <a class="ti-dropdown-item" href="javascript:void(0);">
-                                    High To Low
-                                </a>
-                                <a class="ti-dropdown-item" href="javascript:void(0);">
-                                    Relevant
-                                </a>
-                            </div>
+                            
                         </div>
                         <a href="@Url.Action("AddProduct", "Admin")" class="ti-btn ti-btn-primary ltr:float-right rtl:float-left"><i class="ti ti-plus"></i>Add Product</a>
                     </div>
                 </div>
             </div>
-            <div class="grid grid-cols-12 gap-x-6" >
+            <div class="grid grid-cols-12 gap-x-6">
                 @foreach (var product in Model.Products)
                 {
-                    @foreach (var image in Model.ProductImages.Where(pi => pi.ProductID == product.ProductID))
+                    foreach (var image in product.ProductImages)
                     {
-                    <div class="col-span-12 md:col-span-6 xxl:!col-span-4">
-                        <div class="box product-box">
-                            <div class="col-lg-4 col-md-6 col-sm-6">
-                                <div class="product__item">
-                                                <div class="product__item__pic" style="position: relative; width: 100%; height: 0; padding-bottom: 100%;">
-                                                    <img class="product__item__img" style="position: absolute; top: 0; left: 0; width:  100%; height:  100%; object-fit: cover;" src="@Url.Content("~/img/product_img/" + image.ImageUrl)" alt="@product.ProductName" />
+                        <div class="col-span-12 md:col-span-6 xxl:!col-span-4">
+                            <div class="box product-box">
+                                <div class="col-lg-4 col-md-6 col-sm-6">
+                                    <div class="product__item">
+                                        <div class="product__item__pic" style="position: relative; width: 100%; height: 0; padding-bottom: 100%;">
+                                            <img class="product__item__img" style="position: absolute; top: 0; left: 0; width:  100%; height:  100%; object-fit: cover;" src="@Url.Content("~/img/product_img/" + image.ImageUrl)" alt="@product.ProductName" />
 
-                                        <ul class="product__hover">
-                                            <li>
-                                            <a href="@Url.Action("UpdateProduct", "Admin", new { id = product.ProductID })"
-                                                class="m-0 hs-tooltip-toggle relative w-8 h-8 ti-btn rounded-full p-0 transition-none focus:outline-none ti-btn-soft-primary"
-                                                onmouseenter="showTooltip(this)"
-                                                onmouseleave="hideTooltip(this)">
-                                                <i class="ti ti-pencil"></i>
-                                                <span class="hs-tooltip-content ti-main-tooltip-content py-1 px-2 bg-gray-900 text-xs font-medium text-white shadow-sm dark:bg-slate-700"
-                                                        role="tooltip">
-                                                    Edit
-                                                </span>
-                                            </a>
-                                            </li>
-                                               
-                                            <li>
-                                                <a href="@Url.Action("Product_Detail", "Admin", new { id = product.ProductID })"
-                                                class="m-0 hs-tooltip-toggle relative w-8 h-8 ti-btn rounded-full p-0 transition-none focus:outline-none ti-btn-soft-primary"
-                                                onmouseenter="showTooltip(this)"
-                                                onmouseleave="hideTooltip(this)">
-                                                <i class="ti ti-send"></i>
-                                                <span class="hs-tooltip-content ti-main-tooltip-content py-1 px-2 bg-gray-900 text-xs font-medium text-white shadow-sm dark:bg-slate-700"
-                                                        role="tooltip">
-                                                    Details
-                                                </span>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <form method="post" action="@Url.Action("DeleteProduct", "Admin", new { id = product.ProductID })">
-                                                    @Html.AntiForgeryToken()
-                                                    <button type="submit" onclick="return confirm('Are you sure you want to delete this product?')"
-                                                            class="invoice-btn m-0 hs-tooltip-toggle relative w-8 h-8 ti-btn rounded-full p-0 transition-none focus:outline-none ti-btn-soft-danger">
-                                                        <i class="ti ti-trash"></i>
+                                            <ul class="product__hover">
+                                                <li>
+                                                    <a href="@Url.Action("UpdateProduct", "Admin", new { id = product.ProductID })"
+                                                       class="m-0 hs-tooltip-toggle relative w-8 h-8 ti-btn rounded-full p-0 transition-none focus:outline-none ti-btn-soft-primary"
+                                                       onmouseenter="showTooltip(this)"
+                                                       onmouseleave="hideTooltip(this)">
+                                                        <i class="ti ti-pencil"></i>
                                                         <span class="hs-tooltip-content ti-main-tooltip-content py-1 px-2 bg-gray-900 text-xs font-medium text-white shadow-sm dark:bg-slate-700"
-                                                                role="tooltip">
-                                                            Delete
+                                                              role="tooltip">
+                                                            Edit
                                                         </span>
-                                                    </button>
-                                                </form>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <div class="product__item__text">
-                                        <h6>@product.ProductName</h6>
-                                       
-                                        <h5>@product.Price.ToString("C")</h5>
+                                                    </a>
+                                                </li>
+
+                                                <li>
+                                                    <a href="@Url.Action("Product_Detail", "Admin", new { id = product.ProductID })"
+                                                       class="m-0 hs-tooltip-toggle relative w-8 h-8 ti-btn rounded-full p-0 transition-none focus:outline-none ti-btn-soft-primary"
+                                                       onmouseenter="showTooltip(this)"
+                                                       onmouseleave="hideTooltip(this)">
+                                                        <i class="ti ti-send"></i>
+                                                        <span class="hs-tooltip-content ti-main-tooltip-content py-1 px-2 bg-gray-900 text-xs font-medium text-white shadow-sm dark:bg-slate-700"
+                                                              role="tooltip">
+                                                            Details
+                                                        </span>
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <form method="post" action="@Url.Action("DeleteProduct", "Admin", new { id = product.ProductID })">
+                                                        @Html.AntiForgeryToken()
+                                                        <button type="submit" onclick="return confirm('Are you sure you want to delete this product?')"
+                                                                class="invoice-btn m-0 hs-tooltip-toggle relative w-8 h-8 ti-btn rounded-full p-0 transition-none focus:outline-none ti-btn-soft-danger">
+                                                            <i class="ti ti-trash"></i>
+                                                            <span class="hs-tooltip-content ti-main-tooltip-content py-1 px-2 bg-gray-900 text-xs font-medium text-white shadow-sm dark:bg-slate-700"
+                                                                  role="tooltip">
+                                                                Delete
+                                                            </span>
+                                                        </button>
+                                                    </form>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div class="product__item__text">
+                                            <h6>@product.ProductName</h6>
+                                            <h5>@product.Price.ToString("C")</h5>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            </div>
                         </div>
-                        }
                     }
+                }
             </div>
-            
+
             <div class="product__pagination">
                 @for (int i = 1; i <= ViewBag.TotalPages; i++)
                 {
@@ -218,17 +161,58 @@
                     }
                     else
                     {
-                        <a href="@Url.Action("Product", new { page = i })">@i</a>
+                        <a href="@Url.Action("Product", new { page = i, searchQuery = ViewBag.SearchQuery, categoryId = ViewBag.CategoryId, brandId = ViewBag.BrandId })">@i</a>
                     }
                 }
 
                 @if (ViewBag.CurrentPage < ViewBag.TotalPages)
                 {
                     <span>...</span>
-                    <a href="@Url.Action("Product", new { page = ViewBag.TotalPages })">@ViewBag.TotalPages</a>
+                    <a href="@Url.Action("Product", new { page = ViewBag.TotalPages, searchQuery = ViewBag.SearchQuery, categoryId = ViewBag.CategoryId, brandId = ViewBag.BrandId })">@ViewBag.TotalPages</a>
                 }
             </div>
         </div>
+        <script>
+            $(document).ready(function () {
+                // Xử lý sự kiện thay đổi checkbox danh mục
+                $('input[type="checkbox"][id^="category-"]').change(function () {
+                    var selectedCategories = [];
+
+                    $('input[type="checkbox"][id^="category-"]:checked').each(function () {
+                        var categoryId = $(this).attr('id').replace('category-', '');
+                        selectedCategories.push(categoryId);
+                    });
+
+                    filterProducts(selectedCategories, null);
+                });
+
+                // Xử lý sự kiện thay đổi checkbox thương hiệu
+                $('input[type="checkbox"][id^="brand-"]').change(function () {
+                    var selectedBrands = [];
+
+                    $('input[type="checkbox"][id^="brand-"]:checked').each(function () {
+                        var brandId = $(this).attr('id').replace('brand-', '');
+                        selectedBrands.push(brandId);
+                    });
+
+                    filterProducts(null, selectedBrands);
+                });
+
+                // Hàm gửi yêu cầu tìm kiếm sản phẩm với các tham số danh mục và thương hiệu
+                function filterProducts(categoryIds, brandIds) {
+                    var categoryIdString = categoryIds != null ? categoryIds.join(',') : '';
+                    var brandIdString = brandIds != null ? brandIds.join(',') : '';
+                    var searchQuery = '@ViewBag.SearchQuery'; // Lấy giá trị từ ViewBag
+
+                    var url = '@Url.Action("Product", "Admin")' +
+                        '?searchQuery=' + encodeURIComponent(searchQuery) +
+                        '&categoryId=' + encodeURIComponent(categoryIdString) +
+                        '&brandId=' + encodeURIComponent(brandIdString);
+
+                    window.location.href = url; // Chuyển hướng tới URL mới
+                }
+            });
+        </script>
     </div>
 </div>
 
