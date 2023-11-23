@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Fashion.Migrations
 {
     [DbContext(typeof(FashionShopContext))]
-    [Migration("20231105053746_initial")]
-    partial class initial
+    [Migration("20231123054429_initDb")]
+    partial class initDb
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

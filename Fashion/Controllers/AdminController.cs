@@ -18,7 +18,71 @@ namespace Fashion.Controllers
 
         public IActionResult Sales()
         {
-            return View();
+            var viewModel = new ChartViewModel();
+            // Retrieve the list of orders from your data source
+            viewModel.Orders = _db.Orders.ToList();
+            viewModel.Products = _db.Products.ToList();
+            viewModel.Customers = _db.Customers.Where(customer => customer.Role == "user").ToList();
+            var orderIds = viewModel.Orders
+                        .Where(order => order.OrderStatus && order.IsChecked)
+                        .Select(order => order.OrderID)
+                        .ToList();
+            viewModel.OrderDetails = _db.OrderDetails
+                .Where(detail => orderIds.Contains(detail.OrderID))
+                .ToList();
+            // Calculate the total number of products from checked orders
+            int totalSales = viewModel.OrderDetails.Sum(detail => detail.Quantity);
+            int incomes = viewModel.OrderDetails.Sum(detail => detail.Price);
+            // Calculate the total number of orders
+            int totalOrders = viewModel.Orders.Count;
+            int totalProducts = viewModel.Products.Count;
+            int totalCustomers = viewModel.Customers.Count;
+            ViewBag.TotalOrders = totalOrders; // Pass the total orders to the view
+            ViewBag.TotalProducts = totalProducts;
+            ViewBag.TotalCustomers = totalCustomers;
+            ViewBag.TotalSales = totalSales;
+            ViewBag.TotalIncomes = incomes * 1.08;
+            var topCustomers = viewModel.Customers
+                        .OrderByDescending(customer =>
+                            customer.Orders.Where(order => order.OrderStatus).Sum(order =>
+                                order.OrderDetails.Sum(detail =>
+                                    (detail.Quantity) * (detail.Price)
+                                )
+                            )
+                        )
+                        .ToList();
+
+            if (topCustomers.Count > 6)
+            {
+                topCustomers = topCustomers.Take(6).ToList();
+            }
+            ViewBag.TopCustomers = topCustomers;
+            var topProducts = viewModel.OrderDetails
+                .GroupBy(detail => detail.Product)
+                .OrderByDescending(group => group.Sum(detail => detail.Quantity))
+                .Take(6)
+                .Select(group => new
+                {
+                    Product = group.Key,
+                    QuantitySold = group.Sum(detail => detail.Quantity)
+                })
+                .ToList();
+
+            ViewBag.TopProducts = topProducts;
+            
+
+            var salesData = viewModel.OrderDetails
+                .GroupBy(detail => detail.Order.OrderDay.Date)
+                .Select(group => new
+                {
+                    Date = group.Key,
+                    TotalSales = group.Sum(detail => detail.Quantity * detail.Price)
+                })
+                .OrderBy(entry => entry.Date)
+                .ToList();
+
+            ViewBag.SalesData = salesData;
+            return View(viewModel);
         }
 
         public IActionResult Invoice()
@@ -51,28 +115,40 @@ namespace Fashion.Controllers
             var orderDetails = _db.OrderDetails.Where(od => od.OrderID == orderId).ToList();
             foreach (var orderDetail in orderDetails)
             {
-                orderDetail.Price = 0;
+                var product = _db.Products.FirstOrDefault(p => p.ProductID == orderDetail.ProductID);
+                if (product != null)
+                {
+                    orderDetail.Price = orderDetail.Quantity * product.Price;
+                }
+                else
+                {
+                    orderDetail.Price = 0;
+                }
             }
-
+            
             _db.SaveChanges();
 
             return RedirectToAction("Invoice");
         }
         [HttpPost]
-        public IActionResult Invoice_Details(int customerID)
+        public IActionResult Invoice_Details(int orderID)
         {
-            var order = _db.Orders.Include(o => o.Customer).FirstOrDefault(o => o.CustomerID == customerID);
+            var order = _db.Orders.Include(o => o.OrderDetails).ThenInclude(od => od.Product).FirstOrDefault(o => o.OrderID == orderID);
             if (order == null)
             {
                 return RedirectToAction("Invoice");
             }
 
-            var orderDetails = _db.OrderDetails.Include(od => od.Product).Where(od => od.OrderID == order.OrderID).ToList();
-            ViewBag.OrderDetails = orderDetails;
+            var customer = _db.Customers.FirstOrDefault(c => c.CustomerID == order.CustomerID);
+            if (customer == null)
+            {
+                return RedirectToAction("Invoice");
+            }
 
+            ViewBag.OrderDetails = order.OrderDetails.ToList();
+            ViewBag.Customer = customer;
             return View(order);
         }
-
         public IActionResult Customer()
         {
             var customerId = HttpContext.Session.GetString("CustomerId");

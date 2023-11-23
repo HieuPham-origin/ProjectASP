@@ -35,9 +35,9 @@
                                 <img src="~/Content/admin/img/brand-logos/desktop-logo.png" alt="logo" class="flex dark:hidden">
                                 <img src="~/Content/admin/img/brand-logos/desktop-dark.png" alt="logo" class="hidden dark:flex">
                             </div>
-                            <div class="mt-1">@Model.Customer.FirstName @Model.Customer.LastName</div>
-                            <div class="mt-1">@Model.Customer.Address</div>
-                            <div class="mt-1">@Model.Customer.Email</div>
+                            <div class="mt-1">@ViewBag.Customer.FirstName @ViewBag.Customer.LastName</div>
+                            <div class="mt-1">@ViewBag.Customer.Address</div>
+                            <div class="mt-1">@ViewBag.Customer.Email</div>
                         </div>
                         <div class="text-end">
                             <h3 class="text-2xl text-primary uppercase font-semibold">Invoice</h3>
@@ -87,34 +87,30 @@
                                                 @* <p class="text-gray-500 dark:text-white/70">@orderDetail.Product.ProductDescription</p> *@
                                             </td>
                                             <td class="font-semibold">@orderDetail.Quantity</td>
-                                            <td class="">$@(orderDetail.Price.ToString("0.00"))</td>
-                                            <td class="text-end font-medium">$@(orderDetail.Quantity * orderDetail.Price).ToString("0.00")</td>
+                                            <td class="">$@(orderDetail.Price)</td>
+                                            <td class="text-end font-medium">$@(orderDetail.Quantity * orderDetail.Price)</td>
                                         </tr>
                                     }
                                      <tr class="!border-b-0">
                                         <td colspan="3" class="ltr:border-r rtl:border-l border-gray-200 dark:border-white/10">
-                                            <h3 class="font-bold text-xl">Invoice Payment Method</h3>
+                                            <h3 class="font-bold text-xl">Invoice Payment Method : COD</h3>
                                         </td>
                                         <td class="">Sub-Total</td>
-                                        <td class="!text-end">$@(Model.OrderDetails.Sum(od => od.Quantity * od.Price).ToString("0.00"))</td>
+                                        <td class="!text-end">$@(Model.OrderDetails.Sum(od => od.Quantity * od.Price))</td>
                                     </tr>
                                     <tr class="!border-b-0 !border-t-0">
                                          @* <td colspan="3" class="ltr:border-r rtl:border-l border-gray-200 dark:border-white/10">Account :<span class="font-bold">@Model.PaymentMethod.AccountNumber</span></td> *@
                                         <td class="">Tax</td>
-                                         @* <td class="!text-end">$@(Model.Tax.ToString("0.00"))</td> *@
+                                         <td class="!text-end">$@(Math.Round(Model.OrderDetails.Sum(od => od.Quantity * od.Price * 0.08), 2))</td>
                                     </tr>
                                     <tr class="!border-b-0 !border-t-0">
                                         @* <td colspan="3" class="ltr:border-r rtl:border-l border-gray-200 dark:border-white/10">Payment Date :<span class="font-bold">@Model.PaymentDate.ToString("MMMM dd yyyy")</span></td> *@
                                         <td class="">Total Amount</td>
-                                        @* <td class="!text-end">$@(Model.TotalAmount.ToString("0.00"))</td> *@
+                                        <td class="!text-end">$@(Math.Round(Model.OrderDetails.Sum(od => od.Quantity * od.Price * 1.08), 2))</td>
                                     </tr>
                                 </tbody>
                             </table>
                         </div>
-                    </div>
-                    <div class="mt-5">
-                        <h3 class="font-semibold text-xl">Notes:</h3>
-                        @* <p class="text-gray-500 dark:text-white/70">@Model.Notes</p> *@
                     </div>
                 </div>
             </div>
