@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "PmBZEEPdAQnpHhy8YFFnISfoleW8hPSIncRb1fjmqhg=",
+  "Hash": "EbdMK2E//S9tYx/5NicXziA1852jUi0KH8dNF3dr6hA=",
   "Source": "Fashion",
   "BasePath": "_content/Fashion",
   "Mode": "Default",
@@ -6713,6 +6713,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\img\\icon\\search.png"
+    },
+    {
+      "Identity": "C:\\Programming\\Web\\ASP.NET\\project\\git2 - Copyss\\ProjectASP\\ProjectASP\\Fashion\\wwwroot\\img\\icon\\trash.png",
+      "SourceId": "Fashion",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Programming\\Web\\ASP.NET\\project\\git2 - Copyss\\ProjectASP\\ProjectASP\\Fashion\\wwwroot\\",
+      "BasePath": "_content/Fashion",
+      "RelativePath": "img/icon/trash.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\img\\icon\\trash.png"
     },
     {
       "Identity": "C:\\Programming\\Web\\ASP.NET\\project\\git2 - Copyss\\ProjectASP\\ProjectASP\\Fashion\\wwwroot\\img\\icon\\user.png",

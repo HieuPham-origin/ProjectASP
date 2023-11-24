@@ -102,7 +102,7 @@ namespace Fashion.Controllers
                 return RedirectToAction("Login", "User");
             }
 
-            if (user.Role != "Admin")
+            if (user.Role != "admin")
             {
                 return RedirectToAction("Login", "User");
             }
@@ -189,7 +189,7 @@ namespace Fashion.Controllers
                 return RedirectToAction("Login", "User");
             }
 
-            if (user.Role != "Admin")
+            if (user.Role != "admin")
             {
                 return RedirectToAction("Login", "User");
             }
@@ -224,7 +224,7 @@ namespace Fashion.Controllers
                 return RedirectToAction("Login", "User");
             }
 
-            if (user.Role != "Admin")
+            if (user.Role != "admin")
             {
                 return RedirectToAction("Login", "User");
             }
@@ -253,7 +253,7 @@ namespace Fashion.Controllers
                 return RedirectToAction("Login", "User");
             }
 
-            if (user.Role != "Admin")
+            if (user.Role != "admin")
             {
                 return RedirectToAction("Login", "User");
             }
@@ -315,7 +315,7 @@ namespace Fashion.Controllers
                 return RedirectToAction("Login", "User");
             }
 
-            if (user.Role != "Admin")
+            if (user.Role != "admin")
             {
                 return RedirectToAction("Login", "User");
             }
