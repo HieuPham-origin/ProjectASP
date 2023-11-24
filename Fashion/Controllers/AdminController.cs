@@ -21,6 +21,23 @@ namespace Fashion.Controllers
 
         public IActionResult Sales()
         {
+            var customerId = HttpContext.Session.GetString("CustomerId");
+
+            if (customerId == null)
+            {
+                return RedirectToAction("Login", "User");
+            }
+
+            var user = _userManager.Users.FirstOrDefault(u => u.CustomerID.ToString() == customerId);
+            if (user == null)
+            {
+                return RedirectToAction("Login", "User");
+            }
+
+            if (user.Role != "admin")
+            {
+                return RedirectToAction("Login", "User");
+            }
             var viewModel = new ChartViewModel();
             // Retrieve the list of orders from your data source
             viewModel.Orders = _db.Orders.ToList();
@@ -91,6 +108,7 @@ namespace Fashion.Controllers
         public IActionResult Invoice()
         {
             var customerId = HttpContext.Session.GetString("CustomerId");
+
             if (customerId == null)
             {
                 return RedirectToAction("Login", "User");
@@ -427,6 +445,16 @@ namespace Fashion.Controllers
             {
                 return RedirectToAction("Login", "User");
             }
+            var user = _userManager.Users.FirstOrDefault(u => u.CustomerID.ToString() == customerId);
+            if (user == null)
+            {
+                return RedirectToAction("Login", "User");
+            }
+
+            if (user.Role != "admin")
+            {
+                return RedirectToAction("Login", "User");
+            }
             var product = await _db.Products
                 .Include(p => p.Category)
                 .Include(p => p.Brand)
@@ -448,9 +476,7 @@ namespace Fashion.Controllers
         [HttpPost]
         public async Task<IActionResult> UpdateProduct(ProductViewModel model, List<IFormFile> productImages)
         {
-            var test = model.Product;
-
-            var m = 1;
+            
 
             // Find the existing product by productId
             var existingProduct = await _db.Products.Include(p => p.Category)
@@ -592,7 +618,16 @@ namespace Fashion.Controllers
             {
                 return RedirectToAction("Login", "User");
             }
+            var user = _userManager.Users.FirstOrDefault(u => u.CustomerID.ToString() == customerId);
+            if (user == null)
+            {
+                return RedirectToAction("Login", "User");
+            }
 
+            if (user.Role != "admin")
+            {
+                return RedirectToAction("Login", "User");
+            }
             int pageSize = 12;
             int skip = (page - 1) * pageSize;
 
