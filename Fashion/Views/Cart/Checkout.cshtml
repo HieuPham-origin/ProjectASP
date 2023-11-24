@@ -98,6 +98,12 @@
                     alert('@ViewData["ErrorMessage"]');
                 </script>
             }
+            @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+            {
+                <script>
+                    alert('@Model.ErrorMessage');
+                </script>
+            }
         </div>
     </div>
 </section>

@@ -27,88 +27,12 @@
     <!-- Start::row-1 -->
     <div class="grid grid-cols-12 gap-6">
         <div class="col-span-12">
-            <div class="box">
-                <div class="box-header lg:flex lg:justify-between">
-                    <h5 class="box-title my-auto">Invoice List</h5>
-                    <a href="javascript:void(0);" class="ti-btn ti-btn-primary hs-dropdown-toggle m-0 py-2" id="invoice-create"
-                       data-hs-overlay="#invoice-modal"><i class="ri ri-add-line"></i>Create Invoice</a>
-                </div>
-                <div class="box-body">
-                    <div class="xl:flex xl:justify-between space-y-3 xl:space-y-0">
-                        <div class="sm:flex sm:space-x-3 space-y-3 sm:space-y-0 rtl:space-x-reverse">
-                            <div class="relative max-w-xs">
-                                <label for="hs-table-search" class="sr-only">Search</label>
-                                <input type="text" name="hs-table-search" id="hs-table-search"
-                                       class="px-3 py-2 ltr:pr-10 rtl:pl-10 ti-form-input" placeholder="Search for items">
-                                <div class="absolute inset-y-0 ltr:right-0 rtl:left-0 flex items-center pointer-events-none ltr:pr-4 rtl:pl-4">
-                                    <i class="ri-search-line text-gray-500 dark:text-white/70"></i>
-                                </div>
-                            </div>
-                            <button aria-label="button" type="button"
-                                    class="ti-btn px-3 py-2 ti-btn-outline border-gray-200 text-gray-500 dark:text-white/70 hover:text-white hover:bg-gray-500 hover:border-gray-500 focus:ring-gray-200  dark:hover:bg-black/30 dark:border-white/10 dark:hover:border-white/20 dark:focus:ring-white/10 dark:focus:ring-offset-white/10 m-0">
-                                <i class="ri-refresh-line leading-none text-lg"></i>
-                            </button>
-                            <button aria-label="button" type="button" id="delete-btn" class="ti-btn px-3 py-2 ti-btn-danger m-0">
-                                <i class="ri-delete-bin-7-line leading-none text-lg"></i>
-                            </button>
-                        </div>
-                        <div class="sm:space-x-3 sm:flex space-y-3 sm:space-y-0 rtl:space-x-reverse">
-                            <div class="inline-flex">
-                                <div class="px-4 py-2 inline-flex items-center min-w-fit ltr:rounded-l-sm rtl:rounded-r-sm border ltr:border-r-0 rtl:border-l-0 border-gray-200 bg-gray-50 dark:bg-black/20 dark:border-white/10">
-                                    <span class="text-sm text-gray-500 dark:text-white/70">
-                                        <i class="ri ri-calendar-line"></i>
-                                    </span>
-                                </div>
-
-                                <input type="text"
-                                       class="px-3 py-2 ti-form-input ltr:rounded-l-none rtl:rounded-r-none focus:z-10 flatpickr-input"
-                                       id="daterange" placeholder="Filter By Date" readonly>
-                            </div>
-                            <div class="hs-dropdown ti-dropdown">
-                                <button id="hs-dropdown-transform-style" type="button"
-                                        class="px-3 py-2 hs-dropdown-toggle ti-dropdown-toggle">
-                                    All Invoices
-                                    <svg class="hs-dropdown-open:rotate-180 ti-dropdown-caret" width="16"
-                                         height="16" viewBox="0 0 16 16" fill="none"
-                                         xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M2 5L8.16086 10.6869C8.35239 10.8637 8.64761 10.8637 8.83914 10.6869L15 5"
-                                              stroke="currentColor" stroke-width="2" stroke-linecap="round" />
-                                    </svg>
-                                </button>
-
-                                <div aria-labelledby="hs-dropdown-transform-style" data-hs-transition class="hs-dropdown-menu hidden z-10 hs-dropdown-open:ease-in hs-dropdown-open:opacity-100 hs-dropdown-open:scale-100 transition ease-out scale-95 duration-200 origin-top-left ti-dropdown-menu">
-                                    <a class="ti-dropdown-item" href="javascript:void(0);">
-                                        All Invoices
-                                    </a>
-                                    <a class="ti-dropdown-item" href="javascript:void(0);">
-                                        Paid Invoices
-                                    </a>
-                                    <a class="ti-dropdown-item" href="javascript:void(0);">
-                                        Unpaid Invoices
-                                    </a>
-                                    <a class="ti-dropdown-item" href="javascript:void(0);">
-                                        Draft Invoices
-                                    </a>
-                                    <a class="ti-dropdown-item" href="javascript:void(0);">
-                                        Overdue Invoices
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+            
                     <div class="mt-5 table-bordered rounded-sm ti-custom-table-head overflow-auto">
                         <table class="ti-custom-table ti-custom-table-head edit-table whitespace-nowrap text-center">
                             <thead class="bg-gray-50 dark:bg-black/20">
                                 <tr class="cart-box">
-                                    <th scope="col" class="dark:text-white/70">
-                                        <div class="flex leading-[0] justify-center">
-                                            <input type="checkbox"
-                                                   class="border-gray-500 ti-form-checkbox mt-0.5 check-all"
-                                                   id="hs-default-checkbox">
-                                            <label for="hs-default-checkbox"
-                                                   class="text-sm text-gray-500 dark:text-white/70"></label>
-                                        </div>
-                                    </th>
+                                    
                                     <th scope="col" class="dark:text-white/70">Invoice Id</th>
                                     <th scope="col" class="dark:text-white/70">Customer</th>
                                     <th scope="col" class="dark:text-white/70">Created Date</th>
@@ -121,12 +45,7 @@
                                 @foreach (var order in Model)
                                 {
                                     <tr class="invoice-list">
-                                        <td class="">
-                                            <div class="flex items-center h-5 invoice-checkbox justify-center">
-                                                <input id="invoice-check-@order.OrderID" type="checkbox" class="border-gray-500 ti-form-checkbox" />
-                                                <label for="invoice-check-@order.OrderID" class="sr-only">Checkbox</label>
-                                            </div>
-                                        </td>
+                                       
                                         <td>@order.OrderID</td>
                                         <td>
                                             <div class="flex space-x-3 rtl:space-x-reverse text-start min-w-[220px] truncate">

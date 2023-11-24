@@ -4,5 +4,6 @@
     {
         public Customer Customer { get; set; }
         public List<OrderDetail> OrderDetails { get; set; }
+        public string ErrorMessage { get; set; }
     }
 }

@@ -95,6 +95,7 @@ namespace Fashion.Controllers
             {
                 return RedirectToAction("Login", "User");
             }
+            var errorMessage = TempData["ErrorMessage"] as string;
 
             var customer = _db.Customers.FirstOrDefault(c => c.CustomerID == int.Parse(customerId));
             if (customer == null)
@@ -110,7 +111,8 @@ namespace Fashion.Controllers
             var viewModel = new CheckoutViewModel
             {
                 Customer = customer,
-                OrderDetails = orderDetails
+                OrderDetails = orderDetails,
+                ErrorMessage = errorMessage
             };
 
             return View(viewModel);
@@ -145,26 +147,51 @@ namespace Fashion.Controllers
                 ViewData["ErrorMessage"] = "Incorrect password";
                 ModelState.AddModelError("password", "Incorrect password");
                 var orderDetails = _db.OrderDetails
-                      .Include(od => od.Product)
-                      .Where(od => od.Order.CustomerID == int.Parse(customerId) && !od.Order.IsChecked)
-                      .ToList();
+                    .Include(od => od.Product)
+                    .Where(od => od.Order.CustomerID == int.Parse(customerId) && !od.Order.IsChecked)
+                    .ToList();
 
                 var viewModel = new CheckoutViewModel
                 {
                     Customer = customer,
                     OrderDetails = orderDetails
                 };
-                return View("Checkout", viewModel); ;
+                return View("Checkout", viewModel);
             }
 
             customer.Address = address;
             _db.SaveChanges();
 
-            var orders = _db.Orders.Where(o => o.CustomerID == customer.CustomerID && !o.IsChecked).ToList();
+            var orders = _db.Orders
+                .Include(o => o.OrderDetails)
+                .Where(o => o.CustomerID == customer.CustomerID && !o.IsChecked)
+                .ToList();
+
             foreach (var order in orders)
             {
                 order.IsChecked = true;
+
+                foreach (var orderDetail in order.OrderDetails)
+                {
+                    var product = _db.Products.FirstOrDefault(p => p.ProductID == orderDetail.ProductID);
+                    if (product != null)
+                    {
+                        // Giảm số lượng sản phẩm chỉ khi đủ số lượng cần giảm
+                        if (product.Quantity >= orderDetail.Quantity)
+                        {
+                            product.Quantity -= orderDetail.Quantity;
+                        }
+                        else
+                        {
+                            TempData["ErrorMessage"] = "Not enough quantity available for one or more products.";
+
+                            // Quay trở lại trang Checkout và hiển thị thông báo lỗi
+                            return RedirectToAction("Checkout", "Cart");
+                        }
+                    }
+                }
             }
+
             _db.SaveChanges();
 
             return RedirectToAction("OrderConfirmation");
