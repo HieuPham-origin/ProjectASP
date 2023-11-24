@@ -66,38 +66,29 @@
                             hem with elastic side tabs and a front zip fastening with
                             placket.
                         </p>
-                        <div class="product__details__option">
-                            <div class="product__details__option__size">
-                                <span>Size:</span>
-                                <label for="xxl">
-                                    xxl
-                                    <input type="radio" id="xxl" />
-                                </label>
-                                <label class="active" for="xl">
-                                    xl
-                                    <input type="radio" id="xl" />
-                                </label>
-                                <label for="l">
-                                    l
-                                    <input type="radio" id="l" />
-                                </label>
-                                <label for="sm">
-                                    s
-                                    <input type="radio" id="sm" />
-                                </label>
-                            </div>
-                        </div>
-                        <div class="product__details__cart__option">
-                            <div class="quantity">
-                                <div class="pro-qty">
-                                    <input type="text" value="1" />
+                        <form id="addToCart-@Model.ProductID" method="post" action="@Url.Action("AddToCart", "Product")">
+                            <div class="product__details__option">
+                                <div class="product__details__option__size">
+                                    <span>Size:</span>
+                                    @foreach (var productSize in Model.ProductSizes)
+                                    {
+                                        <label for="@($"size-{productSize.Size.SizeID}")">
+                                            @productSize.Size.Name
+                                            <input type="radio" id="@($"size-{productSize.Size.SizeID}")" name="sizeId" value="@productSize.Size.SizeID" />
+                                        </label>
+                                    }
                                 </div>
                             </div>
-                            <form id="addToCart-@Model.ProductID" method="post" action="@Url.Action("AddToCart", "Home")">
+                            <div class="product__details__cart__option mb-5">
+                                <div class="quantity">
+                                    <div class="pro-qty">
+                                        <input type="text"  name="quantity" value="1" />
+                                    </div>
+                                </div>
                                 <input type="hidden" name="productId" value="@Model.ProductID" />
                                 <a href="#" class="primary-btn" onclick="document.getElementById('addToCart-@Model.ProductID').submit()">+ Add To Cart</a>
-                            </form>
-                        </div>
+                            </div>
+                        </form>
                         <div class="product__details__btns__option">
                             <a href="#"><i class="fa fa-heart"></i> add to wishlist</a>
                         </div>
@@ -274,7 +265,11 @@
             </div>
         </div>
     </div>
+
+
 </section>
+
+
 
 
 

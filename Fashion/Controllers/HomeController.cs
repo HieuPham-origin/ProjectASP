@@ -234,6 +234,8 @@ namespace Fashion.Controllers
                 _db.SaveChanges();
             }
 
+
+
             var defaultSizeId = _db.ProductSizes
                 .Where(ps => ps.ProductID == productId)
                 .Select(ps => ps.SizeID)
